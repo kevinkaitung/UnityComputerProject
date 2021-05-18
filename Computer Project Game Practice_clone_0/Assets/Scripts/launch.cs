@@ -29,7 +29,7 @@ namespace mySection
             if (PhotonNetwork.IsConnected)
             {
                 // 已連線, 嚐試隨機加入一個遊戲室
-                PhotonNetwork.JoinRandomRoom();
+                //PhotonNetwork.JoinRandomRoom();
             }
             else
             {
@@ -54,7 +54,7 @@ namespace mySection
             // 隨機加入一個遊戲室
             if (isConnecting)
             {
-                PhotonNetwork.JoinRandomRoom();
+                //PhotonNetwork.JoinRandomRoom();
             }
         }
 
@@ -79,7 +79,7 @@ namespace mySection
             {
                 Debug.Log("我是第一個進入遊戲室的玩家");
                 Debug.Log("我得主動做載入場景的動作");
-                PhotonNetwork.LoadLevel("mainScene");
+                //PhotonNetwork.LoadLevel("mainScene");
             }
         }
     }
