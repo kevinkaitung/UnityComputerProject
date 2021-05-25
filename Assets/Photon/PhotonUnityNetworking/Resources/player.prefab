@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdMaterial: 
   synthesis: {fileID: 0}
+  bpc: 0
   m_axes: 0
   m_sensitivityX: 10
   m_sensitivityY: 10

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using System.IO;
 using LitJson;
@@ -9,6 +10,8 @@ public class player : MonoBehaviourPun
     public string holdMaterial;
     public GameObject synthesis;
     private Camera playerCam;
+    public bool bpc;
+    Button closeblueprint;
     public enum RotationAxes
     {
         MouseXAndY = 0,
@@ -28,6 +31,7 @@ public class player : MonoBehaviourPun
     public float m_maximumY = 45f;
 
     float m_rotationY = 0f;
+    Canvas Blueprint;
     // Start is called before the first frame update
     /*void Start()
     {
@@ -44,6 +48,10 @@ public class player : MonoBehaviourPun
         {
             GetComponent<Rigidbody>().freezeRotation = true;
         }
+        Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
+        Blueprint.enabled = false;
+        closeblueprint = Blueprint.GetComponentInChildren<Button>();
+        bpc = false;
     }
 
     void Awake()
@@ -78,26 +86,31 @@ public class player : MonoBehaviourPun
 
         if (Input.GetKey("right")) { transform.Rotate(0, 0.3f, 0); }
         // 按住 右鍵 時，物件每個 frame 以自身 y 軸為軸心旋轉 3 度
-
-        if (m_axes == RotationAxes.MouseXAndY)
+        if (!bpc)
         {
-            float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-            m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+            if (m_axes == RotationAxes.MouseXAndY)
+            {
+                float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
 
-            transform.localEulerAngles = new Vector3(-m_rotationY, m_rotationX, 0);
-        }
-        else if (m_axes == RotationAxes.MouseX)
-        {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-        }
-        else
-        {
-            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-            m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+                transform.localEulerAngles = new Vector3(-m_rotationY, m_rotationX, 0);
+            }
+            else if (m_axes == RotationAxes.MouseX)
+            {
+                transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+            }
+            else
+            {
+                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
 
-            transform.localEulerAngles = new Vector3(-m_rotationY, transform.localEulerAngles.y, 0);
+                transform.localEulerAngles = new Vector3(-m_rotationY, transform.localEulerAngles.y, 0);
+            }
         }
+        closeblueprint.onClick.AddListener(delegate{
+            hideBlueprint();
+        });
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Input.GetMouseButtonUp(0))
@@ -113,6 +126,10 @@ public class player : MonoBehaviourPun
                     //Pass detail of clicked point and player's hold material to game controller
                     gameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial);
                     //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
+                }
+                if (hit.collider.tag == "blueprintcube")
+                {
+                    showBlueprint();
                 }
                 if (hit.collider.tag == "stone")
                 {
@@ -148,10 +165,9 @@ public class player : MonoBehaviourPun
     }
     string check(string item1, string item2)
     {
-        string datas = File.ReadAllText("D:/桌面/Computer Project Game/Assets/Scripts/synthesisData.json");
+        string datas = File.ReadAllText(Application.dataPath + "/Resources/synthesisData.json");
         AllData allData;
         allData = JsonMapper.ToObject<AllData>(datas);
-        //allData["synthesisDataNodes"][0]["firstInputItem"];
         foreach (var data in allData.synthesisDataNodes)
         {
             if (item1 == data.FirstInputItem && item2 == data.SecondInputItem)
@@ -165,4 +181,15 @@ public class player : MonoBehaviourPun
         }
         return "empty";
     }
+    void showBlueprint()
+    {
+        Blueprint.enabled = true;
+        bpc = true;
+    }
+    void hideBlueprint()
+    {
+        Blueprint.enabled = false;
+        bpc = false;
+    }
+    
 }

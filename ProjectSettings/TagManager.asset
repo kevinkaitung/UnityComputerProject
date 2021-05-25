@@ -10,6 +10,9 @@ TagManager:
   - Bullet
   - Fire
   - synthesis
+  - blueprint
+  - blueprintcube
+  - closeblueprint
   layers:
   - Default
   - TransparentFX

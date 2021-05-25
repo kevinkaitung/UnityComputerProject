@@ -53,6 +53,8 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
     //store master client start time to room custom properties
     ExitGames.Client.Photon.Hashtable CustomValue;
     [SerializeField] Text timerText;
+    Canvas Blueprint;
+    Text noticepointinfo;
 
     public void Start()
     {
@@ -86,7 +88,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
     void Update()
     {
         //count time and check
-        if (!startTimer) return;
+        /*if (!startTimer) return;
         timerIncrementValue = PhotonNetwork.Time - startTime;
         timerText.text = (timer - timerIncrementValue).ToString("0:00");
         if (timerIncrementValue >= timer)
@@ -94,16 +96,19 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
             //time's up, game finish
             Debug.Log("time's up");
             gameFinishDoing();
-        }
+        }*/
     }
 
     void settingStage(int stageNumber)
     {
         thisStageCount = 0;
         thisStagePutCount = 0;
+        Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
+        noticepointinfo = GameObject.Find("noticepointinfo").GetComponent<Text>();
         if (index < dataNodeLen)
         {
             //put notice points of this stage
+            noticepointinfo.text = "stage : " + stageNumber.ToString() + "\n";
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
                 GameObject clone = Instantiate(Resources.Load("noticePoint", typeof(GameObject)), nodeManager.instance.dataRoot.gameDataNodes[index].position, Quaternion.identity) as GameObject;
@@ -114,6 +119,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
+                noticepointinfo.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 index++;
                 thisStageCount++;
                 if (index == dataNodeLen)
@@ -136,9 +142,12 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
         //dataNodeLen = nodeManager.instance.dataRoot.gameDataNodes.Length;
         thisStageCount = 0;
         thisStagePutCount = 0;
+        Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
+        noticepointinfo = GameObject.Find("noticepointinfo").GetComponent<Text>();
         if (index < dataNodeLen)
         {
             //put notice points of this stage
+            noticepointinfo.text = "stage : " + stageNumber.ToString() + "\n";
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
                 GameObject clone = Instantiate(Resources.Load("noticePoint", typeof(GameObject)), nodeManager.instance.dataRoot.gameDataNodes[index].position, Quaternion.identity) as GameObject;
@@ -149,6 +158,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks/*, IPunObservable*/
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
+                noticepointinfo.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 index++;
                 thisStageCount++;
                 if (index == dataNodeLen)
