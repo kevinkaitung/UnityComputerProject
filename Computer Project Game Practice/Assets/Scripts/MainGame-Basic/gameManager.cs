@@ -11,9 +11,18 @@ namespace mySection
     {
         [Tooltip("Prefab- 玩家的角色")]
         public GameObject playerPrefab;
+        private string playerStyle;
+        //spawn point for different players
+        public Transform[] spawnPoints;
+
         // Start is called before the first frame update
         void Start()
         {
+            playerStyle = (string)PhotonNetwork.LocalPlayer.CustomProperties["playerStyle"];
+            if (playerStyle == null)
+            {
+                playerStyle = "player";
+            }
             if (playerPrefab == null)
             {
                 Debug.LogError("playerPrefab 遺失, 請在 Game Manager 重新設定", this);
@@ -21,7 +30,7 @@ namespace mySection
             else
             {
                 //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0,2,0), Quaternion.identity, 0);
+                PhotonNetwork.Instantiate(playerStyle, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].rotation, 0);
             }
         }
 
@@ -34,7 +43,7 @@ namespace mySection
         // Update is called once per frame
         void Update()
         {
-            
+
         }
     }
 }

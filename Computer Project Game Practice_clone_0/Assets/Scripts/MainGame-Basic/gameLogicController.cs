@@ -52,6 +52,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
     //countdown time
     [SerializeField] double timer = 100;
     [SerializeField] Text timerText;
+    [SerializeField] Text holdMaterialText;
 
     public const byte gameTimerEventCode = 1;   //raise event for timer
 
@@ -195,7 +196,6 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
             Debug.Log("Game Finish!!!");
         }
     }
-
     public void playerPutThingsOnPoint(noticePoint pointInfo, string handyMaterial)
     {
         thisStagePutCount++;
@@ -281,5 +281,10 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             PhotonNetwork.LoadLevel("waitingRoomScene");
         }
+    }
+
+    public void showPlayerHandyMaterial(string holdMaterialtoPass)
+    {
+        holdMaterialText.text = "current hold material: " + holdMaterialtoPass;
     }
 }

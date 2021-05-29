@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
+using LitJson;
 
 public class player : MonoBehaviourPun
 {
     public string holdMaterial;
+    public GameObject synthesis;
     private Camera playerCam;
     public enum RotationAxes
     {
@@ -33,8 +36,12 @@ public class player : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
     }*/
 
+
+    public TextAsset jsonFileSynthesis;     //json file position
+
     void Start()
     {
+        synthesis = GameObject.Find("SynthesisField");
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
         if (GetComponent<Rigidbody>())
@@ -111,15 +118,61 @@ public class player : MonoBehaviourPun
                     gameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial);
                     //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                 }
-                if(hit.collider.tag == "stone")
+                if (hit.collider.tag == "stone")
                 {
                     holdMaterial = "stone";
+                    gameLogicController.instance.showPlayerHandyMaterial("stone");
                 }
-                else if(hit.collider.tag == "brick")
+                else if (hit.collider.tag == "brick")
                 {
                     holdMaterial = "brick";
+                    gameLogicController.instance.showPlayerHandyMaterial("brick");
+                }
+                if (hit.collider.tag == "synthesis")
+                {
+                    if (synthesis.GetComponent<synthesisDataNodes>().firstInputItem == "empty")
+                    {
+                        synthesis.GetComponent<synthesisDataNodes>().firstInputItem = holdMaterial;
+                    }
+                    else if (synthesis.GetComponent<synthesisDataNodes>().secondInputItem == "empty" && synthesis.GetComponent<synthesisDataNodes>().firstInputItem != holdMaterial)
+                    {
+                        synthesis.GetComponent<synthesisDataNodes>().secondInputItem = holdMaterial;
+                    }
+                    if (synthesis.GetComponent<synthesisDataNodes>().firstInputItem != "empty" && synthesis.GetComponent<synthesisDataNodes>().secondInputItem != "empty")
+                    {
+                        string result = check(synthesis.GetComponent<synthesisDataNodes>().firstInputItem, synthesis.GetComponent<synthesisDataNodes>().secondInputItem);
+                        if (result != "empty")
+                        {
+                            synthesis.GetComponent<synthesisDataNodes>().firstInputItem = "empty";
+                            synthesis.GetComponent<synthesisDataNodes>().secondInputItem = "empty";
+                            holdMaterial = result;
+                            gameLogicController.instance.showPlayerHandyMaterial(result);
+                        }
+                    }
                 }
             }
         }
+    }
+    string check(string item1, string item2)
+    {
+        string datas = jsonFileSynthesis.text;
+        AllData allData;
+        allData = JsonMapper.ToObject<AllData>(datas);
+        //allData["synthesisDataNodes"][0]["firstInputItem"];
+        foreach (var data in allData.synthesisDataNodes)
+        {
+            Debug.Log(data.firstInputItem);
+            Debug.Log(data.secondInputItem);
+            Debug.Log(data.outputItem);
+            if (item1 == data.firstInputItem && item2 == data.secondInputItem)
+            {
+                return data.outputItem;
+            }
+            if (item2 == data.firstInputItem && item1 == data.secondInputItem)
+            {
+                return data.outputItem;
+            }
+        }
+        return "empty";
     }
 }

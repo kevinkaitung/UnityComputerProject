@@ -27,6 +27,8 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject roomListingPrefab;   //prefab for displayer each room in the lobby
 
+    
+
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;

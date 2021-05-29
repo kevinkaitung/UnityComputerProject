@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdMaterial: 
+  synthesis: {fileID: 0}
   m_axes: 0
   m_sensitivityX: 10
   m_sensitivityY: 10
@@ -142,6 +143,7 @@ MonoBehaviour:
   m_maximumX: 360
   m_minimumY: -45
   m_maximumY: 45
+  jsonFileSynthesis: {fileID: 4900000, guid: a8d85823444a766449d0969b559d09f1, type: 3}
 --- !u!114 &3193542196348317032
 MonoBehaviour:
   m_ObjectHideFlags: 0
