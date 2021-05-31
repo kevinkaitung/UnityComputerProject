@@ -7,7 +7,16 @@ TagManager:
   - stone
   - noticePoint
   - brick
+<<<<<<< HEAD
   - synthesis
+=======
+  - Bullet
+  - Fire
+  - synthesis
+  - blueprint
+  - blueprintcube
+  - closeblueprint
+>>>>>>> remotes/origin/00757014
   layers:
   - Default
   - TransparentFX

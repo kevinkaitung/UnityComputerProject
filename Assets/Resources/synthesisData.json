@@ -1,6 +1,7 @@
 {
     "synthesisDataNodes": [
         {
+<<<<<<< HEAD
             "firstInputItem": "water",
             "secondInputItem": "stone",
             "outputItem": "cement"
@@ -14,6 +15,26 @@
             "firstInputItem": "brick",
             "secondInputItem": "stone",
             "outputItem": "glass"
+=======
+            "FirstInputItem": "water",
+            "SecondInputItem": "stone",
+            "OutputItem": "cement"
+        },
+        {
+            "FirstInputItem": "water",
+            "SecondInputItem": "mud",
+            "OutputItem": "brick"
+        },
+        {
+            "FirstInputItem": "water",
+            "SecondInputItem": "sand",
+            "OutputItem": "glass"
+        },
+        {
+            "FirstInputItem": "stone",
+            "SecondInputItem": "brick",
+            "OutputItem": "glass"
+>>>>>>> remotes/origin/00757014
         }
     ]
 }

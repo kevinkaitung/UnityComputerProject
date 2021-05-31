@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 Base path: 'C:/2019.4.18f1/Editor/Data', plugins path 'C:/2019.4.18f1/Editor/Data/PlaybackEngines'
+=======
+Base path: 'D:/unity/2019.4.18f1/Editor/Data', plugins path 'D:/unity/2019.4.18f1/Editor/Data/PlaybackEngines'
+>>>>>>> remotes/origin/00757014
 Cmd: initializeCompiler

@@ -1,15 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using Photon.Pun;
 using System.IO;
 using LitJson;
 
+=======
+using UnityEngine.UI;
+using Photon.Pun;
+using System.IO;
+using LitJson;
+>>>>>>> remotes/origin/00757014
 public class player : MonoBehaviourPun
 {
     public string holdMaterial;
     public GameObject synthesis;
     private Camera playerCam;
+<<<<<<< HEAD
+=======
+    public bool bpc;
+    Button closeblueprint;
+>>>>>>> remotes/origin/00757014
     public enum RotationAxes
     {
         MouseXAndY = 0,
@@ -29,6 +41,10 @@ public class player : MonoBehaviourPun
     public float m_maximumY = 45f;
 
     float m_rotationY = 0f;
+<<<<<<< HEAD
+=======
+    Canvas Blueprint;
+>>>>>>> remotes/origin/00757014
     // Start is called before the first frame update
     /*void Start()
     {
@@ -36,6 +52,7 @@ public class player : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
     }*/
 
+<<<<<<< HEAD
 
     public TextAsset jsonFileSynthesis;     //json file position
 
@@ -44,10 +61,24 @@ public class player : MonoBehaviourPun
         synthesis = GameObject.Find("SynthesisField");
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
+=======
+    void Start()
+    {
+        //get player's camera
+        playerCam = GetComponentInChildren<Camera>();
+        synthesis = GameObject.Find("synthesis");
+>>>>>>> remotes/origin/00757014
         if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().freezeRotation = true;
         }
+<<<<<<< HEAD
+=======
+        Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
+        Blueprint.enabled = false;
+        closeblueprint = Blueprint.GetComponentInChildren<Button>();
+        bpc = false;
+>>>>>>> remotes/origin/00757014
     }
 
     void Awake()
@@ -82,6 +113,7 @@ public class player : MonoBehaviourPun
 
         if (Input.GetKey("right")) { transform.Rotate(0, 0.3f, 0); }
         // 按住 右鍵 時，物件每個 frame 以自身 y 軸為軸心旋轉 3 度
+<<<<<<< HEAD
 
         if (m_axes == RotationAxes.MouseXAndY)
         {
@@ -102,6 +134,33 @@ public class player : MonoBehaviourPun
 
             transform.localEulerAngles = new Vector3(-m_rotationY, transform.localEulerAngles.y, 0);
         }
+=======
+        if (!bpc)
+        {
+            if (m_axes == RotationAxes.MouseXAndY)
+            {
+                float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+                transform.localEulerAngles = new Vector3(-m_rotationY, m_rotationX, 0);
+            }
+            else if (m_axes == RotationAxes.MouseX)
+            {
+                transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+            }
+            else
+            {
+                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+                transform.localEulerAngles = new Vector3(-m_rotationY, transform.localEulerAngles.y, 0);
+            }
+        }
+        closeblueprint.onClick.AddListener(delegate{
+            hideBlueprint();
+        });
+>>>>>>> remotes/origin/00757014
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Input.GetMouseButtonUp(0))
@@ -118,6 +177,7 @@ public class player : MonoBehaviourPun
                     gameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial);
                     //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                 }
+<<<<<<< HEAD
                 if (hit.collider.tag == "stone")
                 {
                     holdMaterial = "stone";
@@ -147,6 +207,38 @@ public class player : MonoBehaviourPun
                             synthesis.GetComponent<synthesisDataNodes>().secondInputItem = "empty";
                             holdMaterial = result;
                             gameLogicController.instance.showPlayerHandyMaterial(result);
+=======
+                if (hit.collider.tag == "blueprintcube")
+                {
+                    showBlueprint();
+                }
+                if (hit.collider.tag == "stone")
+                {
+                    holdMaterial = "stone";
+                }
+                if (hit.collider.tag == "brick")
+                {
+                    holdMaterial = "brick";
+                }
+                if (hit.collider.tag == "synthesis")
+                {
+                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem == "empty")
+                    {
+                        synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = holdMaterial;
+                    }
+                    else if (synthesis.GetComponent<synthesisDataNodes>().SecondInputItem == "empty" && synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != holdMaterial)
+                    {
+                        synthesis.GetComponent<synthesisDataNodes>().SecondInputItem = holdMaterial;
+                    }
+                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != "empty" && synthesis.GetComponent<synthesisDataNodes>().SecondInputItem != "empty")
+                    {
+                        string result = check(synthesis.GetComponent<synthesisDataNodes>().FirstInputItem, synthesis.GetComponent<synthesisDataNodes>().SecondInputItem);
+                        if (result != "empty")
+                        {
+                            synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = "empty";
+                            synthesis.GetComponent<synthesisDataNodes>().SecondInputItem = "empty";
+                            holdMaterial = result;
+>>>>>>> remotes/origin/00757014
                         }
                     }
                 }
@@ -155,6 +247,7 @@ public class player : MonoBehaviourPun
     }
     string check(string item1, string item2)
     {
+<<<<<<< HEAD
         string datas = jsonFileSynthesis.text;
         AllData allData;
         allData = JsonMapper.ToObject<AllData>(datas);
@@ -171,8 +264,36 @@ public class player : MonoBehaviourPun
             if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
                 return data.outputItem;
+=======
+        string datas = File.ReadAllText(Application.dataPath + "/Resources/synthesisData.json");
+        AllData allData;
+        allData = JsonMapper.ToObject<AllData>(datas);
+        foreach (var data in allData.synthesisDataNodes)
+        {
+            if (item1 == data.FirstInputItem && item2 == data.SecondInputItem)
+            {
+                return data.OutputItem;
+            }
+            if (item2 == data.FirstInputItem && item1 == data.SecondInputItem)
+            {
+                return data.OutputItem;
+>>>>>>> remotes/origin/00757014
             }
         }
         return "empty";
     }
+<<<<<<< HEAD
+=======
+    void showBlueprint()
+    {
+        Blueprint.enabled = true;
+        bpc = true;
+    }
+    void hideBlueprint()
+    {
+        Blueprint.enabled = false;
+        bpc = false;
+    }
+    
+>>>>>>> remotes/origin/00757014
 }

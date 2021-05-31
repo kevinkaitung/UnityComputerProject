@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/mainScene.unity
     guid: 7bb40d34ed6868b4593968e5e04309d7
+<<<<<<< HEAD
   - enabled: 1
     path: Assets/Scenes/waitingRoomScene.unity
     guid: f7367145d79c410479ae3ef0cee795c0
+=======
+>>>>>>> remotes/origin/00757014
   m_configObjects: {}

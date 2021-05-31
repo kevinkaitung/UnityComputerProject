@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/mainScene.unity
+=======
+- path: Assets/Scenes/launch.unity
+>>>>>>> remotes/origin/00757014
   isLoaded: 1
   isActive: 1
   isSubScene: 0

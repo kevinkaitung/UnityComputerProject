@@ -29,7 +29,11 @@ namespace mySection
             if (PhotonNetwork.IsConnected)
             {
                 // 已連線, 嚐試隨機加入一個遊戲室
+<<<<<<< HEAD
                 //PhotonNetwork.JoinRandomRoom();
+=======
+                PhotonNetwork.JoinRandomRoom();
+>>>>>>> remotes/origin/00757014
             }
             else
             {
@@ -54,7 +58,11 @@ namespace mySection
             // 隨機加入一個遊戲室
             if (isConnecting)
             {
+<<<<<<< HEAD
                 //PhotonNetwork.JoinRandomRoom();
+=======
+                PhotonNetwork.JoinRandomRoom();
+>>>>>>> remotes/origin/00757014
             }
         }
 
@@ -79,7 +87,11 @@ namespace mySection
             {
                 Debug.Log("我是第一個進入遊戲室的玩家");
                 Debug.Log("我得主動做載入場景的動作");
+<<<<<<< HEAD
                 //PhotonNetwork.LoadLevel("mainScene");
+=======
+                PhotonNetwork.LoadLevel("mainScene");
+>>>>>>> remotes/origin/00757014
             }
         }
     }

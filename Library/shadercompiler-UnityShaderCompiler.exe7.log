@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 Base path: 'C:/2019.4.18f1/Editor/Data', plugins path 'C:/2019.4.18f1/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
+=======
+Base path: 'D:/unity/2019.4.18f1/Editor/Data', plugins path 'D:/unity/2019.4.18f1/Editor/Data/PlaybackEngines'
+Cmd: initializeCompiler
+
+Quitting shader compiler process
+>>>>>>> remotes/origin/00757014

@@ -136,6 +136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdMaterial: 
   synthesis: {fileID: 0}
+<<<<<<< HEAD
+=======
+  bpc: 0
+>>>>>>> remotes/origin/00757014
   m_axes: 0
   m_sensitivityX: 10
   m_sensitivityY: 10
@@ -143,7 +147,10 @@ MonoBehaviour:
   m_maximumX: 360
   m_minimumY: -45
   m_maximumY: 45
+<<<<<<< HEAD
   jsonFileSynthesis: {fileID: 4900000, guid: a8d85823444a766449d0969b559d09f1, type: 3}
+=======
+>>>>>>> remotes/origin/00757014
 --- !u!114 &3193542196348317032
 MonoBehaviour:
   m_ObjectHideFlags: 0
