@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using Photon.Pun.UtilityScripts;
 
 public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
 {
@@ -27,7 +28,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject roomListingPrefab;   //prefab for displayer each room in the lobby
 
-    
+
 
     public override void OnConnectedToMaster()
     {
@@ -154,13 +155,23 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
             IsOpen = true,
             MaxPlayers = (byte)roomSize
         };
-        PhotonNetwork.CreateRoom(roomName, roomOps);
+        if (PhotonNetwork.CreateRoom(roomName, roomOps))
+        {
+            //6/9 是不是在OnJoinedRoom被呼叫之後再載入場景較佳(萬一載入場景比下一個場景的OnJoinedRoom還要慢完成(叫不到OnJoinedRoom了))
+            PhotonNetwork.LoadLevel("waitingRoomScene");
+        }
     }
 
-    //when joined room (new create room or click room button), load waitingRoomScene
+    //when joined room (new create room), load waitingRoomScene
+    //other clients join room by button, and once they join room, autosync scene
+    //so they don't call this callback function (in launch scene)
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("waitingRoomScene");
+        //master client of room need to join room
+        //PhotonTeam[] availableTeam = PhotonTeamsManager.Instance.GetAvailableTeams();
+        //Debug.Log("Blue:" + PhotonTeamsManager.Instance.GetTeamMembersCount(availableTeam[0]));
+        //Debug.Log("Red:" + PhotonTeamsManager.Instance.GetTeamMembersCount(availableTeam[1]));
+        //Debug.Log("joined?" + PhotonNetwork.LocalPlayer.JoinTeam(teamCode: (byte)Random.Range(1, 3)));
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
