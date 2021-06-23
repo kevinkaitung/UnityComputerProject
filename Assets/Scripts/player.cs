@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using Photon.Pun;
 using System.IO;
 using LitJson;
+using MongoDB.Bson;
+using MongoDB.Driver;
+
 public class player : MonoBehaviourPun
 {
     public string holdMaterial;
@@ -31,7 +34,8 @@ public class player : MonoBehaviourPun
     public float m_maximumY = 45f;
 
     float m_rotationY = 0f;
-    Canvas Blueprint;
+    Canvas Blueprint, obj;
+    Text objname;
     // Start is called before the first frame update
     /*void Start()
     {
@@ -50,6 +54,9 @@ public class player : MonoBehaviourPun
         }
         Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
         Blueprint.enabled = false;
+        obj = GameObject.Find("obj").GetComponent<Canvas>();
+        obj.enabled = false;
+        objname = GameObject.Find("objname").GetComponent<Text>();
         closeblueprint = Blueprint.GetComponentInChildren<Button>();
         bpc = false;
     }
@@ -162,12 +169,39 @@ public class player : MonoBehaviourPun
                 }
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            {
+                Debug.Log(hit.transform.name);
+                if (hit.collider.tag == "noticePoint")
+                {
+                    Debug.Log("show notice point info");
+                    noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
+                    showNoticePointInfo(clickedPointInfo);
+                    bpc = true;
+                    obj.enabled = true;
+                }
+            }
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            obj.enabled = false;
+            bpc = false;
+        }
     }
     string check(string item1, string item2)
     {
-        string datas = File.ReadAllText(Application.dataPath + "/Resources/synthesisData.json");
+        var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
+        var database = client.GetDatabase("unity"); //數據庫名稱
+        var collection = database.GetCollection<BsonDocument>("synthesisData");//連接的表名
+        var list = collection.Find(_ => true).ToList();
+        list[0].Remove("_id");
+        var datas = list[0].ToJson();          //File.ReadAllText(Application.dataPath + "/Resources/synthesisData.json");
+        Debug.Log(datas);
         AllData allData;
         allData = JsonMapper.ToObject<AllData>(datas);
+        Debug.Log(allData);
         foreach (var data in allData.synthesisDataNodes)
         {
             if (item1 == data.FirstInputItem && item2 == data.SecondInputItem)
@@ -192,4 +226,23 @@ public class player : MonoBehaviourPun
         bpc = false;
     }
     
+    void showNoticePointInfo(noticePoint ntp)
+    {
+        int i = 0;
+        while(true)
+        {
+            if(nodeManager.instance.dataRoot.gameDataNodes[i].position == ntp.pos)
+            {
+                objname.text = "The name of this notice point is " + ntp.objShap + ".\n";
+                break;
+            }
+            else
+            {
+                i++;
+            }
+            if(i>100)
+                break;
+        }
+    }
+
 }

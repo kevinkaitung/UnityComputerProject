@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 public class nodeManager : MonoBehaviour
 {
@@ -23,7 +25,6 @@ public class nodeManager : MonoBehaviour
             return s_Instance;
         }
     }
-    public TextAsset jsonFile;
     //serializable?
     public nodeRoot dataRoot;
     void Awake() 
@@ -33,8 +34,14 @@ public class nodeManager : MonoBehaviour
 
     void createGameData()
     {
-        Debug.Log(jsonFile.text);
-        dataRoot = JsonUtility.FromJson<nodeRoot>(jsonFile.text);
+        var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
+        var database = client.GetDatabase("unity"); //数据库名称
+        var collection = database.GetCollection<BsonDocument>("gameData");//连接的表名
+        var list = collection.Find(_ => true).ToList();
+        list[0].Remove("_id");
+        var datas = list[0].ToJson();
+        Debug.Log(datas);
+        dataRoot = JsonUtility.FromJson<nodeRoot>(datas);
         for(int i = 0; i < 8; i++)
         {
             Debug.Log(dataRoot.gameDataNodes[i].position + " " + dataRoot.gameDataNodes[i].objShape);

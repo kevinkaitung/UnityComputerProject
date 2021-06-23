@@ -270,11 +270,14 @@
     <Reference Include="UnityEditor.AppleTV.Extensions">
         <HintPath>D:/unity/2019.4.18f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.AppleTV.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="LitJson">
+        <HintPath>C:/Computer Project Game/Assets/LitJson.dll</HintPath>
+    </Reference>
     <Reference Include="Photon3Unity3D">
-        <HintPath>D:/桌面/Computer Project Game/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+        <HintPath>C:/Computer Project Game/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-        <HintPath>D:/桌面/Computer Project Game/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+        <HintPath>C:/Computer Project Game/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
         <HintPath>D:/unity/2019.4.18f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -631,10 +634,10 @@
         <HintPath>D:/unity/2019.4.18f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>D:/桌面/Computer Project Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+        <HintPath>C:/Computer Project Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>D:/桌面/Computer Project Game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+        <HintPath>C:/Computer Project Game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
