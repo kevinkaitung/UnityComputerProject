@@ -3282,7 +3282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1219652392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb5d7b68c3b8a04282c5a9f7e64a49f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2962c5c489f1aa34fb37b7c653130162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyConnectButton: {fileID: 1209680574}
@@ -4653,7 +4653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1520096198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4663,14 +4663,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1520096197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfac7c27f989de448ab44dda39c898c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 947d55dc0b060b846a8e5ff52001cfa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   multiPlayerSceneIndex: 0
   lobbyPanel: {fileID: 809744349}
   roomPanel: {fileID: 1429375168}
   startButton: {fileID: 546992576}
-  playersContainer: {fileID: 1927044789}
+  playersContainer: {fileID: 112571116}
   playerListingPrefab: {fileID: 7694500182680959551, guid: c361114f1f4cb5c4fbe319b878c59b7b,
     type: 3}
   roomNameDisplay: {fileID: 200475595}
@@ -5278,7 +5278,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1765477264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de3b5160d719c9b4d916b06abf4b86b6, type: 3}
+  m_Script: {fileID: 11500000, guid: a4ee116a4d942344f8967402f4aa18c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyPanel: {fileID: 809744349}
