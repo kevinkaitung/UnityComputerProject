@@ -59,6 +59,7 @@ public class player : MonoBehaviourPun
         objname = GameObject.Find("objname").GetComponent<Text>();
         closeblueprint = Blueprint.GetComponentInChildren<Button>();
         bpc = false;
+        this.holdMaterial = "empty";
     }
 
     void Awake()
@@ -148,11 +149,11 @@ public class player : MonoBehaviourPun
                 }
                 if (hit.collider.tag == "synthesis")
                 {
-                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem == "empty")
+                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem == "empty" && holdMaterial != "empty")
                     {
                         synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = holdMaterial;
                     }
-                    else if (synthesis.GetComponent<synthesisDataNodes>().SecondInputItem == "empty" && synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != holdMaterial)
+                    else if (synthesis.GetComponent<synthesisDataNodes>().SecondInputItem == "empty" && synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != holdMaterial && holdMaterial != "empty")
                     {
                         synthesis.GetComponent<synthesisDataNodes>().SecondInputItem = holdMaterial;
                     }

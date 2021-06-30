@@ -698,8 +698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.4, y: 2.4}
-  m_SizeDelta: {x: 1044.7732, y: 462.695}
+  m_AnchoredPosition: {x: -435.41, y: -197.9}
+  m_SizeDelta: {x: 373.10974, y: 171.13965}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933627580
 MonoBehaviour:
@@ -1274,8 +1274,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -435.4, y: -197.9}
+  m_SizeDelta: {x: -870.91785, y: -395.86584}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1438417304
 MonoBehaviour:
@@ -1610,7 +1610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1b64184ec41114a80c86fe356e18fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: 71c806a708695dd4e8dd85cb88cafd56, type: 3}
   dataRoot:
     gameDataNodes: []
 --- !u!4 &1697530511

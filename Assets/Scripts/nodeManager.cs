@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MongoDB.Bson;
@@ -35,8 +35,8 @@ public class nodeManager : MonoBehaviour
     void createGameData()
     {
         var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
-        var database = client.GetDatabase("unity"); //数据库名称
-        var collection = database.GetCollection<BsonDocument>("gameData");//连接的表名
+        var database = client.GetDatabase("unity"); //數據庫名稱
+        var collection = database.GetCollection<BsonDocument>("gameData");//連接的表名
         var list = collection.Find(_ => true).ToList();
         list[0].Remove("_id");
         var datas = list[0].ToJson();
