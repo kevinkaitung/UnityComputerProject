@@ -47,7 +47,7 @@ public class player : MonoBehaviourPun
     {
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
-        synthesis = GameObject.Find("synthesis");
+        synthesis = GameObject.Find("Synthesis");
         if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().freezeRotation = true;
@@ -60,6 +60,8 @@ public class player : MonoBehaviourPun
         closeblueprint = Blueprint.GetComponentInChildren<Button>();
         bpc = false;
         this.holdMaterial = "empty";
+        this.gameObject.layer = 8;
+        playerCam.cullingMask &= ~(1 << 8);
     }
 
     void Awake()
@@ -159,7 +161,7 @@ public class player : MonoBehaviourPun
                     }
                     if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != "empty" && synthesis.GetComponent<synthesisDataNodes>().SecondInputItem != "empty")
                     {
-                        string result = check(synthesis.GetComponent<synthesisDataNodes>().FirstInputItem, synthesis.GetComponent<synthesisDataNodes>().SecondInputItem);
+                        string result = Synthesis.instance.check(synthesis.GetComponent<synthesisDataNodes>().FirstInputItem, synthesis.GetComponent<synthesisDataNodes>().SecondInputItem);
                         if (result != "empty")
                         {
                             synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = "empty";
@@ -191,7 +193,7 @@ public class player : MonoBehaviourPun
             bpc = false;
         }
     }
-    string check(string item1, string item2)
+    /*string check(string item1, string item2)
     {
         var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
         var database = client.GetDatabase("unity"); //數據庫名稱
@@ -215,7 +217,7 @@ public class player : MonoBehaviourPun
             }
         }
         return "empty";
-    }
+    }*/
     void showBlueprint()
     {
         Blueprint.enabled = true;

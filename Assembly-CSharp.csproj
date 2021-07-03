@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\nodeManager.cs" />
      <Compile Include="Assets\Scripts\noticePoint.cs" />
      <Compile Include="Assets\Scripts\player.cs" />
+     <Compile Include="Assets\Scripts\synthesis.cs" />
      <Compile Include="Assets\Scripts\synthesisDataNodes.cs" />
      <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
      <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
@@ -268,20 +269,20 @@
     <Reference Include="websocket-sharp">
         <HintPath>C:/Computer Project Game/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="DnsClient">
+        <HintPath>C:/Computer Project Game/Assets/Plugins/DnsClient.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
         <HintPath>C:/Computer Project Game/Assets/Plugins/MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="System.Buffers">
-        <HintPath>C:/Computer Project Game/Assets/Plugins/System.Buffers.dll</HintPath>
+    <Reference Include="MongoDB.Driver.Core">
+        <HintPath>C:/Computer Project Game/Assets/Plugins/MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
         <HintPath>C:/Computer Project Game/Assets/Plugins/MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="DnsClient">
-        <HintPath>C:/Computer Project Game/Assets/Plugins/DnsClient.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core">
-        <HintPath>C:/Computer Project Game/Assets/Plugins/MongoDB.Driver.Core.dll</HintPath>
+    <Reference Include="System.Buffers">
+        <HintPath>C:/Computer Project Game/Assets/Plugins/System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
         <HintPath>D:/unity/2019.4.18f1/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
