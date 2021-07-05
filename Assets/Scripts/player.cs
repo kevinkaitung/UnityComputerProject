@@ -11,7 +11,7 @@ using MongoDB.Driver;
 public class player : MonoBehaviourPun
 {
     public string holdMaterial;
-    public GameObject synthesis;
+    //public GameObject synthesis;
     private Camera playerCam;
     public bool bpc;
     Button closeblueprint;
@@ -47,7 +47,7 @@ public class player : MonoBehaviourPun
     {
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
-        synthesis = GameObject.Find("Synthesis");
+        //synthesis = GameObject.Find("Synthesis");
         if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().freezeRotation = true;
@@ -151,21 +151,21 @@ public class player : MonoBehaviourPun
                 }
                 if (hit.collider.tag == "synthesis")
                 {
-                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem == "empty" && holdMaterial != "empty")
+                    if (Synthesis.instance.FirstInputItem == "empty" && holdMaterial != "empty")
                     {
-                        synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = holdMaterial;
+                        Synthesis.instance.FirstInputItem = holdMaterial;
                     }
-                    else if (synthesis.GetComponent<synthesisDataNodes>().SecondInputItem == "empty" && synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != holdMaterial && holdMaterial != "empty")
+                    else if (Synthesis.instance.SecondInputItem == "empty" && Synthesis.instance.FirstInputItem != holdMaterial && holdMaterial != "empty")
                     {
-                        synthesis.GetComponent<synthesisDataNodes>().SecondInputItem = holdMaterial;
+                        Synthesis.instance.SecondInputItem = holdMaterial;
                     }
-                    if (synthesis.GetComponent<synthesisDataNodes>().FirstInputItem != "empty" && synthesis.GetComponent<synthesisDataNodes>().SecondInputItem != "empty")
+                    if (Synthesis.instance.FirstInputItem != "empty" && Synthesis.instance.SecondInputItem != "empty")
                     {
-                        string result = Synthesis.instance.check(synthesis.GetComponent<synthesisDataNodes>().FirstInputItem, synthesis.GetComponent<synthesisDataNodes>().SecondInputItem);
+                        string result = Synthesis.instance.check(Synthesis.instance.FirstInputItem, Synthesis.instance.SecondInputItem);
                         if (result != "empty")
                         {
-                            synthesis.GetComponent<synthesisDataNodes>().FirstInputItem = "empty";
-                            synthesis.GetComponent<synthesisDataNodes>().SecondInputItem = "empty";
+                            Synthesis.instance.FirstInputItem = "empty";
+                            Synthesis.instance.SecondInputItem = "empty";
                             holdMaterial = result;
                         }
                     }

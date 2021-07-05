@@ -15,7 +15,7 @@ public class synthesisDataNodes : MonoBehaviour
         OutputItem = "empty";
     }
 }
-public class AllData
+/*public class AllData
 {
     public List<synthesisDataNodes> synthesisDataNodes;
-}
+}*/

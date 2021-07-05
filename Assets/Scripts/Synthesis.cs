@@ -25,6 +25,15 @@ public class Synthesis : MonoBehaviour
             return s_Instance;
         }
     }
+    public string FirstInputItem;
+    public string SecondInputItem;
+    public string OutputItem;
+    void Start()
+    {
+        FirstInputItem = "empty";
+        SecondInputItem = "empty";
+        OutputItem = "empty";
+    }
     public string check(string item1, string item2)
     {
         var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
@@ -50,4 +59,8 @@ public class Synthesis : MonoBehaviour
         }
         return "empty";
     }
+}
+public class AllData
+{
+    public List<Synthesis> synthesisDataNodes;
 }
