@@ -25,14 +25,14 @@ public class Synthesis : MonoBehaviour
             return s_Instance;
         }
     }
-    public string FirstInputItem;
-    public string SecondInputItem;
-    public string OutputItem;
+    public string firstInputItem;
+    public string secondInputItem;
+    public string outputItem;
     void Start()
     {
-        FirstInputItem = "empty";
-        SecondInputItem = "empty";
-        OutputItem = "empty";
+        firstInputItem = "empty";
+        secondInputItem = "empty";
+        outputItem = "empty";
     }
     public string check(string item1, string item2)
     {
@@ -48,13 +48,13 @@ public class Synthesis : MonoBehaviour
         Debug.Log(allData);
         foreach (var data in allData.synthesisDataNodes)
         {
-            if (item1 == data.FirstInputItem && item2 == data.SecondInputItem)
+            if (item1 == data.firstInputItem && item2 == data.secondInputItem)
             {
-                return data.OutputItem;
+                return data.outputItem;
             }
-            if (item2 == data.FirstInputItem && item1 == data.SecondInputItem)
+            if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
-                return data.OutputItem;
+                return data.outputItem;
             }
         }
         return "empty";

@@ -59,6 +59,8 @@
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
+     <Compile Include="Assets\Scripts\Synthesis.cs" />
+     <Compile Include="Assets\Scripts\allUI.cs" />
      <Compile Include="Assets\Scripts\customTypes.cs" />
      <Compile Include="Assets\Scripts\gameLogicController.cs" />
      <Compile Include="Assets\Scripts\gameManager.cs" />
@@ -67,8 +69,6 @@
      <Compile Include="Assets\Scripts\nodeManager.cs" />
      <Compile Include="Assets\Scripts\noticePoint.cs" />
      <Compile Include="Assets\Scripts\player.cs" />
-     <Compile Include="Assets\Scripts\synthesis.cs" />
-     <Compile Include="Assets\Scripts\synthesisDataNodes.cs" />
      <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
      <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
      <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />

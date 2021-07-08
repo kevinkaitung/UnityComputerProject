@@ -1,12 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
-using System.IO;
-using LitJson;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 public class player : MonoBehaviourPun
 {
@@ -14,7 +9,6 @@ public class player : MonoBehaviourPun
     //public GameObject synthesis;
     private Camera playerCam;
     public bool bpc;
-    Button closeblueprint;
     public enum RotationAxes
     {
         MouseXAndY = 0,
@@ -34,8 +28,6 @@ public class player : MonoBehaviourPun
     public float m_maximumY = 45f;
 
     float m_rotationY = 0f;
-    Canvas Blueprint, obj;
-    Text objname;
     // Start is called before the first frame update
     /*void Start()
     {
@@ -52,16 +44,8 @@ public class player : MonoBehaviourPun
         {
             GetComponent<Rigidbody>().freezeRotation = true;
         }
-        Blueprint = GameObject.Find("Blueprint").GetComponent<Canvas>();
-        Blueprint.enabled = false;
-        obj = GameObject.Find("obj").GetComponent<Canvas>();
-        obj.enabled = false;
-        objname = GameObject.Find("objname").GetComponent<Text>();
-        closeblueprint = Blueprint.GetComponentInChildren<Button>();
         bpc = false;
         this.holdMaterial = "empty";
-        this.gameObject.layer = 8;
-        playerCam.cullingMask &= ~(1 << 8);
     }
 
     void Awake()
@@ -118,8 +102,9 @@ public class player : MonoBehaviourPun
                 transform.localEulerAngles = new Vector3(-m_rotationY, transform.localEulerAngles.y, 0);
             }
         }
-        closeblueprint.onClick.AddListener(delegate{
-            hideBlueprint();
+        allUI.instance.closeblueprint.onClick.AddListener(delegate{
+            allUI.instance.Blueprint.SetActive(false);
+            bpc = false;
         });
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -139,7 +124,8 @@ public class player : MonoBehaviourPun
                 }
                 if (hit.collider.tag == "blueprintcube")
                 {
-                    showBlueprint();
+                    allUI.instance.Blueprint.SetActive(true);
+                    bpc = true;
                 }
                 if (hit.collider.tag == "stone")
                 {
@@ -151,21 +137,21 @@ public class player : MonoBehaviourPun
                 }
                 if (hit.collider.tag == "synthesis")
                 {
-                    if (Synthesis.instance.FirstInputItem == "empty" && holdMaterial != "empty")
+                    if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
                     {
-                        Synthesis.instance.FirstInputItem = holdMaterial;
+                        Synthesis.instance.firstInputItem = holdMaterial;
                     }
-                    else if (Synthesis.instance.SecondInputItem == "empty" && Synthesis.instance.FirstInputItem != holdMaterial && holdMaterial != "empty")
+                    else if (Synthesis.instance.secondInputItem == "empty" && Synthesis.instance.firstInputItem != holdMaterial && holdMaterial != "empty")
                     {
-                        Synthesis.instance.SecondInputItem = holdMaterial;
+                        Synthesis.instance.secondInputItem = holdMaterial;
                     }
-                    if (Synthesis.instance.FirstInputItem != "empty" && Synthesis.instance.SecondInputItem != "empty")
+                    if (Synthesis.instance.firstInputItem != "empty" && Synthesis.instance.secondInputItem != "empty")
                     {
-                        string result = Synthesis.instance.check(Synthesis.instance.FirstInputItem, Synthesis.instance.SecondInputItem);
+                        string result = Synthesis.instance.check(Synthesis.instance.firstInputItem, Synthesis.instance.secondInputItem);
                         if (result != "empty")
                         {
-                            Synthesis.instance.FirstInputItem = "empty";
-                            Synthesis.instance.SecondInputItem = "empty";
+                            Synthesis.instance.firstInputItem = "empty";
+                            Synthesis.instance.secondInputItem = "empty";
                             holdMaterial = result;
                         }
                     }
@@ -181,71 +167,16 @@ public class player : MonoBehaviourPun
                 {
                     Debug.Log("show notice point info");
                     noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                    showNoticePointInfo(clickedPointInfo);
+                    allUI.instance.showNoticePointInfo(clickedPointInfo);
                     bpc = true;
-                    obj.enabled = true;
+                    allUI.instance.obj.SetActive(true);
                 }
             }
         }
         if (Input.GetMouseButtonUp(1))
         {
-            obj.enabled = false;
+            allUI.instance.obj.SetActive(false);
             bpc = false;
         }
     }
-    /*string check(string item1, string item2)
-    {
-        var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");
-        var database = client.GetDatabase("unity"); //數據庫名稱
-        var collection = database.GetCollection<BsonDocument>("synthesisData");//連接的表名
-        var list = collection.Find(_ => true).ToList();
-        list[0].Remove("_id");
-        var datas = list[0].ToJson();          //File.ReadAllText(Application.dataPath + "/Resources/synthesisData.json");
-        Debug.Log(datas);
-        AllData allData;
-        allData = JsonMapper.ToObject<AllData>(datas);
-        Debug.Log(allData);
-        foreach (var data in allData.synthesisDataNodes)
-        {
-            if (item1 == data.FirstInputItem && item2 == data.SecondInputItem)
-            {
-                return data.OutputItem;
-            }
-            if (item2 == data.FirstInputItem && item1 == data.SecondInputItem)
-            {
-                return data.OutputItem;
-            }
-        }
-        return "empty";
-    }*/
-    void showBlueprint()
-    {
-        Blueprint.enabled = true;
-        bpc = true;
-    }
-    void hideBlueprint()
-    {
-        Blueprint.enabled = false;
-        bpc = false;
-    }
-    
-    void showNoticePointInfo(noticePoint ntp)
-    {
-        int i = 0;
-        while(true)
-        {
-            if(nodeManager.instance.dataRoot.gameDataNodes[i].position == ntp.pos)
-            {
-                objname.text = "The name of this notice point is " + ntp.objShap + ".\n";
-                break;
-            }
-            else
-            {
-                i++;
-            }
-            if(i>100)
-                break;
-        }
-    }
-
 }
