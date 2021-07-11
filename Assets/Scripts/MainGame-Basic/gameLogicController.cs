@@ -38,6 +38,8 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
     private int dataNodeLen;
     //index for access game data nodes
     private int index;
+    //index for notice points' photon view ID array
+    private int viewidIndex = 0;
     //calculate accuracy
     private float accuracy;
     //count correct step
@@ -108,7 +110,8 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
             PhotonNetwork.RaiseEvent(gameTimerEventCode, content, raiseEventOptions, SendOptions.SendReliable);
             //setting first stage
-            photonView.RPC("otherSettingStage", RpcTarget.AllBuffered, currentStageNumber);
+            //photonView.RPC("otherSettingStage", RpcTarget.AllBuffered, currentStageNumber);
+            settingStage(currentStageNumber);
         }
     }
 
@@ -132,10 +135,16 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     void settingStage(int stageNumber)
     {
+        //notice points' photon view ID list
+        List<int> viewIDs = new List<int>();
+        //int[] viewIDs = new int[20];
+        //viewidIndex = 0;
         thisStageCount = 0;
         thisStagePutCount = 0;
         if (index < dataNodeLen)
         {
+            //show notice points info on blueprint
+            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -147,6 +156,15 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
+                //show each notice point info
+                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                PhotonView PV = clone.GetComponent<PhotonView>();
+                if (PhotonNetwork.AllocateViewID(PV))
+                {
+                    //viewIDs[viewidIndex] = PV.ViewID;
+                    //viewidIndex++;
+                    viewIDs.Add(PV.ViewID);
+                }
                 index++;
                 thisStageCount++;
                 if (index == dataNodeLen)
@@ -160,17 +178,22 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
             gameFinishDoing();
             Debug.Log("Game Finish!!!");
         }
+        //when passing parameter via network, need to change list to array
+        photonView.RPC("otherSettingStage", RpcTarget.OthersBuffered, currentStageNumber, viewIDs.ToArray());
     }
 
     //only master client need to load settingStage()
     [PunRPC]
-    void otherSettingStage(int stageNumber)
+    void otherSettingStage(int stageNumber, int[] viewIDs)
     {
+        viewidIndex = 0;
         //dataNodeLen = nodeManager.instance.dataRoot.gameDataNodes.Length;
         thisStageCount = 0;
         thisStagePutCount = 0;
         if (index < dataNodeLen)
         {
+            //show notice points info on blueprint
+            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -182,6 +205,11 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
+                //show each notice point info
+                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                PhotonView PV = clone.GetComponent<PhotonView>();
+                PV.ViewID = viewIDs[viewidIndex];
+                viewidIndex++;
                 index++;
                 thisStageCount++;
                 if (index == dataNodeLen)
@@ -196,16 +224,18 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
             Debug.Log("Game Finish!!!");
         }
     }
+    
     public void playerPutThingsOnPoint(noticePoint pointInfo, string handyMaterial)
     {
         thisStagePutCount++;
         //Put right game object on the player clicked point
         Debug.Log("obj shape: " + pointInfo.objShap + " obj pos: " + pointInfo.pos);
         //create part of the building
-        GameObject partOfBuildingClone = Instantiate(Resources.Load(pointInfo.objShap, typeof(GameObject)), pointInfo.pos, Quaternion.Euler(pointInfo.rot)) as GameObject;
+        GameObject partOfBuildingClone = Instantiate(Resources.Load("house/" + pointInfo.objShap, typeof(GameObject)), pointInfo.pos, Quaternion.Euler(pointInfo.rot)) as GameObject;
+
         //set the texture to handyMaterial
         Renderer cloneRend = partOfBuildingClone.GetComponent<Renderer>();
-        cloneRend.material.mainTexture = Resources.Load(handyMaterial) as Texture;
+        cloneRend.material.mainTexture = Resources.Load("texture of building/" + handyMaterial) as Texture;
         //check player put is correct or not (calculate accuracy)
         if (handyMaterial == pointInfo.materialNam)
         {
@@ -221,7 +251,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
-                photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
+                //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
             }
         }
         Debug.Log("Put Count: " + thisStagePutCount + " stage total count: " + thisStageCount);
@@ -232,10 +262,10 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         thisStagePutCount++;
         //create part of the building
-        GameObject partOfBuildingClone = Instantiate(Resources.Load(pointInfo.objShap, typeof(GameObject)), pointInfo.pos, Quaternion.Euler(pointInfo.rot)) as GameObject;
+        GameObject partOfBuildingClone = Instantiate(Resources.Load("house/" + pointInfo.objShap, typeof(GameObject)), pointInfo.pos, Quaternion.Euler(pointInfo.rot)) as GameObject;
         //set the texture to handyMaterial
         Renderer cloneRend = partOfBuildingClone.GetComponent<Renderer>();
-        cloneRend.material.mainTexture = Resources.Load(handyMaterial) as Texture;
+        cloneRend.material.mainTexture = Resources.Load("texture of building/" + handyMaterial) as Texture;
         //check player put is correct or not (calculate accuracy)
         if (handyMaterial == pointInfo.materialNam)
         {
@@ -249,7 +279,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
-                photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
+                //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
             }
         }
         Debug.Log("Put Count: " + thisStagePutCount + " stage total count: " + thisStageCount);
@@ -287,4 +317,5 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         holdMaterialText.text = "current hold material: " + holdMaterialtoPass;
     }
+
 }

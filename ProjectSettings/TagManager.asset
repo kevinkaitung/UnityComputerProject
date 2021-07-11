@@ -8,6 +8,14 @@ TagManager:
   - noticePoint
   - brick
   - synthesis
+  - wood
+  - iron
+  - fire
+  - water
+  - gravel
+  - Bullet
+  - Fire
+  - bluePrint
   layers:
   - Default
   - TransparentFX

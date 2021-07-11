@@ -18,6 +18,7 @@ public class RoomButton : MonoBehaviour
     public void JoinRoomOnClick()
     {
         PhotonNetwork.JoinRoom(roomName);
+        //join room 之後，會自動sync場景而跟房主的場景一樣
     }
 
     public void SetRoom(string nameInput, int sizeInput, int countInput)

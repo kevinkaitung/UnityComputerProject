@@ -1,0 +1,604 @@
+{
+  "gameDataNodes": [
+    {
+      "position": {
+        "x": -9.5,
+        "y": 8,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": -180
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 800
+      },
+      "objShape": "right pillar 2",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 8,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": -180
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 800
+      },
+      "objShape": "right pillar 1",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": 9.5,
+        "y": 8,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": -180
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 800
+      },
+      "objShape": "left pillar 2",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": 9.5,
+        "y": 8,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": -180
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 800
+      },
+      "objShape": "left pillar 1",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 15.5,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1000,
+        "y": 25,
+        "z": 25
+      },
+      "objShape": "back girder",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 15.5,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1000,
+        "y": 25,
+        "z": 25
+      },
+      "objShape": "front girder",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 15.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": 0
+      },
+      "scale": {
+        "x": 25,
+        "y": 1000,
+        "z": 25
+      },
+      "objShape": "right girder",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": 9.5,
+        "y": 15.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0.0,
+        "z": 0
+      },
+      "scale": {
+        "x": 25,
+        "y": 1000,
+        "z": 25
+      },
+      "objShape": "left girder",
+      "materialName": "wood",
+      "stage": 1
+    },
+    {
+      "position": {
+        "x": -4.42,
+        "y": 21.9228,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -45,
+        "y": 90,
+        "z": -90
+      },
+      "scale": {
+        "x": 50,
+        "y": 50,
+        "z": 700
+      },
+      "objShape": "right oblique girder 1",
+      "materialName": "wood",
+      "stage": 2
+    },
+    {
+      "position": {
+        "x": 4.42,
+        "y": 21.9228,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -45,
+        "y": -90,
+        "z": -90
+      },
+      "scale": {
+        "x": 50,
+        "y": 50,
+        "z": 700
+      },
+      "objShape": "left oblique girder 1",
+      "materialName": "wood",
+      "stage": 2
+    },
+    {
+      "position": {
+        "x": -4.42,
+        "y": 21.9228,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -45,
+        "y": 90,
+        "z": -90
+      },
+      "scale": {
+        "x": 50,
+        "y": 50,
+        "z": 700
+      },
+      "objShape": "right oblique girder 2",
+      "materialName": "wood",
+      "stage": 2
+    },
+    {
+      "position": {
+        "x": 4.42,
+        "y": 21.9228,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -45,
+        "y": -90,
+        "z": -90
+      },
+      "scale": {
+        "x": 50,
+        "y": 50,
+        "z": 700
+      },
+      "objShape": "left oblique girder 2",
+      "materialName": "wood",
+      "stage": 2
+    },
+    {
+      "position": {
+        "x": 0.05142638,
+        "y": 25.68817,
+        "z": 2.528271e-08
+      },
+      "rotation": {
+        "x": -45,
+        "y": -90,
+        "z": 90
+      },
+      "scale": {
+        "x": 50,
+        "y": 1000,
+        "z": 50
+      },
+      "objShape": "top girder",
+      "materialName": "wood",
+      "stage": 2
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 8,
+        "z": -9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1000,
+        "y": 50,
+        "z": 800
+      },
+      "objShape": "back wall",
+      "materialName": "wood",
+      "stage": 3
+    },
+    {
+      "position": {
+        "x": 0,
+        "y": 8,
+        "z": 9.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1000,
+        "y": 50,
+        "z": 800
+      },
+      "objShape": "front wall",
+      "materialName": "wood",
+      "stage": 3
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 8,
+        "z": 0
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 50,
+        "y": 900,
+        "z": 800
+      },
+      "objShape": "right wall",
+      "materialName": "wood",
+      "stage": 3
+    },
+    {
+      "position": {
+        "x": 9.5,
+        "y": 8,
+        "z": 0
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 50,
+        "y": 900,
+        "z": 800
+      },
+      "objShape": "left wall",
+      "materialName": "wood",
+      "stage": 3
+    },
+    {
+      "position": {
+        "x": 5.40285,
+        "y": 20.80044,
+        "z": 0
+      },
+      "rotation": {
+        "x": -45,
+        "y": 90,
+        "z": 90
+      },
+      "scale": {
+        "x": 100,
+        "y": 1300,
+        "z": 100
+      },
+      "objShape": "left roof",
+      "materialName": "wood",
+      "stage": 4
+    },
+    {
+      "position": {
+        "x": -5.402855,
+        "y": 20.80044,
+        "z": 0
+      },
+      "rotation": {
+        "x": -45,
+        "y": -90,
+        "z": 90
+      },
+      "scale": {
+        "x": 100,
+        "y": 1300,
+        "z": 100
+      },
+      "objShape": "right roof",
+      "materialName": "wood",
+      "stage": 4
+    },
+    {
+      "position": {
+        "x": 0.5,
+        "y": 0.6,
+        "z": 13.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 600,
+        "y": 350,
+        "z": 60
+      },
+      "objShape": "porch ground",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": 0.4,
+        "z": 17.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 400,
+        "y": 50,
+        "z": 40
+      },
+      "objShape": "stair 1",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": 1,
+        "y": "0.",
+        "z": 18.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 400,
+        "y": 50,
+        "z": 20
+      },
+      "objShape": "stair 2",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": -3.448515,
+        "y": 4.350609,
+        "z": 16.23975
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 300
+      },
+      "objShape": "right porch pillar",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": 5.364861,
+        "y": 4.350609,
+        "z": 16.23975
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 25,
+        "y": 25,
+        "z": 300
+      },
+      "objShape": "left porch pillar",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": 0.6047068,
+        "y": 7.216206,
+        "z": 13.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 550,
+        "y": 350,
+        "z": 25
+      },
+      "objShape": "porch roof",
+      "materialName": "wood",
+      "stage": 5
+    },
+    {
+      "position": {
+        "x": 7,
+        "y": 26,
+        "z": -3.5
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 200,
+        "y": 200,
+        "z": 600
+      },
+      "objShape": "chimney",
+      "materialName": "bricks",
+      "stage": 6
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 4.958874,
+        "z": 1.93232
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 5,
+        "y": 140,
+        "z": 142
+      },
+      "objShape": "window 1",
+      "materialName": "glass",
+      "stage": 6
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 4.958874,
+        "z": -0.8622705
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 5,
+        "y": 140,
+        "z": 142
+      },
+      "objShape": "window 2",
+      "materialName": "glass",
+      "stage": 6
+    },
+    {
+      "position": {
+        "x": -9.5,
+        "y": 4.958874,
+        "z": -3.619846
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 5,
+        "y": 140,
+        "z": 142
+      },
+      "objShape": "window 3",
+      "materialName": "glass",
+      "stage": 6
+    },
+    {
+      "position": {
+        "x": 1.092399,
+        "y": 9.695134,
+        "z": 9.572844
+      },
+      "rotation": {
+        "x": -90,
+        "y": 0,
+        "z": -90
+      },
+      "scale": {
+        "x": 5,
+        "y": 166.5,
+        "z": 216
+      },
+      "objShape": "window 4",
+      "materialName": "glass",
+      "stage": 6
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class noticePoint : MonoBehaviour
+public class noticePoint : MonoBehaviourPun
 {
     public Vector3 pos;
     public Vector3 rot;
@@ -21,5 +22,13 @@ public class noticePoint : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //if this notice point be clicked, this point's part build done. Destroy this notice point
+    //only master client do PhotonNetwork.Destroy
+    [PunRPC]
+    public void destroyNoticePoint()
+    {
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
