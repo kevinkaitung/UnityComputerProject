@@ -70,6 +70,10 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         {
             startButton.SetActive(true);
         }
+        else
+        {
+            startButton.SetActive(false);
+        }
     }
 
     public override void OnJoinedRoom()
@@ -141,6 +145,14 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startButton.SetActive(true);
+        }
+        else
+        {
+            startButton.SetActive(false);
+        }
         ClearPlayerListings();
         ListPlayers();
     }
