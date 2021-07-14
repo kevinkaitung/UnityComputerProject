@@ -124,11 +124,18 @@ public class PlayerClickAction : MonoBehaviourPun
                     bpc = true;
                     bluePrint.instance.noticePointInfoPanel.SetActive(true);
                 }
+                else if (hit.collider.tag == "synthesis")
+                {
+                    Debug.Log("show synthesis formula");
+                    bpc = true;
+                    bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                }
             }
         }
         if (Input.GetMouseButtonUp(1))
         {
             bluePrint.instance.noticePointInfoPanel.SetActive(false);
+            bluePrint.instance.synthesisformulaPanel.SetActive(false);
             bpc = false;
         }
     }
