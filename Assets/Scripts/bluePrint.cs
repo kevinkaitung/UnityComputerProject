@@ -22,7 +22,7 @@ public class bluePrint : MonoBehaviour
             return s_Instance;
         }
     }
-    public GameObject noticePointInfoPanel, blueprintPanel;
+    public GameObject noticePointInfoPanel, blueprintPanel, synthesisformulaPanel;
     public Button closeBlueprintButton;
     public Text singleNoticePointInfoText, bluePrintText;
     // Start is called before the first frame update
@@ -30,6 +30,7 @@ public class bluePrint : MonoBehaviour
     {
         noticePointInfoPanel.SetActive(false);
         blueprintPanel.SetActive(false);
+        synthesisformulaPanel.SetActive(false);
     }
     public void showNoticePointInfo(noticePoint ntp)
     {
