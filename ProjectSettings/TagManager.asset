@@ -16,6 +16,7 @@ TagManager:
   - Bullet
   - Fire
   - bluePrint
+  - clickedNoticePoint
   layers:
   - Default
   - TransparentFX

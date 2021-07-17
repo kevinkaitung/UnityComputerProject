@@ -12,9 +12,12 @@ GameObject:
   - component: {fileID: 8923227613861937584}
   - component: {fileID: 4891782118766776356}
   - component: {fileID: 7664041904674051151}
+  - component: {fileID: -4145666023344490420}
+  - component: {fileID: -1878658617857485790}
+  - component: {fileID: 6195585443895785686}
   m_Layer: 0
   m_Name: left oblique girder 1
-  m_TagString: Untagged
+  m_TagString: noticePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,3 +97,56 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7309337183692075111, guid: 768d0ce7e09435a4e96d5379e3831403, type: 3}
+--- !u!114 &-4145666023344490420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189763093523794968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-1878658617857485790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189763093523794968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb408a102075cc45abeb51442c935fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos: {x: 0, y: 0, z: 0}
+  rot: {x: 0, y: 0, z: 0}
+  sca: {x: 0, y: 0, z: 0}
+  objShap: 
+  materialNam: 
+  stag: 0
+--- !u!114 &6195585443895785686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189763093523794968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5053555b88ddc9c4d9565f303e1b33da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  belongingTeam: 

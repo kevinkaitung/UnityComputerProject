@@ -12,9 +12,12 @@ GameObject:
   - component: {fileID: 2221291923047783120}
   - component: {fileID: 5899986529124519596}
   - component: {fileID: 5592761664269879855}
+  - component: {fileID: 1163953975938627847}
+  - component: {fileID: -7808524603275256652}
+  - component: {fileID: 6216565680694441900}
   m_Layer: 0
   m_Name: chimney
-  m_TagString: Untagged
+  m_TagString: noticePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,3 +97,56 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7725545543059528279, guid: 768d0ce7e09435a4e96d5379e3831403, type: 3}
+--- !u!114 &1163953975938627847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842469875810980774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-7808524603275256652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842469875810980774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb408a102075cc45abeb51442c935fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos: {x: 0, y: 0, z: 0}
+  rot: {x: 0, y: 0, z: 0}
+  sca: {x: 0, y: 0, z: 0}
+  objShap: 
+  materialNam: 
+  stag: 0
+--- !u!114 &6216565680694441900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842469875810980774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5053555b88ddc9c4d9565f303e1b33da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  belongingTeam: 

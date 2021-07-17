@@ -24,11 +24,15 @@ public class noticePoint : MonoBehaviourPun
         
     }
 
-    //if this notice point be clicked, this point's part build done. Destroy this notice point
-    //only master client do PhotonNetwork.Destroy
+    //if player build the part of building, change its texture to the player's handy Material
+    //only master client do
     [PunRPC]
-    public void destroyNoticePoint()
+    public void buildToChangeTexture(string handyMaterial)
     {
-        PhotonNetwork.Destroy(this.gameObject);
+        //set the texture to handyMaterial
+        Renderer rend = GetComponent<Renderer>();
+        rend.material = Resources.Load("standardMat") as Material;
+        rend.material.mainTexture = Resources.Load("texture of building/" + handyMaterial) as Texture;
+        this.gameObject.tag = "clickedNoticePoint";
     }
 }
