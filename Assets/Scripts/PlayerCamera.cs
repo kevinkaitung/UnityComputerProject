@@ -56,7 +56,7 @@ public class PlayerCamera : MonoBehaviourPun
             return;
         }
         //if open blueprint or see notice point info, freeze camera action
-        if (!PlayerClickAction.bpc)
+        if (!PlayerClickActionforTeam.bpc)
         {
             //rotate about x-axis: rotate camera
             //rotate about y-axis: rotate character

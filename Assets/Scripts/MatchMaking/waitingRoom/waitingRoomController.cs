@@ -120,7 +120,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("mainScene");
+            PhotonNetwork.LoadLevel("mainSceneTeam");
         }
     }
 
