@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using Cinemachine;
 public class PlayerCamera : MonoBehaviourPun
 {
     private Camera playerCam;
@@ -32,7 +32,7 @@ public class PlayerCamera : MonoBehaviourPun
     void Start()
     {
         //get player's camera
-        playerCam = GetComponentInChildren<Camera>();
+        //playerCam = GetComponentInChildren<Camera>();
 
     }
 
@@ -40,6 +40,9 @@ public class PlayerCamera : MonoBehaviourPun
     {
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
+        playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
+        playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
+        playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
         if (!photonView.IsMine)
         {
             //close other's camera to avoid rendering other's camera scene
@@ -56,7 +59,7 @@ public class PlayerCamera : MonoBehaviourPun
             return;
         }
         //if open blueprint or see notice point info, freeze camera action
-        if (!PlayerClickActionforTeam.bpc)
+        /*if (!PlayerClickActionforTeam.bpc)
         {
             //rotate about x-axis: rotate camera
             //rotate about y-axis: rotate character
@@ -82,6 +85,6 @@ public class PlayerCamera : MonoBehaviourPun
                 transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
                 playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
             }
-        }
+        }*/
     }
 }
