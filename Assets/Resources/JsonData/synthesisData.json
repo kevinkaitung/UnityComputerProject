@@ -1,0 +1,24 @@
+{
+    "synthesisDataNodes": [
+        {
+            "firstInputItem": "water",
+            "secondInputItem": "gravel",
+            "outputItem": "cement"
+        },
+        {
+            "firstInputItem": "iron",
+            "secondInputItem": "fire",
+            "outputItem": "steel"
+        },
+        {
+            "firstInputItem": "gravel",
+            "secondInputItem": "fire",
+            "outputItem": "glass"
+        },
+        {
+            "firstInputItem": "cement",
+            "secondInputItem": "fire",
+            "outputItem": "brick"
+        }
+    ]
+}
