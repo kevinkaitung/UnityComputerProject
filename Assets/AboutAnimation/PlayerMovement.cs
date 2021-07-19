@@ -54,7 +54,7 @@ using Photon.Pun;
 			rb = GetComponent<Rigidbody> ();
 			//メインカメラを取得する
 			//cameraObject = GameObject.FindWithTag ("MainCamera");
-			cameraObject = transform.GetChild(5).gameObject;
+			//cameraObject = transform.GetChild(5).gameObject;
 			// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 			orgColHight = col.height;
 			orgVectColCenter = col.center;
