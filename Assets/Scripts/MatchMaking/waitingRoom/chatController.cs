@@ -1,5 +1,4 @@
-﻿  
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
@@ -13,14 +12,38 @@ using Photon.Pun.UtilityScripts;
 
 public class chatController : MonoBehaviour, IChatClientListener
 {
-    private ChatClient chatClient;
-
+    public class MESSAGE
+    {
+        // name
+        public String Text1 { get; set; }
+        // msg
+        public String Text2 { get; set; }
+        // init
+        public MESSAGE() { }
+    }
+    
     public TextMeshProUGUI connectionState;
     public TMP_InputField msgInput;
     public TextMeshProUGUI msgArea;
 
+    private ChatClient chatClient;
+    [SerializeField] 
+    private string userID;
+
+    // when flag == 0, it's red team
+    // when flag == 1, it's blue team
+    int flag = 0;
+
+    // when index == 1, it's teamMsg
+    // when index == 0, it's worldMsg
+    int indexRed = 0;
+    int indexBlue = 0;
+    private string tempRedChat;
+    private string tempBlueChat;
+    private string tempWorldChat;
+    private string redChat;
+    private string blueChat;
     private string worldchat;
-    [SerializeField] private string userID;
     
     // Start is called before the first frame update
     void Start()
@@ -32,7 +55,12 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        worldchat = "world";
+        redChat = "red\n";
+        blueChat = "blue\n";
+        worldchat = "world\n";
+        tempRedChat = "red\n";
+        tempBlueChat = "blue\n";
+        tempWorldChat = "world\n";
     }
 
     // Update is called once per frame
@@ -60,10 +88,23 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void SendMsg()
     {
-        if(msgInput.text!="")
+        if(msgInput.text != "")
         {
-            chatClient.PublishMessage(worldchat, msgInput.text);
-            msgInput.text = "";
+            if(indexRed == 1 && indexBlue == 0)
+            {
+                chatClient.PublishMessage(redChat, msgInput.text);
+                msgInput.text = "";
+            }
+            else if(indexRed == 0 && indexBlue == 1)
+            {
+                chatClient.PublishMessage(blueChat, msgInput.text);
+                msgInput.text = "";
+            }
+            else
+            {
+                chatClient.PublishMessage(worldchat, msgInput.text);
+                msgInput.text = "";
+            }
         }
     }
     
@@ -93,7 +134,31 @@ public class chatController : MonoBehaviour, IChatClientListener
     {
         for (int i = 0; i < senders.Length; i++)
         {
-            msgArea.text += senders[i] + ": " + messages[i] + "\n";
+            // get each player team
+            // when tmp == 0, it's red team
+            // when tmp == 1, it's blue team
+            object tmp;
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if(senders[i] == player.NickName)
+                {
+                    player.CustomProperties.TryGetValue("_pt", out tmp);
+                    if((byte)tmp == 1)
+                    {
+                        MESSAGE msg = new MESSAGE();
+                        msg.Text1 = "<color=blue>" + senders[i] + "</color>";
+                        msg.Text2 = ": " + messages[i] + "\n";
+                        msgArea.text += msg.Text1 + msg.Text2;
+                    }
+                    else
+                    {
+                        MESSAGE msg = new MESSAGE();
+                        msg.Text1 = "<color=red>" + senders[i] + "</color>";
+                        msg.Text2 = ": " + messages[i] + "\n";
+                        msgArea.text += msg.Text1 + msg.Text2;
+                    }
+                }
+            }
         }
     }
 
@@ -108,7 +173,7 @@ public class chatController : MonoBehaviour, IChatClientListener
         {
             this.chatClient.PublishMessage(channel, "joined");
         }
-        connectionState.text = "chatRoom is connected";
+        connectionState.text = "ChatRoom is connected";
     }
 
     public void OnUnsubscribed(string[] channels)
@@ -129,5 +194,58 @@ public class chatController : MonoBehaviour, IChatClientListener
     public void OnUserUnsubscribed(string channel, string user)
     {
         
+    }
+
+    public void changeChannel()
+    {
+        // get team
+        object tmp;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
+        if((byte)tmp == 1)
+        {
+            flag = 1;
+        }
+        else
+        {
+            flag = 0;
+        }
+        // when index == 1, it's teamMsg
+        // when index == 0, it's worldMsg
+        if(flag == 0)
+        {
+            indexRed = (indexRed + 1) % 2;
+            if(indexRed == 1)
+            {
+                tempWorldChat = msgArea.text;
+                chatClient.Unsubscribe(new string[] {worldchat});
+                chatClient.Subscribe(new string[] {redChat});
+                msgArea.text = tempRedChat;
+            }
+            else
+            {
+                tempRedChat = msgArea.text;
+                chatClient.Unsubscribe(new string[] {redChat});
+                chatClient.Subscribe(new string[] {worldchat});
+                msgArea.text = tempWorldChat;
+            }
+        }
+        else
+        {
+            indexBlue = (indexBlue + 1) % 2;
+            if(indexBlue == 1)
+            {
+                tempWorldChat = msgArea.text;
+                chatClient.Unsubscribe(new string[] {worldchat});
+                chatClient.Subscribe(new string[] {blueChat});
+                msgArea.text = tempBlueChat;
+            }
+            else
+            {
+                tempBlueChat = msgArea.text;
+                chatClient.Unsubscribe(new string[] {blueChat});
+                chatClient.Subscribe(new string[] {worldchat});
+                msgArea.text = tempWorldChat;
+            }
+        }
     }
 }
