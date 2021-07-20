@@ -40,7 +40,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     //master client start time shared with others
     double startTime;
     //countdown time
-    [SerializeField] double timer = 100;
+    [SerializeField] double timer = 10;
     [SerializeField] Text timerText;
     [SerializeField] Text holdMaterialText;
 
@@ -103,7 +103,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     void Update()
     {
         //count time and check
-        if (!startTimer) return;
+        if (!startTimer) 
+        {
+            return;
+        }
         timerIncrementValue = PhotonNetwork.Time - startTime;
         tempTimer = timer - timerIncrementValue;
         min = (int)tempTimer / 60;
@@ -148,6 +151,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         startTimer = false;
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好
