@@ -26,8 +26,6 @@ public class PlayerCamera : MonoBehaviourPun
 
     float m_rotationY = 0f;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +39,7 @@ public class PlayerCamera : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
         playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
         playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
-        playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
+        //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
         Cursor.lockState = CursorLockMode.Locked;
         if (!photonView.IsMine)
         {
@@ -64,36 +62,37 @@ public class PlayerCamera : MonoBehaviourPun
         {
             //rotate about x-axis: rotate camera
             //rotate about y-axis: rotate character
-            if (m_axes == RotationAxes.MouseXAndY)
-            {
-                float m_rotationX = transform.localEulerAngles.y ;//+ Input.GetAxis("Mouse X") * m_sensitivityX;
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-                transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-            }
-            if(Input.GetKey(KeyCode.LeftAlt))
+            if (Input.GetKey(KeyCode.LeftAlt))
             {
                 Cursor.lockState = CursorLockMode.None;
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
-            }
-            /*else if (m_axes == RotationAxes.MouseX)
-            {
-                transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-                Debug.Log("hi");
-            }*/
-            /*else
-            {
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+                if (m_axes == RotationAxes.MouseXAndY)
+                {
+                    float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
 
-                transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-            }*/
+                    transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
+                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                    Debug.Log(this.gameObject.GetComponentInParent<Transform>().rotation);
+                }
+                else if (m_axes == RotationAxes.MouseX)
+                {
+                    transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+                    Debug.Log("hi");
+                }
+                else
+                {
+                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+                    transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
+                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                }
+            }
         }
     }
 }
