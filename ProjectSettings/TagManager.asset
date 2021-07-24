@@ -17,6 +17,12 @@ TagManager:
   - Fire
   - bluePrint
   - clickedNoticePoint
+  - blackhole
+  - flame
+  - blackholeObstacle
+  - smoke
+  - speedup
+  - slowdown
   layers:
   - Default
   - TransparentFX

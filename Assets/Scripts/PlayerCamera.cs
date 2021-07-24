@@ -51,7 +51,7 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
         //if not me, just return
         if (!photonView.IsMine)
         {
@@ -77,12 +77,10 @@ public class PlayerCamera : MonoBehaviourPun
 
                     transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
                     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-                    Debug.Log(this.gameObject.GetComponentInParent<Transform>().rotation);
                 }
                 else if (m_axes == RotationAxes.MouseX)
                 {
                     transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-                    Debug.Log("hi");
                 }
                 else
                 {
