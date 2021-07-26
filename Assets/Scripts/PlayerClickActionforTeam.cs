@@ -54,68 +54,72 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             bluePrint.instance.blueprintPanel.SetActive(false);
             bpc = false;
+            Cursor.lockState = CursorLockMode.Locked;
         });
 
 
         //player act with scene
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            if (Input.GetMouseButtonUp(0))
             {
-                Debug.Log(hit.transform.name);
-                if (hit.collider.tag == "noticePoint")
+                if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
                 {
-                    //check the player click the correct notice point
-                    if (hit.collider.GetComponent<teamTag>().belongingTeam == team)
+                    Debug.Log(hit.transform.name);
+                    if (hit.collider.tag == "noticePoint")
                     {
-                        Debug.Log("click notice point");
-                        //Get player clicked point's component to know clicked point's detail
-                        noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                        //Pass detail of clicked point and player's hold material to game controller
-                        teamGameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial, team);
-                        //call master client to change the texture of notice cube of building(using RPC with notice point's photon view)
-                        hit.collider.gameObject.GetComponent<PhotonView>().RPC("buildToChangeTexture", RpcTarget.All, holdMaterial);
-                        //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
-                    }
-                    else
-                    {
-                        Debug.Log("You can't build for other team");
-                    }
-                }
-                else if (hit.collider.tag == "bluePrint")
-                {
-                    bluePrint.instance.blueprintPanel.SetActive(true);
-                    bpc = true;
-                }
-                else if (hit.collider.tag == "synthesis")
-                {
-                    if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
-                    {
-                        Synthesis.instance.firstInputItem = holdMaterial;
-                    }
-                    else if (Synthesis.instance.secondInputItem == "empty" && Synthesis.instance.firstInputItem != holdMaterial && holdMaterial != "empty")
-                    {
-                        Synthesis.instance.secondInputItem = holdMaterial;
-                    }
-                    if (Synthesis.instance.firstInputItem != "empty" && Synthesis.instance.secondInputItem != "empty")
-                    {
-                        string result = Synthesis.instance.check(Synthesis.instance.firstInputItem, Synthesis.instance.secondInputItem);
-                        if (result != "empty")
+                        //check the player click the correct notice point
+                        if (hit.collider.GetComponent<teamTag>().belongingTeam == team)
                         {
-                            Synthesis.instance.firstInputItem = "empty";
-                            Synthesis.instance.secondInputItem = "empty";
-                            holdMaterial = result;
-                            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            Debug.Log("click notice point");
+                            //Get player clicked point's component to know clicked point's detail
+                            noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
+                            //Pass detail of clicked point and player's hold material to game controller
+                            teamGameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial, team);
+                            //call master client to change the texture of notice cube of building(using RPC with notice point's photon view)
+                            hit.collider.gameObject.GetComponent<PhotonView>().RPC("buildToChangeTexture", RpcTarget.All, holdMaterial);
+                            //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
+                        }
+                        else
+                        {
+                            Debug.Log("You can't build for other team");
                         }
                     }
-                }
-                //click other material
-                else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
-                {
-                    holdMaterial = hit.collider.tag;
-                    teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                    else if (hit.collider.tag == "bluePrint")
+                    {
+                        bluePrint.instance.blueprintPanel.SetActive(true);
+                        bpc = true;
+                    }
+                    else if (hit.collider.tag == "synthesis")
+                    {
+                        if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
+                        {
+                            Synthesis.instance.firstInputItem = holdMaterial;
+                        }
+                        else if (Synthesis.instance.secondInputItem == "empty" && Synthesis.instance.firstInputItem != holdMaterial && holdMaterial != "empty")
+                        {
+                            Synthesis.instance.secondInputItem = holdMaterial;
+                        }
+                        if (Synthesis.instance.firstInputItem != "empty" && Synthesis.instance.secondInputItem != "empty")
+                        {
+                            string result = Synthesis.instance.check(Synthesis.instance.firstInputItem, Synthesis.instance.secondInputItem);
+                            if (result != "empty")
+                            {
+                                Synthesis.instance.firstInputItem = "empty";
+                                Synthesis.instance.secondInputItem = "empty";
+                                holdMaterial = result;
+                                teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            }
+                        }
+                    }
+                    //click other material
+                    else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
+                    {
+                        holdMaterial = hit.collider.tag;
+                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                    }
                 }
                 //click for game props
                 else if (hit.collider.tag == "slowdown" || hit.collider.tag == "flame" || hit.collider.tag == "blackhole" || hit.collider.tag == "smoke" || hit.collider.tag == "speedup")
@@ -125,34 +129,35 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                     gamePropsManager.instance.clickGameProps(team, hit.collider.tag);
                 }
             }
-        }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            if (Input.GetMouseButtonDown(1))
             {
-                Debug.Log(hit.transform.name);
-                if (hit.collider.tag == "noticePoint")
+                if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
                 {
-                    Debug.Log("show notice point info");
-                    noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                    bluePrint.instance.showNoticePointInfo(clickedPointInfo);
-                    bpc = true;
-                    bluePrint.instance.noticePointInfoPanel.SetActive(true);
-                }
-                else if (hit.collider.tag == "synthesis")
-                {
-                    Debug.Log("show synthesis formula");
-                    bpc = true;
-                    bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                    Debug.Log(hit.transform.name);
+                    if (hit.collider.tag == "noticePoint")
+                    {
+                        Debug.Log("show notice point info");
+                        noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
+                        bluePrint.instance.showNoticePointInfo(clickedPointInfo);
+                        bpc = true;
+                        bluePrint.instance.noticePointInfoPanel.SetActive(true);
+                    }
+                    else if (hit.collider.tag == "synthesis")
+                    {
+                        Debug.Log("show synthesis formula");
+                        bpc = true;
+                        bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                    }
                 }
             }
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            bluePrint.instance.noticePointInfoPanel.SetActive(false);
-            bluePrint.instance.synthesisformulaPanel.SetActive(false);
-            bpc = false;
+            if (Input.GetMouseButtonUp(1))
+            {
+                bluePrint.instance.noticePointInfoPanel.SetActive(false);
+                bluePrint.instance.synthesisformulaPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                bpc = false;
+            }
         }
     }
 }
