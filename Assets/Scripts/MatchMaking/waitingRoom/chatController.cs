@@ -23,8 +23,8 @@ public class chatController : MonoBehaviour, IChatClientListener
     }
     
     public TextMeshProUGUI connectionState;
-    public TMP_InputField msgInput;
-    public TextMeshProUGUI msgArea;
+    public InputField msgInput;
+    public Text msgArea;
 
     private ChatClient chatClient;
     [SerializeField] 
@@ -36,8 +36,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     // when index == 1, it's teamMsg
     // when index == 0, it's worldMsg
-    int indexRed = 0;
-    int indexBlue = 0;
+    int index = 0;
     private string tempRedChat;
     private string tempBlueChat;
     private string tempWorldChat;
@@ -90,12 +89,12 @@ public class chatController : MonoBehaviour, IChatClientListener
     {
         if(msgInput.text != "")
         {
-            if(indexRed == 1 && indexBlue == 0)
+            if(flag == 0 && index == 1)
             {
                 chatClient.PublishMessage(redChat, msgInput.text);
                 msgInput.text = "";
             }
-            else if(indexRed == 0 && indexBlue == 1)
+            else if(flag == 1 && index == 1)
             {
                 chatClient.PublishMessage(blueChat, msgInput.text);
                 msgInput.text = "";
@@ -146,14 +145,14 @@ public class chatController : MonoBehaviour, IChatClientListener
                     if((byte)tmp == 1)
                     {
                         MESSAGE msg = new MESSAGE();
-                        msg.Text1 = "<color=blue>" + senders[i] + "</color>";
+                        msg.Text1 = "<color=#00B2EE>" + senders[i] + "</color>";
                         msg.Text2 = ": " + messages[i] + "\n";
                         msgArea.text += msg.Text1 + msg.Text2;
                     }
                     else
                     {
                         MESSAGE msg = new MESSAGE();
-                        msg.Text1 = "<color=red>" + senders[i] + "</color>";
+                        msg.Text1 = "<color=#FF4040>" + senders[i] + "</color>";
                         msg.Text2 = ": " + messages[i] + "\n";
                         msgArea.text += msg.Text1 + msg.Text2;
                     }
@@ -213,8 +212,8 @@ public class chatController : MonoBehaviour, IChatClientListener
         // when index == 0, it's worldMsg
         if(flag == 0)
         {
-            indexRed = (indexRed + 1) % 2;
-            if(indexRed == 1)
+            index = (index + 1) % 2;
+            if(index == 1)
             {
                 tempWorldChat = msgArea.text;
                 chatClient.Unsubscribe(new string[] {worldchat});
@@ -231,8 +230,8 @@ public class chatController : MonoBehaviour, IChatClientListener
         }
         else
         {
-            indexBlue = (indexBlue + 1) % 2;
-            if(indexBlue == 1)
+            index = (index + 1) % 2;
+            if(index == 1)
             {
                 tempWorldChat = msgArea.text;
                 chatClient.Unsubscribe(new string[] {worldchat});
