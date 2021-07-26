@@ -21,19 +21,16 @@ public class PlayerCamera : MonoBehaviourPun
     public float m_minimumX = -360f;
     public float m_maximumX = 360f;
     // 垂直方向的 镜头转向 (这里给个限度 最大仰角为45°)
-    public float m_minimumY = -45f;
-    public float m_maximumY = 45f;
+    public float m_minimumY = -15f;
+    public float m_maximumY = 15f;
 
     float m_rotationY = 0f;
-
-
 
     // Start is called before the first frame update
     void Start()
     {
         //get player's camera
         //playerCam = GetComponentInChildren<Camera>();
-
     }
 
     void Awake()
@@ -42,7 +39,8 @@ public class PlayerCamera : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
         playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
         playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
-        playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
+        //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
+        Cursor.lockState = CursorLockMode.Locked;
         if (!photonView.IsMine)
         {
             //close other's camera to avoid rendering other's camera scene
@@ -53,38 +51,46 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        //Cursor.visible = true;
         //if not me, just return
         if (!photonView.IsMine)
         {
             return;
         }
         //if open blueprint or see notice point info, freeze camera action
-        /*if (!PlayerClickActionforTeam.bpc)
+        if (!PlayerClickActionforTeam.bpc)
         {
             //rotate about x-axis: rotate camera
             //rotate about y-axis: rotate character
-            if (m_axes == RotationAxes.MouseXAndY)
+            if (Input.GetKey(KeyCode.LeftAlt))
             {
-                float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-                transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-            }
-            else if (m_axes == RotationAxes.MouseX)
-            {
-                transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-                Debug.Log("hi");
+                Cursor.lockState = CursorLockMode.None;
             }
             else
             {
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+                Cursor.lockState = CursorLockMode.Locked;
+                if (m_axes == RotationAxes.MouseXAndY)
+                {
+                    float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
 
-                transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                    transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
+                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                }
+                else if (m_axes == RotationAxes.MouseX)
+                {
+                    transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+                }
+                else
+                {
+                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+                    transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
+                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                }
             }
-        }*/
+        }
     }
 }

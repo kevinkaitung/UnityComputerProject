@@ -293,6 +293,8 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         mainGamePanel.SetActive(false);
         accuracy = (float)correctCount / (float)dataNodeLen;
         scoreText.text = "正確率：" + accuracy.ToString("p");
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
         {

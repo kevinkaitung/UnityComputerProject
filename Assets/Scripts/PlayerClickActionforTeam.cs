@@ -24,7 +24,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         //get team
         object tmp;
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
-        if((byte)tmp == 1)
+        if ((byte)tmp == 1)
         {
             team = "blue";
         }
@@ -116,6 +116,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 {
                     holdMaterial = hit.collider.tag;
                     teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                }
+                //click for game props
+                else if (hit.collider.tag == "slowdown" || hit.collider.tag == "flame" || hit.collider.tag == "blackhole" || hit.collider.tag == "smoke" || hit.collider.tag == "speedup")
+                {
+                    //after clicking, destroy the game prop (only master client destroy the networked object)
+                    hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+                    gamePropsManager.instance.clickGameProps(team, hit.collider.tag);
                 }
             }
         }
