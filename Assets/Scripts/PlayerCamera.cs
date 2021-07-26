@@ -51,7 +51,7 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        //Cursor.visible = true;
+        //Cursor.visible = false;
         //if not me, just return
         if (!photonView.IsMine)
         {
