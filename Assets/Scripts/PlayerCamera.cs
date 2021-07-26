@@ -51,7 +51,7 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        Cursor.visible = true;
+        Cursor.visible = false;
         //if not me, just return
         if (!photonView.IsMine)
         {
@@ -64,6 +64,7 @@ public class PlayerCamera : MonoBehaviourPun
             //rotate about y-axis: rotate character
             if (Input.GetKey(KeyCode.LeftAlt))
             {
+                Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
             else
@@ -93,6 +94,11 @@ public class PlayerCamera : MonoBehaviourPun
                     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
                 }
             }
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

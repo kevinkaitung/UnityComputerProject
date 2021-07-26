@@ -43,7 +43,7 @@ public class PlayerClickAction : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
         //if not me, just return
         if (!photonView.IsMine)
         {
