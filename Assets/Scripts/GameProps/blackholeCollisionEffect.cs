@@ -28,7 +28,10 @@ public class blackholeCollisionEffect : MonoBehaviour
                 startTimer = false;
                 gamePropsManager.instance.disableBlackholeEffecttoPlayer();
                 //解除限制移動和點擊動作(除了UI)...
+                PlayerClickActionforTeam.bpc = false;
             }
+            //display countdown seconds for the player
+            gamePropsManager.instance.blackholeEffectCountdown(durationTime -  timer);
         }
     }
 
@@ -42,12 +45,15 @@ public class blackholeCollisionEffect : MonoBehaviour
             gamePropsManager.instance.enableBlackholeEffecttoPlayer();
             //restart at the spawn position
             this.gameObject.transform.position = gamePropsManager.instance.reSpawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position;
-           //限制移動和點擊動作(除了UI)...
+            //限制移動和點擊動作(除了UI)...
+            PlayerClickActionforTeam.bpc = true;
         }
     }
 
     //when the game is end, disable the blackhole effect
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
+        //如果gamePropsManager比玩家早destroy,會讀不到gamePropsManager(?)
         gamePropsManager.instance.disableBlackholeEffecttoPlayer();
         //解除限制移動和點擊動作(除了UI)...
     }

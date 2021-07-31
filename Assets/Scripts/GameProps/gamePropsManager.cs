@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 
 //待修改：不同道具的生成時間，及障礙物生成範圍
 
@@ -41,6 +42,9 @@ public class gamePropsManager : MonoBehaviourPun
     public byte speedupEffectEventCode = 3;
     //panel for locking player during blackhole effect
     public GameObject blackholeEffectPanel;
+    //text for locking player count down
+    public GameObject blackholeEffectText;
+    private Text blackholeEffectCountText;
     //respawn point for different players
     public Transform[] reSpawnPoints;
     //generate number of flame at once
@@ -55,7 +59,7 @@ public class gamePropsManager : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-
+        blackholeEffectCountText = blackholeEffectText.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -82,19 +86,19 @@ public class gamePropsManager : MonoBehaviourPun
         //place game props
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/slowdown", new Vector3(randPosX, 0.0f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/slowdown", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/flame", new Vector3(randPosX, 0.0f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/flame", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/blackhole", new Vector3(randPosX, 0.0f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/blackhole", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/smoke", new Vector3(randPosX, 0.0f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/smoke", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/speedup", new Vector3(randPosX, 0.0f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/speedup", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
     }
 
     //when players click game props, call this function to judge which game prop is clicked
@@ -254,5 +258,11 @@ public class gamePropsManager : MonoBehaviourPun
     public void disableBlackholeEffecttoPlayer()
     {
         blackholeEffectPanel.SetActive(false);
+    }
+
+    //display countdown seconds for the player
+    public void blackholeEffectCountdown(float remainingSecs)
+    {
+        blackholeEffectCountText.text = "You are locked by Blackhole.\n Please Wait for " + ((int)remainingSecs).ToString() + " seconds.";
     }
 }
