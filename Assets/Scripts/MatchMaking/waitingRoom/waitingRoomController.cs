@@ -16,18 +16,26 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     private GameObject startButton;     //game start button, available for master client
 
     [SerializeField]
-    private Transform playersContainer; //container for holding all the player listings items
+    private Transform playersContainerBlue; //container for holding all the blue player listings items
+    [SerializeField]
+    private Transform playersContainerRed;  //container for holding all the red player listings items
     [SerializeField]
     private GameObject playerListingPrefab; //prefab for displayer each player in the room
 
     [SerializeField]
     private Text roomNameDisplay;   //display room name
 
+    public Text showIfReadyStart;
+
     void ClearPlayerListings()
     {
-        for (int i = playersContainer.childCount - 1; i >= 0; i--)
+        for (int i = playersContainerBlue.childCount - 1; i >= 0; i--)
         {
-            Destroy(playersContainer.GetChild(i).gameObject);
+            Destroy(playersContainerBlue.GetChild(i).gameObject);
+        }
+        for (int i = playersContainerRed.childCount - 1; i >= 0; i--)
+        {
+            Destroy(playersContainerRed.GetChild(i).gameObject);
         }
     }
 
@@ -35,21 +43,26 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            GameObject tempListing = Instantiate(playerListingPrefab, playersContainer);
-            Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
-            //get playerListing component - Image to change color to its team color
-            Image tempImage = tempListing.GetComponent<Image>();
-            tempText.text = player.NickName;
             //try get player's team
             if (player.GetPhotonTeam() != null)
             {
                 //set playerListing to team color
                 if (player.GetPhotonTeam().Name == "Blue")
                 {
+                    GameObject tempListing = Instantiate(playerListingPrefab, playersContainerBlue);
+                    Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
+                    //get playerListing component - Image to change color to its team color
+                    Image tempImage = tempListing.GetComponent<Image>();
+                    tempText.text = player.NickName;
                     tempImage.color = Color.blue;
                 }
                 else
                 {
+                    GameObject tempListing = Instantiate(playerListingPrefab, playersContainerRed);
+                    Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
+                    //get playerListing component - Image to change color to its team color
+                    Image tempImage = tempListing.GetComponent<Image>();
+                    tempText.text = player.NickName;
                     tempImage.color = Color.red;
                 }
             }
@@ -92,7 +105,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         //re-display current room player list
         ClearPlayerListings();
         ListPlayers();
-        
+
         //already in room, and player joins team
         PhotonTeam[] availableTeam = PhotonTeamsManager.Instance.GetAvailableTeams();
         int[] teamMembersCount = new int[2];
@@ -115,12 +128,45 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void ChangeTeam()
+    {
+        // when teamCode == 1, it's teamBlue
+        // when teamCode == 2, it's teamRed
+        if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+        {
+            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode:2);
+        }
+        else
+        {
+            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode:1);
+        }
+        // 這裡紅藍兩隊人數相反
+        // 不知道為什麼但是可以跑
+        int blueNum = playersContainerRed.transform.childCount;
+        int redNum = playersContainerBlue.transform.childCount;
+        if(((redNum - blueNum) >= -1) &&
+            (redNum - blueNum) <= 1)
+        {
+            showIfReadyStart.text = "準備開始遊戲\n紅隊" + redNum + "人";
+            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
+        }
+        else
+        {
+            showIfReadyStart.text = "人數差距過大無法遊戲\n紅隊" + redNum + "人";
+            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
+        }
+    }
+
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("mainSceneTeam");
+            if(((playersContainerBlue.childCount - playersContainerRed.childCount) >= -1) &&
+                (playersContainerBlue.childCount - playersContainerRed.childCount) <= 1)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.LoadLevel("mainSceneTeam");
+            }
         }
     }
 
@@ -161,7 +207,6 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     void Update()
     {
         
-
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
