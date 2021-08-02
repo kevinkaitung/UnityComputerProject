@@ -43,6 +43,10 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string redChat;
     private string blueChat;
     private string worldchat;
+
+    //text min/max width
+    private int textSizeMinWidth = 50;
+    private int textSizeMaxWidth = 100;
     
     // Start is called before the first frame update
     void Start()
@@ -131,6 +135,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
+        String msgContent = msgArea.text;
         for (int i = 0; i < senders.Length; i++)
         {
             // get each player team
@@ -147,18 +152,41 @@ public class chatController : MonoBehaviour, IChatClientListener
                         MESSAGE msg = new MESSAGE();
                         msg.Text1 = "<color=#00B2EE>" + senders[i] + "</color>";
                         msg.Text2 = ": " + messages[i] + "\n";
-                        msgArea.text += msg.Text1 + msg.Text2;
+                        msgContent += msg.Text1 + msg.Text2;
                     }
                     else
                     {
                         MESSAGE msg = new MESSAGE();
                         msg.Text1 = "<color=#FF4040>" + senders[i] + "</color>";
                         msg.Text2 = ": " + messages[i] + "\n";
-                        msgArea.text += msg.Text1 + msg.Text2;
+                        msgContent += msg.Text1 + msg.Text2;
                     }
                 }
             }
         }
+        SetTextSize(msgArea, msgContent);
+    }
+
+    private void SetTextSize(Text targetText,string contentStr)
+    {
+        if(targetText == null)
+        {
+            return;
+        }
+        targetText.text = contentStr;
+ 
+        if(targetText.preferredWidth <= textSizeMinWidth)
+        {
+            return;
+        }
+        if(targetText.preferredWidth <= textSizeMaxWidth)
+        {
+            targetText.rectTransform.sizeDelta = new Vector2(targetText.preferredWidth, targetText.rectTransform.sizeDelta.y);
+            return;
+        }
+        targetText.rectTransform.sizeDelta = new Vector2(textSizeMaxWidth, targetText.rectTransform.sizeDelta.y);
+        int textSizeHeight = Mathf.CeilToInt(targetText.preferredHeight);
+        targetText.rectTransform.sizeDelta = new Vector2(textSizeMaxWidth, textSizeHeight);
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
@@ -170,7 +198,7 @@ public class chatController : MonoBehaviour, IChatClientListener
     {
         foreach (var channel in channels)
         {
-            this.chatClient.PublishMessage(channel, "joined");
+            chatClient.PublishMessage(channel, "joined");
         }
         connectionState.text = "ChatRoom is connected";
     }
