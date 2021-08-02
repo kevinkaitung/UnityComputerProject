@@ -57,6 +57,20 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
 
+    private float getMaterialTimer = 0.0f;  //timer for player getting material count down
+    [SerializeField]
+    private float getMaterialTimeDuration = 5.0f;   //how long would the player gets the material
+    private bool startGetMaterialTimer = false;     //start player getting material timer
+    [SerializeField]
+    public GameObject actionInfoPanel;      //panel for the player to show some action info (ex. get what material, some warnings)
+    [SerializeField]
+    public GameObject actionInfoText;
+    private Text actionInfoTextProp;
+    [SerializeField]
+    public GameObject cancelButton;     //for the player canceling getting material
+    private string gettingMaterial;     //which material is the player getting now
+    public bool isGetMat = false;       //if sucessfully get material or not
+
     //register for raise event
     public override void OnEnable()
     {
@@ -97,40 +111,52 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
             PhotonNetwork.RaiseEvent(gameTimerEventCode, content, raiseEventOptions, SendOptions.SendReliable);
         }
+        actionInfoTextProp = actionInfoText.GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //count time and check
-        if (!startTimer) 
+        //player get material count down
+        if (startGetMaterialTimer)
         {
-            return;
+            getMaterialTimer += Time.deltaTime;
+            //show getting material count down
+            actionInfoTextProp.text = "Get Material " + gettingMaterial + ".\n Please wait " + ((int)(getMaterialTimeDuration - getMaterialTimer)).ToString() + " seconds";
+            //time out, sucessfully get material
+            if (getMaterialTimer > getMaterialTimeDuration)
+            {
+                //closing the info panel
+                playerFinishGetMaterial();
+                Debug.Log("sucess get mat");
+                //for player check sucessfully getting material
+                isGetMat = true;
+            }
         }
-        timerIncrementValue = PhotonNetwork.Time - startTime;
-        tempTimer = timer - timerIncrementValue;
-        min = (int)tempTimer / 60;
-        sec = (int)tempTimer % 60;
-        timerText.text = "Timer  " + min.ToString() + ":" + sec.ToString("00");
-        if (timerIncrementValue >= timer)
+        //count time and check
+        if (startTimer)
         {
-            //time's up, game finish
-            Debug.Log("time's up");
-            gameFinishDoing();
+            timerIncrementValue = PhotonNetwork.Time - startTime;
+            tempTimer = timer - timerIncrementValue;
+            min = (int)tempTimer / 60;
+            sec = (int)tempTimer % 60;
+            timerText.text = "Timer  " + min.ToString() + ":" + sec.ToString("00");
+            if (timerIncrementValue >= timer)
+            {
+                //time's up, game finish
+                Debug.Log("time's up");
+                gameFinishDoing();
+            }
         }
     }
 
-    
-
-    
-    
     public void playerPutThingsOnPoint(noticePoint pointInfo, string handyMaterial, string team)
     {
         //判斷哪隊傳入，並對該隊執行動作
-        if(team == "blue")
+        if (team == "blue")
         {
             blueTeam.playerPutThing(pointInfo, handyMaterial);
-            if(blueTeam.isThisTeamFinish())
+            if (blueTeam.isThisTeamFinish())
             {
                 gameFinishDoing();
             }
@@ -138,7 +164,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         else
         {
             redTeam.playerPutThing(pointInfo, handyMaterial);
-            if(redTeam.isThisTeamFinish())
+            if (redTeam.isThisTeamFinish())
             {
                 gameFinishDoing();
             }
@@ -180,4 +206,37 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         holdMaterialText.text = "current hold material: " + holdMaterialtoPass;
     }
 
+    //for player call to get material
+    public void playerGetMaterial(string getMaterial)
+    {
+        startGetMaterialTimer = true;
+        gettingMaterial = getMaterial;
+        actionInfoPanel.SetActive(true);
+        cancelButton.SetActive(true);
+        getMaterialTimer = 0.0f;
+        isGetMat = false;
+    }
+
+    //if player sucessfully get material or cancel, close the panel 
+    public void playerFinishGetMaterial()
+    {
+        startGetMaterialTimer = false;
+        actionInfoPanel.SetActive(false);
+        cancelButton.SetActive(false);
+    }
+
+    //if player click the obj. too far
+    public void tooFarClickNotice()
+    {
+        //start coroutine to show warnings
+        StartCoroutine(showNotice());
+    }
+
+    IEnumerator showNotice()
+    {
+        actionInfoPanel.SetActive(true);
+        actionInfoTextProp.text = "Closer to click the object.";
+        yield return new WaitForSeconds(1);
+        actionInfoPanel.SetActive(false);
+    }
 }

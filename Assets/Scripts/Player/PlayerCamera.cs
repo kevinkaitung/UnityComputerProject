@@ -21,8 +21,8 @@ public class PlayerCamera : MonoBehaviourPun
     public float m_minimumX = -360f;
     public float m_maximumX = 360f;
     // 垂直方向的 镜头转向 (这里给个限度 最大仰角为45°)
-    public float m_minimumY = -15f;
-    public float m_maximumY = 15f;
+    public float m_minimumY = -25f;
+    public float m_maximumY = 25f;
 
     float m_rotationY = 0f;
 
@@ -57,6 +57,7 @@ public class PlayerCamera : MonoBehaviourPun
         {
             return;
         }
+        
         //if open blueprint or see notice point info, freeze camera action
         if (!PlayerClickActionforTeam.bpc)
         {
@@ -64,6 +65,7 @@ public class PlayerCamera : MonoBehaviourPun
             //rotate about y-axis: rotate character
             if (Input.GetKey(KeyCode.LeftAlt))
             {
+                Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
             else
@@ -91,6 +93,11 @@ public class PlayerCamera : MonoBehaviourPun
                     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
                 }
             }
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

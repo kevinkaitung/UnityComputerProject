@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+using LitJson;
 
-public class PlayerClickActionforTeam : MonoBehaviourPun
+public class PlayerClickAction : MonoBehaviourPun
 {
     private Camera playerCam;
     public string holdMaterial;
     public static bool bpc;     //for controlling freeze camera action
-    private string team;    //which team belong to
+
+
+    // Start is called before the first frame update
+    /*void Start()
+    {
+        //get player's camera
+        playerCam = GetComponentInChildren<Camera>();
+    }*/
+
+
+    public TextAsset jsonFileSynthesis;     //json file position
 
     void Start()
     {
@@ -21,17 +31,6 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             GetComponent<Rigidbody>().freezeRotation = true;
         }
         bpc = false;
-        //get team
-        object tmp;
-        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
-        if ((byte)tmp == 1)
-        {
-            team = "blue";
-        }
-        else
-        {
-            team = "red";
-        }
     }
 
     void Awake()
@@ -44,6 +43,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        //Cursor.visible = true;
         //if not me, just return
         if (!photonView.IsMine)
         {
@@ -67,22 +67,14 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 Debug.Log(hit.transform.name);
                 if (hit.collider.tag == "noticePoint")
                 {
-                    //check the player click the correct notice point
-                    if (hit.collider.GetComponent<teamTag>().belongingTeam == team)
-                    {
-                        Debug.Log("click notice point");
-                        //Get player clicked point's component to know clicked point's detail
-                        noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                        //Pass detail of clicked point and player's hold material to game controller
-                        teamGameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial, team);
-                        //call master client to change the texture of notice cube of building(using RPC with notice point's photon view)
-                        hit.collider.gameObject.GetComponent<PhotonView>().RPC("buildToChangeTexture", RpcTarget.All, holdMaterial);
-                        //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
-                    }
-                    else
-                    {
-                        Debug.Log("You can't build for other team");
-                    }
+                    Debug.Log("click notice point");
+                    //Get player clicked point's component to know clicked point's detail
+                    noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
+                    //Pass detail of clicked point and player's hold material to game controller
+                    gameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial);
+                    //call master client to destroy notice point (using RPC with notice point's photon view)
+                    hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyNoticePoint", RpcTarget.MasterClient, null);
+                    //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                 }
                 else if (hit.collider.tag == "bluePrint")
                 {
@@ -107,22 +99,15 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             Synthesis.instance.firstInputItem = "empty";
                             Synthesis.instance.secondInputItem = "empty";
                             holdMaterial = result;
-                            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            gameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                         }
                     }
                 }
                 //click other material
-                else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
+                else if(hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
                 {
                     holdMaterial = hit.collider.tag;
-                    teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                }
-                //click for game props
-                else if (hit.collider.tag == "slowdown" || hit.collider.tag == "flame" || hit.collider.tag == "blackhole" || hit.collider.tag == "smoke" || hit.collider.tag == "speedup")
-                {
-                    //after clicking, destroy the game prop (only master client destroy the networked object)
-                    hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
-                    gamePropsManager.instance.clickGameProps(team, hit.collider.tag);
+                    gameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 }
             }
         }

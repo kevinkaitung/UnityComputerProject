@@ -25,6 +25,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private int correctCount;
     //check if finish building
     private bool isFinish;
+    private string playerTeam;
 
 
     // Start is called before the first frame update
@@ -36,6 +37,17 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         accuracy = 0.0f;
         correctCount = 0;
         isFinish = false;
+        //get local player team
+        object tmp;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
+        if ((byte)tmp == 1)
+        {
+            playerTeam = "blue";
+        }
+        else
+        {
+            playerTeam = "red";
+        }
         if (PhotonNetwork.IsMasterClient)
         {
             settingStage(currentStageNumber);
@@ -56,8 +68,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         thisStagePutCount = 0;
         if (index < dataNodeLen)
         {
-            //show notice points info on blueprint
-            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            //change blue print if my team set new stage
+            if (playerTeam == team)
+            {
+                //show notice points info on blueprint
+                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -81,8 +97,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
-                //show each notice point info
-                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                //change blue print if my team set new stage
+                if (playerTeam == team)
+                {
+                    //show each notice point info
+                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                }
                 //assing photon view ID to sync
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 if (PhotonNetwork.AllocateViewID(PV))
@@ -114,8 +134,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         thisStagePutCount = 0;
         if (index < dataNodeLen)
         {
-            //show notice points info on blueprint
-            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            //change blue print if my team set new stage
+            if (playerTeam == team)
+            {
+                //show notice points info on blueprint
+                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -139,8 +163,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 tmp.objShap = nodeManager.instance.dataRoot.gameDataNodes[index].objShape;
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
-                //show each notice point info
-                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                //change blue print if my team set new stage
+                if (playerTeam == team)
+                {
+                    //show each notice point info
+                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                }
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 PV.ViewID = viewIDs[viewidIndex];
                 viewidIndex++;
