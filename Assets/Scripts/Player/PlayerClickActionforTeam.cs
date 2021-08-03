@@ -15,6 +15,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     void Start()
     {
         //get player's camera(for raycast)
+        this.holdMaterial = "empty";
         playerCam = GetComponentInChildren<Camera>();
         if (GetComponent<Rigidbody>())
         {
@@ -115,6 +116,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                         Synthesis.instance.firstInputItem = "empty";
                                         Synthesis.instance.secondInputItem = "empty";
                                         holdMaterial = result;
+                                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                    }
+                                    else
+                                    {
+                                        Synthesis.instance.firstInputItem = "empty";
+                                        Synthesis.instance.secondInputItem = "empty";
+                                        holdMaterial = "empty";
                                         teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                                     }
                                 }
