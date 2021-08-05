@@ -317,7 +317,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void showPlayerHandyMaterial(string holdMaterialtoPass)
     {
-        holdMaterialText.text = "current hold material: " + holdMaterialtoPass;
+        holdMaterialText.text = holdMaterialtoPass;
     }
 
 }

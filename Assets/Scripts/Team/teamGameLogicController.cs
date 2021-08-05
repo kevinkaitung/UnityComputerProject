@@ -27,7 +27,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             return s_Instance;
         }
     }
-
+       
     //for blue and red team to set stage and count score
     [SerializeField]
     private GameObject blueTeamBuildingField, redTeamBuildingField;
@@ -70,6 +70,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject cancelButton;     //for the player canceling getting material
     private string gettingMaterial;     //which material is the player getting now
     public bool isGetMat = false;       //if sucessfully get material or not
+    
+    [SerializeField] 
+    public Image Barmask;   //for progress bar
 
     //register for raise event
     public override void OnEnable()
@@ -122,7 +125,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         {
             getMaterialTimer += Time.deltaTime;
             //show getting material count down
-            actionInfoTextProp.text = "Get Material " + gettingMaterial + ".\n Please wait " + ((int)(getMaterialTimeDuration - getMaterialTimer)).ToString() + " seconds";
+            actionInfoTextProp.text = ((int)(getMaterialTimeDuration - getMaterialTimer + 1)).ToString();   
+            Barmask.fillAmount = (float)(getMaterialTimer / getMaterialTimeDuration);
             //time out, sucessfully get material
             if (getMaterialTimer > getMaterialTimeDuration)
             {
