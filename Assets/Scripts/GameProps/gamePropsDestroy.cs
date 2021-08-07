@@ -45,7 +45,6 @@ public class gamePropsDestroy : MonoBehaviour
     }
     void hide()
     {
-        Debug.Log(durationTime - timer);
         LeanTween.color(gameObject, new Color(0.0f, 0.0f, 0.0f, 0.0f), 0.25f).setOnComplete(show);
     }
     void show()

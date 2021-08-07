@@ -132,8 +132,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             {
                                 string temp = hit.collider.tag;
                                 teamGameLogicController.instance.playerGetMaterial(temp);
-                                //start coroutine for check if successfully get the material
-                                StartCoroutine(askIfSucessfullyGetMat(temp));
+                                //check if successfully get the material
+                                if (teamGameLogicController.instance.isGetMat)
+                                {
+                                    //if successful, change hold material
+                                    holdMaterial = temp;
+                                    teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                }
                             }
                             //click for game props
                             else if (hit.collider.tag == "slowdown" || hit.collider.tag == "flame" || hit.collider.tag == "blackhole" || hit.collider.tag == "smoke" || hit.collider.tag == "speedup")
@@ -143,7 +148,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 gamePropsManager.instance.clickGameProps(team, hit.collider.tag);
                             }
                         }
-                        else
+                        else if (hit.collider.tag != "ground")
                         {
                             Debug.Log("be more close to what you click");
                             teamGameLogicController.instance.tooFarClickNotice();
@@ -180,19 +185,6 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                     bpc = false;
                 }
             }
-        }
-    }
-
-    //start coroutine for check if successfully get the material
-    IEnumerator askIfSucessfullyGetMat(string temp)
-    {
-        //wait for 5.5 secs to check
-        yield return new WaitForSeconds(5.5f);
-        //if successful, change hold material
-        if (teamGameLogicController.instance.isGetMat)
-        {
-            holdMaterial = temp;
-            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
         }
     }
 }

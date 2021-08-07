@@ -67,6 +67,19 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
                 }
             }
         }
+        int blueNum = PhotonTeamsManager.Instance.GetTeamMembersCount("Blue");
+        int redNum = PhotonTeamsManager.Instance.GetTeamMembersCount("Red");
+        if (((redNum - blueNum) >= -1) &&
+            (redNum - blueNum) <= 1)
+        {
+            showIfReadyStart.text = "準備開始遊戲\n紅隊" + redNum + "人";
+            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
+        }
+        else
+        {
+            showIfReadyStart.text = "人數差距過大無法遊戲\n紅隊" + redNum + "人";
+            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -113,17 +126,17 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         teamMembersCount[1] = PhotonTeamsManager.Instance.GetTeamMembersCount(availableTeam[1]);
         Debug.Log("Blue:" + teamMembersCount[0]);
         Debug.Log("Red:" + teamMembersCount[1]);
-        if(teamMembersCount[0] > teamMembersCount[1])
+        if (teamMembersCount[0] > teamMembersCount[1])
         {
-            Debug.Log("joined?"+PhotonNetwork.LocalPlayer.JoinTeam(teamCode:2));    //team code begin from 1
+            Debug.Log("joined?" + PhotonNetwork.LocalPlayer.JoinTeam(teamCode: 2));    //team code begin from 1
         }
-        else if(teamMembersCount[0] < teamMembersCount[1])
+        else if (teamMembersCount[0] < teamMembersCount[1])
         {
-            Debug.Log("joined?"+PhotonNetwork.LocalPlayer.JoinTeam(teamCode:1));
+            Debug.Log("joined?" + PhotonNetwork.LocalPlayer.JoinTeam(teamCode: 1));
         }
         else
         {
-            Debug.Log("joined?"+PhotonNetwork.LocalPlayer.JoinTeam(teamCode:(byte)Random.Range(1,3)));
+            Debug.Log("joined?" + PhotonNetwork.LocalPlayer.JoinTeam(teamCode: (byte)Random.Range(1, 3)));
             Debug.Log("random join team");
         }
     }
@@ -134,15 +147,15 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         // when teamCode == 2, it's teamRed
         if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
         {
-            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode:2);
+            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode: 2);
         }
         else
         {
-            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode:1);
+            PhotonNetwork.LocalPlayer.SwitchTeam(teamCode: 1);
         }
         // 這裡紅藍兩隊人數相反
         // 不知道為什麼但是可以跑
-        int blueNum = playersContainerRed.transform.childCount;
+        /*int blueNum = playersContainerRed.transform.childCount;
         int redNum = playersContainerBlue.transform.childCount;
         if(((redNum - blueNum) >= -1) &&
             (redNum - blueNum) <= 1)
@@ -154,14 +167,14 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         {
             showIfReadyStart.text = "人數差距過大無法遊戲\n紅隊" + redNum + "人";
             showIfReadyStart.text += "\n藍隊" + blueNum + "人";
-        }
+        }*/
     }
 
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            if(((playersContainerBlue.childCount - playersContainerRed.childCount) >= -1) &&
+            if (((playersContainerBlue.childCount - playersContainerRed.childCount) >= -1) &&
                 (playersContainerBlue.childCount - playersContainerRed.childCount) <= 1)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -180,7 +193,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     public void BackOnClick()
     {
         //local player leave team
-        Debug.Log("leave?"+PhotonNetwork.LocalPlayer.LeaveCurrentTeam());
+        Debug.Log("leave?" + PhotonNetwork.LocalPlayer.LeaveCurrentTeam());
         //callback function be called by other clients to update playerListings in container
         //need to leave team first, then leave room. otherwise, leave team fail
         PhotonNetwork.LeaveRoom();
@@ -206,7 +219,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

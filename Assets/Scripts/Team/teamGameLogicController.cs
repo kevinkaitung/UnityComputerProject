@@ -27,7 +27,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             return s_Instance;
         }
     }
-       
+
     //for blue and red team to set stage and count score
     [SerializeField]
     private GameObject blueTeamBuildingField, redTeamBuildingField;
@@ -59,7 +59,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
 
     private float getMaterialTimer = 0.0f;  //timer for player getting material count down
     [SerializeField]
-    private float getMaterialTimeDuration = 5.0f;   //how long would the player gets the material
+    private float getMaterialTimeDuration = 0.5f;   //max time between two click when the player gets material
     private bool startGetMaterialTimer = false;     //start player getting material timer
     [SerializeField]
     public GameObject actionInfoPanel;      //panel for the player to show some action info (ex. get what material, some warnings)
@@ -70,8 +70,11 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject cancelButton;     //for the player canceling getting material
     private string gettingMaterial;     //which material is the player getting now
     public bool isGetMat = false;       //if sucessfully get material or not
-    
-    [SerializeField] 
+    private int getMatClickCount = 0;   //click count for checking if the player can get material or not
+    [SerializeField]
+    private int getMatClickTimes = 10;  //min click times when the player wants to get material
+
+    [SerializeField]
     public Image Barmask;   //for progress bar
 
     //register for raise event
@@ -124,17 +127,13 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         if (startGetMaterialTimer)
         {
             getMaterialTimer += Time.deltaTime;
-            //show getting material count down
-            actionInfoTextProp.text = ((int)(getMaterialTimeDuration - getMaterialTimer + 1)).ToString();   
-            Barmask.fillAmount = (float)(getMaterialTimer / getMaterialTimeDuration);
-            //time out, sucessfully get material
+            //time out, get material again
             if (getMaterialTimer > getMaterialTimeDuration)
             {
                 //closing the info panel
                 playerFinishGetMaterial();
-                Debug.Log("sucess get mat");
-                //for player check sucessfully getting material
-                isGetMat = true;
+                //fail to get the material
+                getMatClickCount = 0;
             }
         }
         //count time and check
@@ -207,18 +206,27 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
 
     public void showPlayerHandyMaterial(string holdMaterialtoPass)
     {
-        holdMaterialText.text = "current hold material: " + holdMaterialtoPass;
+        holdMaterialText.text = holdMaterialtoPass;
     }
 
     //for player call to get material
     public void playerGetMaterial(string getMaterial)
     {
         startGetMaterialTimer = true;
-        gettingMaterial = getMaterial;
+        getMaterialTimer = 0.0f;
         actionInfoPanel.SetActive(true);
         cancelButton.SetActive(true);
-        getMaterialTimer = 0.0f;
+        gettingMaterial = getMaterial;
         isGetMat = false;
+        getMatClickCount++;
+        //show getting material count down
+        actionInfoTextProp.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
+        Barmask.fillAmount = (float)getMatClickCount / (float)getMatClickTimes;
+        //check if the player's click count is enough
+        if (getMatClickCount >= getMatClickTimes)
+        {
+            playerSuccessfullyGetMat();
+        }
     }
 
     //if player sucessfully get material or cancel, close the panel 
@@ -227,6 +235,12 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         startGetMaterialTimer = false;
         actionInfoPanel.SetActive(false);
         cancelButton.SetActive(false);
+    }
+
+    public void playerSuccessfullyGetMat()
+    {
+        Debug.Log("successfully get mat");
+        isGetMat = true;
     }
 
     //if player click the obj. too far
