@@ -45,8 +45,8 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string worldchat;
 
     //text min/max width
-    private int textSizeMinWidth = 50;
-    private int textSizeMaxWidth = 100;
+    private int textSizeMinWidth = 100;
+    private int textSizeMaxWidth = 106;
     
     // Start is called before the first frame update
     void Start()
@@ -58,11 +58,11 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        redChat = "red\n";
-        blueChat = "blue\n";
+        redChat = "這裡是紅隊的聊天室\n";
+        blueChat = "這裡是藍隊的聊天室\n";
         worldchat = "world\n";
-        tempRedChat = "red\n";
-        tempBlueChat = "blue\n";
+        tempRedChat = "這裡是紅隊的聊天室\n";
+        tempBlueChat = "這裡是藍隊的聊天室\n";
         tempWorldChat = "world\n";
     }
 
