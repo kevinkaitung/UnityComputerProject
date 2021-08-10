@@ -27,6 +27,13 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private Transform roomsContainer;   //container for holding all the room listings items
     [SerializeField]
     private GameObject roomListingPrefab;   //prefab for displayer each room in the lobby
+    
+    [SerializeField]
+    private Text Guideword;
+    [SerializeField]
+    private Image FlourishRight;
+    [SerializeField]
+    private Image FlourishLeft;
 
     
 
@@ -195,5 +202,17 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     {
         //initialize when back from waiting room scene or when into the start menu
         roomListings = new List<RoomInfo>();
+        flashword();
+    }   
+
+    public void flashword()
+    {
+        LeanTween.colorText(Guideword.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.color(FlourishLeft.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.color(FlourishRight.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.colorText(Guideword.GetComponent<RectTransform>(), Color.white, 1f) .setDelay(1f);
+        LeanTween.color(FlourishLeft.GetComponent<RectTransform>(), Color.white, 1f) .setDelay(1f);
+        LeanTween.color(FlourishRight.GetComponent<RectTransform>(), Color.white, 1f) .setDelay(1f).setOnComplete(flashword);
     }
+
 }

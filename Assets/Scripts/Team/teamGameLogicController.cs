@@ -48,6 +48,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
 
     int min;    //for display timer min
     int sec;    //for display timer sec
+    double millisec;    //for display timer millisec
     double tempTimer;   //for tmp store timer value
 
     [SerializeField] Text scoreText;    //score text, show accuracy of the this round
@@ -143,7 +144,17 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             tempTimer = timer - timerIncrementValue;
             min = (int)tempTimer / 60;
             sec = (int)tempTimer % 60;
-            timerText.text = "Timer  " + min.ToString() + ":" + sec.ToString("00");
+            millisec = (float)tempTimer % 1 * 1000;
+            if(tempTimer > 30)
+            {
+                timerText.color = Color.white;
+                timerText.text =  min.ToString() + ":" + sec.ToString("00");
+            }
+            else
+            {
+                timerText.color = Color.red;
+                timerText.text =  sec.ToString("00") + ":" + millisec.ToString("000");
+            }
             if (timerIncrementValue >= timer)
             {
                 //time's up, game finish
