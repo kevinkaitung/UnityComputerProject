@@ -115,8 +115,8 @@ public class gamePropsManager : MonoBehaviourPun
             object[] obstacleRandPos = new object[2 * numberofFlame];
             for (int i = 0; i < numberofFlame; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-50.0f, 50.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-50.0f, 50.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropFlameEffect", RpcTarget.All, team, obstacleRandPos);
@@ -127,8 +127,8 @@ public class gamePropsManager : MonoBehaviourPun
             object[] obstacleRandPos = new object[2 * numberofBlackhole];
             for (int i = 0; i < numberofBlackhole; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-50.0f, 50.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-50.0f, 50.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropBlackholeEffect", RpcTarget.All, team, obstacleRandPos);
@@ -139,8 +139,8 @@ public class gamePropsManager : MonoBehaviourPun
             object[] obstacleRandPos = new object[2 * numberofSmoke];
             for (int i = 0; i < numberofSmoke; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-50.0f, 50.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-50.0f, 50.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropSmokeEffect", RpcTarget.All, team, obstacleRandPos);

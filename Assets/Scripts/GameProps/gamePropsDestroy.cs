@@ -9,7 +9,8 @@ public class gamePropsDestroy : MonoBehaviour
     //life time of the game prop existing in the scene
     [SerializeField]
     float durationTime = 20.0f;
-    bool tmp = true;
+    bool flash = false;
+    bool duration = true;
     Color objcolor;
     // Start is called before the first frame update
     void Start()
@@ -25,15 +26,20 @@ public class gamePropsDestroy : MonoBehaviour
         if (timer > durationTime)
         {
             Destroy(this.gameObject);
-            tmp = true;
+            flash = false;
         }
-        if (tmp)
+        if (!flash)
         {
             if (durationTime - timer < 5.0f)
             {
                 hide();
-                tmp = false;
+                flash = true;
             }
+        }
+        if(duration)
+        {
+            rotate();
+            duration = false;
         }
     }
 
@@ -50,5 +56,9 @@ public class gamePropsDestroy : MonoBehaviour
     void show()
     {
         LeanTween.color(gameObject, objcolor, 0.25f).setOnComplete(hide);
+    }
+    void rotate()
+    {
+        LeanTween.rotateAround(gameObject, Vector3.up, 180f, 1f).setOnComplete(rotate);
     }
 }

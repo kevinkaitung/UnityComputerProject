@@ -124,7 +124,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         tempTimer = timer - timerIncrementValue;
         min = (int)tempTimer / 60;
         sec = (int)tempTimer % 60;
-        timerText.text = "Timer  " + min.ToString() + ":" + sec.ToString("00");
+        timerText.text = "text " + min.ToString() + ":" + sec.ToString("00");
         if (timerIncrementValue >= timer)
         {
             //time's up, game finish
