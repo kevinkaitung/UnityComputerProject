@@ -21,19 +21,15 @@ public class chatController : MonoBehaviour, IChatClientListener
         // init
         public MESSAGE() { }
     }
-    
     public TextMeshProUGUI connectionState;
     public InputField msgInput;
     public Text msgArea;
-
     private ChatClient chatClient;
     [SerializeField] 
     private string userID;
-
     // when flag == 0, it's red team
     // when flag == 1, it's blue team
     int flag = 0;
-
     // when index == 1, it's teamMsg
     // when index == 0, it's worldMsg
     int index = 0;
@@ -43,10 +39,11 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string redChat;
     private string blueChat;
     private string worldchat;
-
-    //text min/max width
+    // text min/max width
     private int textSizeMinWidth = 100;
     private int textSizeMaxWidth = 106;
+    // msgMaxNumLine
+    private int msgMaxNumLine = 10;
     
     // Start is called before the first frame update
     void Start()
@@ -164,6 +161,22 @@ public class chatController : MonoBehaviour, IChatClientListener
                 }
             }
         }
+        // 若行數超過msgMaxNumLine, 則砍字串
+        Debug.Log("msgContent的行數 = " + msgContent.Split('\n').Length);
+        if(msgContent.Split('\n').Length > msgMaxNumLine)
+        {
+            String[] strArray = msgContent.Split('\n');
+            for(int i = 1; i < msgContent.Split('\n').Length; i++)
+            {
+                strArray[i-1] = strArray[i];
+            }
+            msgContent = "";
+            for(int i = 0; i < msgMaxNumLine; i++)
+            {
+                msgContent = msgContent + strArray[i] + "\n";
+            }
+        }
+        // 限制寬度
         SetTextSize(msgArea, msgContent);
     }
 
@@ -174,7 +187,6 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         targetText.text = contentStr;
- 
         if(targetText.preferredWidth <= textSizeMinWidth)
         {
             return;
