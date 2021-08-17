@@ -86,19 +86,19 @@ public class gamePropsManager : MonoBehaviourPun
         //place game props
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/slowdown", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/flame", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/blackhole", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/smoke", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/speedup", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
     }
 
     //when players click game props, call this function to judge which game prop is clicked

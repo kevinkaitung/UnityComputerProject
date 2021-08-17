@@ -17,6 +17,7 @@ public class gamePropsDestroy : MonoBehaviour
     {
         LeanTween.init(3200);
         objcolor = gameObject.GetComponent<Renderer>().material.color;
+        transform.Rotate(45, 0, 45);
     }
 
     // Update is called once per frame
