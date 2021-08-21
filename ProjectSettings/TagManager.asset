@@ -24,6 +24,7 @@ TagManager:
   - speedup
   - slowdown
   - ground
+  - itembox
   layers:
   - Default
   - TransparentFX

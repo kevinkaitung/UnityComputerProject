@@ -56,10 +56,21 @@ public class gamePropsManager : MonoBehaviourPun
     //generate number of smoke at once
     [SerializeField]
     private int numberofSmoke = 10;
+    //control Game Prop Effect Text tweening
+    [SerializeField]
+    private RectTransform gamePropEffectTextRectTransform;
+    //Game Prop Effect Text and Image
+    [SerializeField]
+    private Text teamText;
+    [SerializeField]
+    private Text gamePropText;
+    [SerializeField]
+    private Image gamePropImage;
     // Start is called before the first frame update
     void Start()
     {
         blackholeEffectCountText = blackholeEffectText.GetComponent<Text>();
+        randomPlaceGameProps();
     }
 
     // Update is called once per frame
@@ -84,32 +95,29 @@ public class gamePropsManager : MonoBehaviourPun
         float randPosZ;
         //生成道具範圍待調整
         //place game props
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        for (int i = 0; i < 5; i++)
+        {
+            randPosX = Random.Range(-30.0f, 30.0f);
+            randPosZ = Random.Range(-30.0f, 30.0f);
+            PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        }
     }
 
-    //when players click game props, call this function to judge which game prop is clicked
-    public void clickGameProps(string team, string gamePropName)
+    //when players click game props, give one effect
+    public void clickGameProps(string team)
     {
-        if (gamePropName == "slowdown")
+        //random give a game prop effect, if the player click
+        int randGameProp = Random.Range(0, 5);
+        string attackEffect = "";
+        //slowdown effect
+        if (randGameProp == 0)
         {
             //raise event to all players to judge whether puts the effect or not
             gamePropSlowdownEffect(team);
+            attackEffect = "Slowdown";
         }
-        else if (gamePropName == "flame")
+        //flame effect
+        else if (randGameProp == 1)
         {
             //generate random position first, and pass to all players by RPC
             object[] obstacleRandPos = new object[2 * numberofFlame];
@@ -120,8 +128,10 @@ public class gamePropsManager : MonoBehaviourPun
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropFlameEffect", RpcTarget.All, team, obstacleRandPos);
+            attackEffect = "Flame";
         }
-        else if (gamePropName == "blackhole")
+        //blackhole effect
+        else if (randGameProp == 2)
         {
             //generate random position first, and pass to all players by RPC
             object[] obstacleRandPos = new object[2 * numberofBlackhole];
@@ -132,8 +142,10 @@ public class gamePropsManager : MonoBehaviourPun
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropBlackholeEffect", RpcTarget.All, team, obstacleRandPos);
+            attackEffect = "Blackhole";
         }
-        else if (gamePropName == "smoke")
+        //smoke effect
+        else if (randGameProp == 3)
         {
             //generate random position first, and pass to all players by RPC
             object[] obstacleRandPos = new object[2 * numberofSmoke];
@@ -144,12 +156,53 @@ public class gamePropsManager : MonoBehaviourPun
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropSmokeEffect", RpcTarget.All, team, obstacleRandPos);
+            attackEffect = "Smoke";
         }
-        else if (gamePropName == "speedup")
+        //speedup effect
+        else if (randGameProp == 4)
         {
             //raise event to all players to judge whether puts the effect or not
             gamePropSpeedupEffect(team);
+            attackEffect = "Speedup";
         }
+        //show text of what game prop is
+        if (randGameProp == 4)
+        {
+            if (team == "red")
+            {
+                teamText.text = "Red Team,";
+                teamText.color = Color.red;
+                gamePropText.color = Color.red;
+            }
+            else
+            {
+                teamText.text = "Blue Team,";
+                teamText.color = Color.blue;
+                gamePropText.color = Color.blue;
+            }
+            gamePropText.text = "All " + attackEffect + " !";
+        }
+        else
+        {
+            if (team == "red")
+            {
+                teamText.text = "Attack Blue Team,";
+                teamText.color = Color.blue;
+                gamePropText.color = Color.blue;
+            }
+            else
+            {
+                teamText.text = "Attack Red Team,";
+                teamText.color = Color.red;
+                gamePropText.color = Color.red;
+            }
+            gamePropText.text = "By " + attackEffect + " !";
+        }
+        //game prop effect tweening
+        gamePropImage.sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+        gamePropEffectTextRectTransform.LeanSetLocalPosX(700.0f);
+        gamePropEffectTextRectTransform.LeanMoveLocalX(0.0f, 0.8f).setEaseOutBack();
+        gamePropEffectTextRectTransform.LeanMoveLocalX(-700.0f, 0.8f).setEaseInBack().setDelay(1.2f);
     }
 
     public void gamePropSlowdownEffect(string team)

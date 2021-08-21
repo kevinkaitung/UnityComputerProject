@@ -1807,7 +1807,7 @@ Animator:
   m_GameObject: {fileID: 3592864094329337494}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f997149e48fb7564cbfe820189612254, type: 2}
-  m_Controller: {fileID: 9100000, guid: 5beed8d952036f042b694f7255ae1d9a, type: 2}
+  m_Controller: {fileID: 9100000, guid: e7b1e23df18691c408011890e7b97787, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2168,6 +2168,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: GravityControl
+  - Type: 4
+    SynchronizeType: 1
+    Name: Slower
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
