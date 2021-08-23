@@ -34,7 +34,15 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private Image FlourishRight;
     [SerializeField]
     private Image FlourishLeft;
-
+    [SerializeField]
+    private GameObject wordPanel;
+    [SerializeField]
+    private GameObject buttonBackground;
+    [SerializeField]
+    private GameObject buttonPanel;
+    [SerializeField]
+    private GameObject PlayerName;
+    
     
 
 
@@ -86,6 +94,8 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         //show player name in lobby
         Text showPlayerName = showPlayerNameInLobby.GetComponent<Text>();
         showPlayerName.text = "Hello, " + PhotonNetwork.NickName;
+        LobbyPanelAnimation();
+        
     }
 
     //when room list update
@@ -196,6 +206,10 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         {
             lobbyConnectButton.SetActive(true);
         }
+        LeanTween.scale(wordPanel.GetComponent<RectTransform>(),new Vector3(0, 0, 0),0.5f);
+        LeanTween.scale(PlayerName.GetComponent<RectTransform>(),new Vector3(0, 0, 0),0.5f);
+        LeanTween.scale(buttonBackground.GetComponent<RectTransform>(),new Vector3(1, 0, 1),1f);
+        LeanTween.scale(buttonPanel.GetComponent<RectTransform>(),new Vector3(1, 0, 1),1f);
     }
 
     private void Start()
@@ -215,4 +229,11 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         LeanTween.color(FlourishRight.GetComponent<RectTransform>(), Color.white, 1f) .setDelay(1f).setOnComplete(flashword);
     }
 
+    public void LobbyPanelAnimation()
+    {
+        LeanTween.scale(wordPanel.GetComponent<RectTransform>(),new Vector3(1, 1, 1),0.5f);
+        LeanTween.scale(PlayerName.GetComponent<RectTransform>(),new Vector3(1, 1, 1),0.5f);
+        LeanTween.scale(buttonBackground.GetComponent<RectTransform>(),new Vector3(1, 1, 1),1f).setDelay(1f);
+        LeanTween.scale(buttonPanel.GetComponent<RectTransform>(),new Vector3(1, 1, 1),1f).setDelay(1f);
+    }
 }

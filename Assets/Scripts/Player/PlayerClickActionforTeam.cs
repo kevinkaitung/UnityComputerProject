@@ -141,11 +141,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 }
                             }
                             //click for game props
-                            else if (hit.collider.tag == "slowdown" || hit.collider.tag == "flame" || hit.collider.tag == "blackhole" || hit.collider.tag == "smoke" || hit.collider.tag == "speedup")
+                            else if (hit.collider.tag == "itembox")
                             {
                                 //after clicking, destroy the game prop (only master client destroy the networked object)
-                                hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
-                                gamePropsManager.instance.clickGameProps(team, hit.collider.tag);
+                                hit.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+                                gamePropsManager.instance.clickGameProps(team);
                             }
                         }
                         else if (hit.collider.tag != "ground")

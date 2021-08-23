@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
         //receive if some one in the other team uses speedup prop
-        else if(eventCode == gamePropsManager.instance.speedupEffectEventCode)
+        else if (eventCode == gamePropsManager.instance.speedupEffectEventCode)
         {
             object[] data = (object[])photonEvent.CustomData;
             string raiseTeam = (string)data[0];
@@ -165,6 +165,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         //normal speed
         if (change == 1)
         {
+            anim.SetBool("Slower", false);
             if (v > 0.1)
             {
                 velocity *= forwardSpeed;
@@ -177,6 +178,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         //slow down speed
         else if (change == 0)
         {
+            anim.SetBool("Slower", true);
             if (v > 0.1)
             {
                 velocity *= forwardSpeed;
@@ -191,6 +193,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         //speed up
         else if (change == 2)
         {
+            anim.SetBool("Slower", false);
             if (v > 0.1)
             {
                 velocity *= forwardSpeed;
