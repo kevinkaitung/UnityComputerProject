@@ -211,7 +211,7 @@ public class chatController : MonoBehaviour, IChatClientListener
         foreach (var channel in channels)
         {
             Debug.Log("channels = " + channel);
-            chatClient.PublishMessage(channel, "joined");
+            chatClient.PublishMessage(channel, "( joined )");
         }
         connectionState.text = "ChatRoom is connected";
     }
