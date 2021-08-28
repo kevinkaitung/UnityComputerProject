@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -41,7 +42,8 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject buttonPanel;
     [SerializeField]
-    private GameObject PlayerName;
+    private GameObject BlackPanel;
+
     
     
 
@@ -206,10 +208,9 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         {
             lobbyConnectButton.SetActive(true);
         }
-        LeanTween.scale(wordPanel.GetComponent<RectTransform>(),new Vector3(0, 0, 0),0.5f);
-        LeanTween.scale(PlayerName.GetComponent<RectTransform>(),new Vector3(0, 0, 0),0.5f);
-        LeanTween.scale(buttonBackground.GetComponent<RectTransform>(),new Vector3(1, 0, 1),1f);
-        LeanTween.scale(buttonPanel.GetComponent<RectTransform>(),new Vector3(1, 0, 1),1f);
+        LeanTween.scale(wordPanel, Vector3.zero,0.5f);
+        LeanTween.scale(buttonBackground,Vector3.zero,1f);
+        LeanTween.scale(buttonPanel,Vector3.zero,1f);
     }
 
     private void Start()
@@ -230,10 +231,17 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     }
 
     public void LobbyPanelAnimation()
+    { 
+        LeanTween.scale(wordPanel, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
+        LeanTween.scale(buttonBackground, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
+        LeanTween.scale(buttonPanel, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
+    }
+
+    async void ChangeScene()
     {
-        LeanTween.scale(wordPanel.GetComponent<RectTransform>(),new Vector3(1, 1, 1),0.5f);
-        LeanTween.scale(PlayerName.GetComponent<RectTransform>(),new Vector3(1, 1, 1),0.5f);
-        LeanTween.scale(buttonBackground.GetComponent<RectTransform>(),new Vector3(1, 1, 1),1f).setDelay(1f);
-        LeanTween.scale(buttonPanel.GetComponent<RectTransform>(),new Vector3(1, 1, 1),1f).setDelay(1f);
+        BlackPanel.SetActive(true);
+        LeanTween.scale(BlackPanel, Vector3.one, 1f).setEase(LeanTweenType.easeOutCubic);
+        await Task.Delay(1000);
+        CreateRoom();
     }
 }

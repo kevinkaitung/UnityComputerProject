@@ -10,6 +10,9 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class waitingRoomController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
+    private GameObject BlackPanel;
+    
+    [SerializeField]
     private int multiPlayerSceneIndex;  //main game scene index
 
     [SerializeField]
@@ -26,6 +29,15 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     private Text roomNameDisplay;   //display room name
 
     public Text showIfReadyStart;
+
+    [SerializeField]
+    private GameObject ChatroomButton;
+
+    [SerializeField]
+    private GameObject ChatPanel;
+
+    bool clicktime;
+
 
     void ClearPlayerListings()
     {
@@ -204,6 +216,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        BlackPanel.SetActive(true);
+        LeanTween.scale(BlackPanel, Vector3.zero, 1f).setEase(LeanTweenType.easeOutCubic);
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
@@ -228,5 +242,20 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         //after finishing setting team, update the playerListings' color in container
         ClearPlayerListings();
         ListPlayers();
+    }
+
+    public void ShowChatPanel()
+    {
+        if(clicktime == false)
+        {
+            ChatPanel.SetActive(true);
+            clicktime = true;
+        }
+        else if(clicktime == true)
+        {
+            ChatPanel.SetActive(false);
+            clicktime = false;
+        }
+        
     }
 }

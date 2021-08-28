@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 //待修改：不同道具的生成時間，及障礙物生成範圍
 
-public class gamePropsManager : MonoBehaviourPun
+public class gamePropsManager : MonoBehaviourPunCallbacks
 {
     //gamePropsManager Singleton
     //Only create gamePropsManager once
@@ -29,6 +29,8 @@ public class gamePropsManager : MonoBehaviourPun
             return s_Instance;
         }
     }
+    //which team belong
+    private string myTeam;
     //timer for randomly placing game props
     private float timer = 0.0f;
     //time between placing game props
@@ -56,21 +58,28 @@ public class gamePropsManager : MonoBehaviourPun
     //generate number of smoke at once
     [SerializeField]
     private int numberofSmoke = 10;
-    //control Game Prop Effect Text tweening
     [SerializeField]
-    private RectTransform gamePropEffectTextRectTransform;
-    //Game Prop Effect Text and Image
+    private GameObject CanvasGameObject;
     [SerializeField]
-    private Text teamText;
-    [SerializeField]
-    private Text gamePropText;
-    [SerializeField]
-    private Image gamePropImage;
+    private GameObject gamePropCountdownContainer;
+    private Transform gamePropCountdownContainerTransform;
     // Start is called before the first frame update
     void Start()
     {
+        //get team
+        object tmp;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
+        if ((byte)tmp == 1)
+        {
+            myTeam = "blue";
+        }
+        else
+        {
+            myTeam = "red";
+        }
         blackholeEffectCountText = blackholeEffectText.GetComponent<Text>();
         randomPlaceGameProps();
+        gamePropCountdownContainerTransform = gamePropCountdownContainer.GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -108,6 +117,7 @@ public class gamePropsManager : MonoBehaviourPun
     {
         //random give a game prop effect, if the player click
         int randGameProp = Random.Range(0, 5);
+        string attackedTeam = "";
         string attackEffect = "";
         //slowdown effect
         if (randGameProp == 0)
@@ -165,44 +175,27 @@ public class gamePropsManager : MonoBehaviourPun
             gamePropSpeedupEffect(team);
             attackEffect = "Speedup";
         }
-        //show text of what game prop is
+
+        //receive effect team
         if (randGameProp == 4)
         {
-            if (team == "red")
-            {
-                teamText.text = "Red Team,";
-                teamText.color = Color.red;
-                gamePropText.color = Color.red;
-            }
-            else
-            {
-                teamText.text = "Blue Team,";
-                teamText.color = Color.blue;
-                gamePropText.color = Color.blue;
-            }
-            gamePropText.text = "All " + attackEffect + " !";
+            attackedTeam = team;
         }
         else
         {
-            if (team == "red")
+            if (team == "blue")
             {
-                teamText.text = "Attack Blue Team,";
-                teamText.color = Color.blue;
-                gamePropText.color = Color.blue;
+                attackedTeam = "red";
             }
             else
             {
-                teamText.text = "Attack Red Team,";
-                teamText.color = Color.red;
-                gamePropText.color = Color.red;
+                attackedTeam = "blue";
             }
-            gamePropText.text = "By " + attackEffect + " !";
         }
-        //game prop effect tweening
-        gamePropImage.sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
-        gamePropEffectTextRectTransform.LeanSetLocalPosX(700.0f);
-        gamePropEffectTextRectTransform.LeanMoveLocalX(0.0f, 0.8f).setEaseOutBack();
-        gamePropEffectTextRectTransform.LeanMoveLocalX(-700.0f, 0.8f).setEaseInBack().setDelay(1.2f);
+        //game prop publisher show effect of what game prop type is
+        clickShowGamePropTypeTextEffect(attackedTeam, attackEffect);
+        //receive game prop effect team players show text effect of what game prop type is 
+        photonView.RPC("showGamePropTypeTextEffect", RpcTarget.Others, attackedTeam, attackEffect);
     }
 
     public void gamePropSlowdownEffect(string team)
@@ -317,5 +310,68 @@ public class gamePropsManager : MonoBehaviourPun
     public void blackholeEffectCountdown(float remainingSecs)
     {
         blackholeEffectCountText.text = "You are locked by Blackhole.\n Please Wait for " + ((int)remainingSecs).ToString() + " seconds.";
+    }
+
+    //game prop effect publisher show text
+    private void clickShowGamePropTypeTextEffect(string attackedTeam, string attackEffect)
+    {
+        //instantiate new UI prefab to show text and image
+        GameObject UIPrefabClone = Instantiate(Resources.Load("UIPrefab/GamePropEffectText", typeof(GameObject)), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
+        //call the effect
+        UIPrefabClone.GetComponent<gamePropTypeText>().activateTextEffect(attackedTeam, attackEffect);
+        
+        //if speed up effect, publisher show the countdown effect too
+        if (attackEffect == "Speedup")
+        {
+            //check the game prop effect current does effect (是否改成foreach較安全?)
+            for (int i = 0; i < gamePropCountdownContainerTransform.childCount; i++)
+            {
+                gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
+                if (currentEffect.propEffect == attackEffect)
+                {
+                    currentEffect.timer = 0.0f;
+                    return;
+                }
+            }
+            //game prop effect countdown image
+            GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
+            ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+            Debug.Log(attackEffect);
+            ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+        }
+    }
+
+
+    //game prop effect receiver show text
+    [PunRPC]
+    private void showGamePropTypeTextEffect(string attackedTeam, string attackEffect)
+    {
+        if (myTeam != attackedTeam)
+        {
+            return;
+        }
+        //instantiate new UI prefab to show text and image
+        GameObject UIPrefabClone = Instantiate(Resources.Load("UIPrefab/GamePropEffectText", typeof(GameObject)), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
+        //call the effect
+        UIPrefabClone.GetComponent<gamePropTypeText>().activateTextEffect(attackedTeam, attackEffect);
+
+
+        //check the game prop effect current does effect (是否改成foreach較安全?)
+        for (int i = 0; i < gamePropCountdownContainerTransform.childCount; i++)
+        {
+            gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
+            if (currentEffect.propEffect == attackEffect)
+            {
+                currentEffect.timer = 0.0f;
+                return;
+            }
+        }
+        //game prop effect countdown image
+        GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
+        ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+        Debug.Log(attackEffect);
+        ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
     }
 }

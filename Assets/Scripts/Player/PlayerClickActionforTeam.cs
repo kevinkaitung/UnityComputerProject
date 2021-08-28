@@ -155,8 +155,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         }
                     }
                 }
-
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButton(1))
                 {
                     if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
                     {
@@ -177,13 +176,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         }
                     }
                 }
-                if (Input.GetMouseButtonUp(1))
-                {
-                    bluePrint.instance.noticePointInfoPanel.SetActive(false);
-                    bluePrint.instance.synthesisformulaPanel.SetActive(false);
-                    Cursor.lockState = CursorLockMode.Locked;
-                    bpc = false;
-                }
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                bluePrint.instance.noticePointInfoPanel.SetActive(false);
+                bluePrint.instance.synthesisformulaPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                bpc = false;
             }
         }
     }
