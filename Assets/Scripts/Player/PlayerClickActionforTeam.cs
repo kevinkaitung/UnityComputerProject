@@ -155,32 +155,30 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         }
                     }
                 }
-            }
-            if (Input.GetMouseButton(1))
-            {
-                Debug.Log("1231546");
-                if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+                if (Input.GetMouseButton(1))
                 {
-                    Debug.Log(hit.transform.name);
-                    if (hit.collider.tag == "noticePoint")
+                    if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
                     {
-                        Debug.Log("show notice point info");
-                        noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                        bluePrint.instance.showNoticePointInfo(clickedPointInfo);
-                        bpc = true;
-                        bluePrint.instance.noticePointInfoPanel.SetActive(true);
-                    }
-                    else if (hit.collider.tag == "synthesis")
-                    {
-                        Debug.Log("show synthesis formula");
-                        bpc = true;
-                        bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                        Debug.Log(hit.transform.name);
+                        if (hit.collider.tag == "noticePoint")
+                        {
+                            Debug.Log("show notice point info");
+                            noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
+                            bluePrint.instance.showNoticePointInfo(clickedPointInfo);
+                            bpc = true;
+                            bluePrint.instance.noticePointInfoPanel.SetActive(true);
+                        }
+                        else if (hit.collider.tag == "synthesis")
+                        {
+                            Debug.Log("show synthesis formula");
+                            bpc = true;
+                            bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                        }
                     }
                 }
             }
-            else
+            if (Input.GetMouseButtonUp(1))
             {
-                Debug.Log("fgjhskldhjflks");
                 bluePrint.instance.noticePointInfoPanel.SetActive(false);
                 bluePrint.instance.synthesisformulaPanel.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
