@@ -60,6 +60,9 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     private int numberofSmoke = 10;
     [SerializeField]
     private GameObject CanvasGameObject;
+    [SerializeField]
+    private GameObject gamePropCountdownContainer;
+    private Transform gamePropCountdownContainerTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +79,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         }
         blackholeEffectCountText = blackholeEffectText.GetComponent<Text>();
         randomPlaceGameProps();
+        gamePropCountdownContainerTransform = gamePropCountdownContainer.GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -316,6 +320,26 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
         //call the effect
         UIPrefabClone.GetComponent<gamePropTypeText>().activateTextEffect(attackedTeam, attackEffect);
+        
+        //if speed up effect, publisher show the countdown effect too
+        if (attackEffect == "Speedup")
+        {
+            //check the game prop effect current does effect (是否改成foreach較安全?)
+            for (int i = 0; i < gamePropCountdownContainerTransform.childCount; i++)
+            {
+                gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
+                if (currentEffect.propEffect == attackEffect)
+                {
+                    currentEffect.timer = 0.0f;
+                    return;
+                }
+            }
+            //game prop effect countdown image
+            GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
+            ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+            Debug.Log(attackEffect);
+            ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+        }
     }
 
 
@@ -332,5 +356,22 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
         //call the effect
         UIPrefabClone.GetComponent<gamePropTypeText>().activateTextEffect(attackedTeam, attackEffect);
+
+
+        //check the game prop effect current does effect (是否改成foreach較安全?)
+        for (int i = 0; i < gamePropCountdownContainerTransform.childCount; i++)
+        {
+            gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
+            if (currentEffect.propEffect == attackEffect)
+            {
+                currentEffect.timer = 0.0f;
+                return;
+            }
+        }
+        //game prop effect countdown image
+        GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
+        ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+        Debug.Log(attackEffect);
+        ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
     }
 }
