@@ -7,6 +7,23 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerClickActionforTeam : MonoBehaviourPun
 {
+    private static PlayerClickActionforTeam s_Instance = null;
+    public static PlayerClickActionforTeam instance
+    {
+        get
+        {
+            if (s_Instance == null)
+            {
+                s_Instance = FindObjectOfType(typeof(PlayerClickActionforTeam)) as PlayerClickActionforTeam;
+
+                if (s_Instance == null)
+                    Debug.Log("Could not locate a PlayerClickActionforTeam " +
+                              "object. \n You have to have exactly " +
+                              "one PlayerClickActionforTeam in the scene.");
+            }
+            return s_Instance;
+        }
+    }
     private Camera playerCam;
     public string holdMaterial;
     public static bool bpc;     //for controlling freeze camera action
@@ -100,32 +117,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             }
                             else if (hit.collider.tag == "synthesis")
                             {
-                                if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
-                                {
-                                    Synthesis.instance.firstInputItem = holdMaterial;
-                                }
-                                else if (Synthesis.instance.secondInputItem == "empty" && Synthesis.instance.firstInputItem != holdMaterial && holdMaterial != "empty")
-                                {
-                                    Synthesis.instance.secondInputItem = holdMaterial;
-                                }
-                                if (Synthesis.instance.firstInputItem != "empty" && Synthesis.instance.secondInputItem != "empty")
-                                {
-                                    string result = Synthesis.instance.check(Synthesis.instance.firstInputItem, Synthesis.instance.secondInputItem);
-                                    if (result != "empty")
-                                    {
-                                        Synthesis.instance.firstInputItem = "empty";
-                                        Synthesis.instance.secondInputItem = "empty";
-                                        holdMaterial = result;
-                                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                                    }
-                                    else
-                                    {
-                                        Synthesis.instance.firstInputItem = "empty";
-                                        Synthesis.instance.secondInputItem = "empty";
-                                        holdMaterial = "empty";
-                                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                                    }
-                                }
+                               Synthesis.instance.synthesis(holdMaterial);
                             }
                             //click other material
                             else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
@@ -137,6 +129,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 {
                                     //if successful, change hold material
                                     holdMaterial = temp;
+                                    Debug.Log(holdMaterial);
                                     teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                                 }
                             }

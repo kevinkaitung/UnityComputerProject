@@ -25,6 +25,7 @@ public class PlayerCamera : MonoBehaviourPun
     public float m_maximumY = 25f;
 
     float m_rotationY = 0f;
+    bool jump = false;
 
     // Start is called before the first frame update
     void Start()
@@ -93,11 +94,19 @@ public class PlayerCamera : MonoBehaviourPun
                     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
                 }
             }
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 3.0f, 0.3f).setOnComplete(down);
+            }
         }
         else
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+    void down()
+    {
+        LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 3.0f, 0.3f);
     }
 }
