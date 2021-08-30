@@ -7,23 +7,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerClickActionforTeam : MonoBehaviourPun
 {
-    private static PlayerClickActionforTeam s_Instance = null;
-    public static PlayerClickActionforTeam instance
-    {
-        get
-        {
-            if (s_Instance == null)
-            {
-                s_Instance = FindObjectOfType(typeof(PlayerClickActionforTeam)) as PlayerClickActionforTeam;
-
-                if (s_Instance == null)
-                    Debug.Log("Could not locate a PlayerClickActionforTeam " +
-                              "object. \n You have to have exactly " +
-                              "one PlayerClickActionforTeam in the scene.");
-            }
-            return s_Instance;
-        }
-    }
     private Camera playerCam;
     public string holdMaterial;
     public static bool bpc;     //for controlling freeze camera action
@@ -117,7 +100,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             }
                             else if (hit.collider.tag == "synthesis")
                             {
-                               Synthesis.instance.synthesis(holdMaterial);
+                               holdMaterial =  Synthesis.instance.synthesis(holdMaterial);
+                               teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                             }
                             //click other material
                             else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")

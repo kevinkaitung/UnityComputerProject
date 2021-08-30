@@ -35,11 +35,12 @@ public class Synthesis : MonoBehaviour
         secondInputItem = "empty";
         outputItem = "empty";
     }
-    public void synthesis(string holdMaterial)
+    public string synthesis(string holdMaterial)
     {
         if (firstInputItem == "empty" && holdMaterial != "empty")
         {
             firstInputItem = holdMaterial;
+            return "empty";
         }
         else if (secondInputItem == "empty" && firstInputItem != holdMaterial && holdMaterial != "empty")
         {
@@ -52,17 +53,17 @@ public class Synthesis : MonoBehaviour
             {
                 firstInputItem = "empty";
                 secondInputItem = "empty";
-                PlayerClickActionforTeam.instance.holdMaterial = result;
-                teamGameLogicController.instance.showPlayerHandyMaterial(PlayerClickActionforTeam.instance.holdMaterial);
+                //PlayerClickActionforTeam.instance.holdMaterial = result;
             }
             else
             {
                 Synthesis.instance.firstInputItem = "empty";
                 Synthesis.instance.secondInputItem = "empty";
-                PlayerClickActionforTeam.instance.holdMaterial = "empty";
-                teamGameLogicController.instance.showPlayerHandyMaterial(PlayerClickActionforTeam.instance.holdMaterial);
+                //PlayerClickActionforTeam.instance.holdMaterial = "empty";
             }
+            return result;
         }
+        return "empty";
     }
     public string check(string item1, string item2)
     {
