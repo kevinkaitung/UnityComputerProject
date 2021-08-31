@@ -35,6 +35,36 @@ public class Synthesis : MonoBehaviour
         secondInputItem = "empty";
         outputItem = "empty";
     }
+    public string synthesis(string holdMaterial)
+    {
+        if (firstInputItem == "empty" && holdMaterial != "empty")
+        {
+            firstInputItem = holdMaterial;
+            return "empty";
+        }
+        else if (secondInputItem == "empty" && firstInputItem != holdMaterial && holdMaterial != "empty")
+        {
+            secondInputItem = holdMaterial;
+        }
+        if (firstInputItem != "empty" && secondInputItem != "empty")
+        {
+            string result = check(firstInputItem, secondInputItem);
+            if (result != "empty")
+            {
+                firstInputItem = "empty";
+                secondInputItem = "empty";
+                //PlayerClickActionforTeam.instance.holdMaterial = result;
+            }
+            else
+            {
+                Synthesis.instance.firstInputItem = "empty";
+                Synthesis.instance.secondInputItem = "empty";
+                //PlayerClickActionforTeam.instance.holdMaterial = "empty";
+            }
+            return result;
+        }
+        return "empty";
+    }
     public string check(string item1, string item2)
     {
         /*var client = new MongoClient("mongodb+srv://exriesz:unity00757014@exriesz.lxfdc.mongodb.net/unity?retryWrites=true&w=majority");

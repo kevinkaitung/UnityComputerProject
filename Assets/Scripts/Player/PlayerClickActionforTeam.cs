@@ -100,32 +100,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             }
                             else if (hit.collider.tag == "synthesis")
                             {
-                                if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
-                                {
-                                    Synthesis.instance.firstInputItem = holdMaterial;
-                                }
-                                else if (Synthesis.instance.secondInputItem == "empty" && Synthesis.instance.firstInputItem != holdMaterial && holdMaterial != "empty")
-                                {
-                                    Synthesis.instance.secondInputItem = holdMaterial;
-                                }
-                                if (Synthesis.instance.firstInputItem != "empty" && Synthesis.instance.secondInputItem != "empty")
-                                {
-                                    string result = Synthesis.instance.check(Synthesis.instance.firstInputItem, Synthesis.instance.secondInputItem);
-                                    if (result != "empty")
-                                    {
-                                        Synthesis.instance.firstInputItem = "empty";
-                                        Synthesis.instance.secondInputItem = "empty";
-                                        holdMaterial = result;
-                                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                                    }
-                                    else
-                                    {
-                                        Synthesis.instance.firstInputItem = "empty";
-                                        Synthesis.instance.secondInputItem = "empty";
-                                        holdMaterial = "empty";
-                                        teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                                    }
-                                }
+                               holdMaterial =  Synthesis.instance.synthesis(holdMaterial);
+                               teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                             }
                             //click other material
                             else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
@@ -137,6 +113,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 {
                                     //if successful, change hold material
                                     holdMaterial = temp;
+                                    Debug.Log(holdMaterial);
                                     teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                                 }
                             }
