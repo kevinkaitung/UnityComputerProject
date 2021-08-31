@@ -232,15 +232,15 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
 
     public void LobbyPanelAnimation()
     { 
-        LeanTween.scale(wordPanel, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
-        LeanTween.scale(buttonBackground, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
-        LeanTween.scale(buttonPanel, Vector3.one, 1f).setEase(LeanTweenType.easeInCubic);
+        LeanTween.scale(wordPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
+        LeanTween.scale(buttonBackground, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
+        LeanTween.scale(buttonPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
     }
 
     async void ChangeScene()
     {
         BlackPanel.SetActive(true);
-        LeanTween.scale(BlackPanel, Vector3.one, 1f).setEase(LeanTweenType.easeOutCubic);
+        LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         await Task.Delay(1000);
         CreateRoom();
     }

@@ -23,7 +23,9 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     [SerializeField]
     private Transform playersContainerRed;  //container for holding all the red player listings items
     [SerializeField]
-    private GameObject playerListingPrefab; //prefab for displayer each player in the room
+    private GameObject playerListingPrefabBlue; //prefab for displayer each player in the room
+    [SerializeField]
+    private GameObject playerListingPrefabRed; //prefab for displayer each player in the room
 
     [SerializeField]
     private Text roomNameDisplay;   //display room name
@@ -36,8 +38,17 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject ChatPanel;
 
-    bool clicktime;
+    [SerializeField]
+    private GameObject CharacterButton;
 
+    [SerializeField]
+    private GameObject CharacterbackButton;
+
+    [SerializeField]
+    private GameObject CharacterPanel;
+
+    bool Chatclicktime;
+    bool Characterclicktime;
 
     void ClearPlayerListings()
     {
@@ -61,21 +72,21 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
                 //set playerListing to team color
                 if (player.GetPhotonTeam().Name == "Blue")
                 {
-                    GameObject tempListing = Instantiate(playerListingPrefab, playersContainerBlue);
+                    GameObject tempListing = Instantiate(playerListingPrefabBlue, playersContainerBlue);
                     Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
                     //get playerListing component - Image to change color to its team color
                     Image tempImage = tempListing.GetComponent<Image>();
                     tempText.text = player.NickName;
-                    tempImage.color = Color.blue;
+                    //tempImage.color = Color.blue;
                 }
                 else
                 {
-                    GameObject tempListing = Instantiate(playerListingPrefab, playersContainerRed);
+                    GameObject tempListing = Instantiate(playerListingPrefabRed, playersContainerRed);
                     Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
                     //get playerListing component - Image to change color to its team color
                     Image tempImage = tempListing.GetComponent<Image>();
                     tempText.text = player.NickName;
-                    tempImage.color = Color.red;
+                    //tempImage.color = Color.red;
                 }
             }
         }
@@ -217,7 +228,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     void Start()
     {
         BlackPanel.SetActive(true);
-        LeanTween.scale(BlackPanel, Vector3.zero, 1f).setEase(LeanTweenType.easeOutCubic);
+        LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
@@ -246,16 +257,29 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
 
     public void ShowChatPanel()
     {
-        if(clicktime == false)
+        if(Chatclicktime == false)
         {
             ChatPanel.SetActive(true);
-            clicktime = true;
+            Chatclicktime = true;
         }
-        else if(clicktime == true)
+        else if(Chatclicktime == true)
         {
             ChatPanel.SetActive(false);
-            clicktime = false;
+            Chatclicktime = false;
+        }      
+    }
+
+    public void ShowCharacterPanel()
+    {
+        if(Characterclicktime == false)
+        {
+            CharacterPanel.SetActive(true);
+            Characterclicktime = true;
         }
-        
+        else if(Characterclicktime == true)
+        {
+            CharacterPanel.SetActive(false);
+            Characterclicktime = false;
+        }
     }
 }
