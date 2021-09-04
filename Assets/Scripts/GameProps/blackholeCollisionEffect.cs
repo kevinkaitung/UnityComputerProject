@@ -28,7 +28,7 @@ public class blackholeCollisionEffect : MonoBehaviour
                 startTimer = false;
                 gamePropsManager.instance.disableBlackholeEffecttoPlayer();
                 //解除限制移動和點擊動作(除了UI)...
-                PlayerClickActionforTeam.bpc = false;
+                //PlayerClickActionforTeam.bpc = false;
             }
             //display countdown seconds for the player
             gamePropsManager.instance.blackholeEffectCountdown(durationTime -  timer);
@@ -46,7 +46,7 @@ public class blackholeCollisionEffect : MonoBehaviour
             //restart at the spawn position
             this.gameObject.transform.position = gamePropsManager.instance.reSpawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position;
             //限制移動和點擊動作(除了UI)...
-            PlayerClickActionforTeam.bpc = true;
+            //PlayerClickActionforTeam.bpc = true;
         }
     }
 

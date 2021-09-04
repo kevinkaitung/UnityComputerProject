@@ -6,7 +6,7 @@ public class gamePropEffectImageCD : MonoBehaviour
 {
     public float timer = 0.0f;
     [SerializeField]
-    private float duration = 15.0f;
+    private float duration = 10.0f;
     public string propEffect = "";
     // Start is called before the first frame update
     void Start()

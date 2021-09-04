@@ -78,7 +78,10 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             myTeam = "red";
         }
         blackholeEffectCountText = blackholeEffectText.GetComponent<Text>();
-        randomPlaceGameProps();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            randomPlaceGameProps();
+        }
         gamePropCountdownContainerTransform = gamePropCountdownContainer.GetComponent<Transform>();
     }
 
@@ -320,7 +323,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
         //call the effect
         UIPrefabClone.GetComponent<gamePropTypeText>().activateTextEffect(attackedTeam, attackEffect);
-        
+
         //if speed up effect, publisher show the countdown effect too
         if (attackEffect == "Speedup")
         {

@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
-  duration: 15
+  duration: 10
   propEffect: 
 --- !u!1 &2765952311318375255
 GameObject:

@@ -27,9 +27,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 
     // 以下キャラクターコントローラ用パラメタ
     // 前進速度
-    public float forwardSpeed = 7.0f;
+    public float forwardSpeed = 12.0f;
     // 後退速度
-    public float backwardSpeed = 2.0f;
+    public float backwardSpeed = 5.0f;
     // 旋回速度
     public float rotateSpeed = 2.0f;
     // ジャンプ威力
@@ -144,6 +144,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         //if not me, just return
         if (!photonView.IsMine)
+        {
+            return;
+        }
+        if(!PlayerInputActionMode.instance.enablePlayerMovement)
         {
             return;
         }

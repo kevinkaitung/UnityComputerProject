@@ -2077,8 +2077,8 @@ MonoBehaviour:
   lookSmoother: 3
   useCurves: 1
   useCurvesHeight: 0.5
-  forwardSpeed: 7
-  backwardSpeed: 2
+  forwardSpeed: 12
+  backwardSpeed: 5
   rotateSpeed: 2
   jumpPower: 3
 --- !u!114 &-1032968971335620601
