@@ -11,11 +11,15 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     public string holdMaterial;
     //public static bool bpc;     //for controlling freeze camera action
     private string team;    //which team belong to
+    public GameObject showHoldMaterialCube;
+    private string materialTexture;
+    private MeshRenderer holdMaterialMesh;
 
     void Start()
     {
         //get player's camera(for raycast)
         this.holdMaterial = "empty";
+        holdMaterialMesh = showHoldMaterialCube.GetComponent<MeshRenderer>();
         playerCam = GetComponentInChildren<Camera>();
         if (GetComponent<Rigidbody>())
         {
@@ -48,6 +52,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         if (!photonView.IsMine)
         {
             return;
+        }
+        if(holdMaterial == "empty")
+        {
+            showHoldMaterialCube.SetActive(false);            
         }
         if (Input.GetMouseButtonUp(1))
         {
@@ -115,6 +123,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             holdMaterial = temp;
                             Debug.Log(holdMaterial);
                             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            holdMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
+                            showHoldMaterialCube.SetActive(true);
                         }
                     }
                 }
