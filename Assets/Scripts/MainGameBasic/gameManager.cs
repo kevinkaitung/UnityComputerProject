@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.UtilityScripts;
 
 namespace mySection
 {
@@ -14,6 +15,12 @@ namespace mySection
         private string playerStyle;
         //spawn point for different players
         public Transform[] spawnPoints;
+        //spawnPoints[0] and spawnPoints[1] is blueTeam
+        //controll blueTeam spawnPoints
+        private int i = 0;
+        //spawnPoints[2] and spawnPoints[3] is blueTeam
+        //controll redTeam spawnPoints
+        private int j = 2;
 
         // Start is called before the first frame update
         void Start()
@@ -30,7 +37,16 @@ namespace mySection
             else
             {
                 //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
-                PhotonNetwork.Instantiate(playerStyle, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].rotation, 0);
+                if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+                {
+                    PhotonNetwork.Instantiate(playerStyle, spawnPoints[i].position, spawnPoints[i].rotation, 0);
+                    i = i + 1;
+                }
+                else
+                {
+                    PhotonNetwork.Instantiate(playerStyle, spawnPoints[j].position, spawnPoints[j].rotation, 0);
+                    j = j + 1;
+                }
             }
         }
 
