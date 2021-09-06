@@ -21,8 +21,8 @@ public class PlayerCamera : MonoBehaviourPun
     public float m_minimumX = -360f;
     public float m_maximumX = 360f;
     // 垂直方向的 镜头转向 (这里给个限度 最大仰角为45°)
-    public float m_minimumY = -25f;
-    public float m_maximumY = 25f;
+    public float m_minimumY = -30f;
+    public float m_maximumY = 45f;
 
     float m_rotationY = 0f;
     bool jump = false;
@@ -41,7 +41,6 @@ public class PlayerCamera : MonoBehaviourPun
         playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
         playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
         //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
-        Cursor.lockState = CursorLockMode.Locked;
         if (!photonView.IsMine)
         {
             //close other's camera to avoid rendering other's camera scene
@@ -58,53 +57,41 @@ public class PlayerCamera : MonoBehaviourPun
         {
             return;
         }
-        
+
         //if open blueprint or see notice point info, freeze camera action
-        if (!PlayerClickActionforTeam.bpc)
+        if (!PlayerInputActionMode.instance.enableCameraControl)
         {
-            //rotate about x-axis: rotate camera
-            //rotate about y-axis: rotate character
-            if (Input.GetKey(KeyCode.LeftAlt))
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                if (m_axes == RotationAxes.MouseXAndY)
-                {
-                    float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+            return;
+        }
+        //rotate about x-axis: rotate camera
+        //rotate about y-axis: rotate character
+        if (m_axes == RotationAxes.MouseXAndY)
+        {
+            float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
 
-                    transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
-                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-                }
-                else if (m_axes == RotationAxes.MouseX)
-                {
-                    transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-                }
-                else
-                {
-                    m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                    m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-                    transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
-                    playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-                }
-            }
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 3.0f, 0.3f).setOnComplete(down);
-            }
+            transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
+            playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+        }
+        else if (m_axes == RotationAxes.MouseX)
+        {
+            transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
         }
         else
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+            transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
+            playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 3.0f, 0.3f).setOnComplete(down);
         }
     }
+
     void down()
     {
         LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 3.0f, 0.3f);

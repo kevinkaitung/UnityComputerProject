@@ -194,8 +194,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         startTimer = false;
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        PlayerInputActionMode.instance.stateThree();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好

@@ -6,7 +6,7 @@ public class gameObstacleDestroy : MonoBehaviour
 {
     float timer = 0.0f;
     [SerializeField]
-    float durationTime = 15.0f;
+    float durationTime = 10.0f;
     // Start is called before the first frame update
     void Start()
     {

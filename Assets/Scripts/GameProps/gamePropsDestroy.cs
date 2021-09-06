@@ -10,7 +10,6 @@ public class gamePropsDestroy : MonoBehaviour
     [SerializeField]
     float durationTime = 20.0f;
     bool flash = false;
-    bool duration = true;
     Color objcolor;
     // Start is called before the first frame update
     void Start()
@@ -37,11 +36,7 @@ public class gamePropsDestroy : MonoBehaviour
                 flash = true;
             }
         }
-        if(duration)
-        {
-            rotate();
-            duration = false;
-        }
+        transform.Rotate(-0.75f, -0.75f, 0.75f);
     }
 
     //if the game prop was clicked, destroy it (only master client do it) 
@@ -52,14 +47,10 @@ public class gamePropsDestroy : MonoBehaviour
     }
     void hide()
     {
-        LeanTween.color(gameObject, new Color(0.0f, 0.0f, 0.0f, 0.0f), 0.25f).setOnComplete(show);
+        LeanTween.alpha(gameObject, 0.0f, 0.15f).setOnComplete(show);
     }
     void show()
     {
-        LeanTween.color(gameObject, objcolor, 0.25f).setOnComplete(hide);
-    }
-    void rotate()
-    {
-        LeanTween.rotateAround(gameObject, Vector3.up, 180f, 1f).setOnComplete(rotate);
+        LeanTween.alpha(gameObject, 1.0f, 0.15f).setOnComplete(hide);
     }
 }
