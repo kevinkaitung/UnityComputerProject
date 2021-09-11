@@ -32,10 +32,15 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //which team belong
     private string myTeam;
     //timer for randomly placing game props
-    private float timer = 0.0f;
+    private float timer1 = 0.0f;
+    //timer for randomly placing game props (removal tool)
+    private float timer2 = 0.0f;
     //time between placing game props
     [SerializeField]
     private float durationForProp1 = 20.0f;
+    //time between placing game props (removal tool)
+    [SerializeField]
+    private float durationForProp2 = 30.0f;
     //team field for generating obstacle
     [SerializeField]
     private GameObject blueTeamBuildingField, redTeamBuildingField;
@@ -88,14 +93,24 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > durationForProp1)
+        timer1 += Time.deltaTime;
+        timer2 += Time.deltaTime;
+        if (timer1 > durationForProp1)
         {
-            timer = 0.0f;
+            timer1 = 0.0f;
             //only master client randomly place game props
             if (PhotonNetwork.IsMasterClient)
             {
                 randomPlaceGameProps();
+            }
+        }
+        if(timer2 > durationForProp2)
+        {
+            timer2 = 0.0f;
+            //only master client randomly place game props (removal tool)
+            if (PhotonNetwork.IsMasterClient)
+            {
+                randomPlaceRemovalTool();
             }
         }
     }
@@ -113,6 +128,17 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             randPosZ = Random.Range(-30.0f, 30.0f);
             PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         }
+    }
+
+    //randomly place game props (removal tool)
+    void randomPlaceRemovalTool()
+    {
+        float randPosX = Random.Range(-30.0f, 30.0f);
+        float randPosZ = Random.Range(-30.0f, 30.0f);
+        PhotonNetwork.Instantiate("gameProps/removalTool(myself)", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        randPosX = Random.Range(-30.0f, 30.0f);
+        randPosZ = Random.Range(-30.0f, 30.0f);
+        PhotonNetwork.Instantiate("gameProps/removalTool(other)", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
     }
 
     //when players click game props, give one effect

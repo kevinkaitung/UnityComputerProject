@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -233,6 +233,19 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             }
         }
         Debug.Log("Put Count: " + thisStagePutCount + " stage total count: " + thisStageCount);
+    }
+
+    //if player use removal tool, revise the put counts
+    public void playerRemoveBuildingTexture()
+    {
+        thisStagePutCount--;
+        photonView.RPC("otherPlayerRemoveBuildingTexture", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void otherPlayerRemoveBuildingTexture()
+    {
+        thisStagePutCount--;
     }
 
     public bool isThisTeamFinish()

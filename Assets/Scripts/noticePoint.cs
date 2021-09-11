@@ -25,7 +25,6 @@ public class noticePoint : MonoBehaviourPun
     }
 
     //if player build the part of building, change its texture to the player's handy Material
-    //only master client do
     [PunRPC]
     public void buildToChangeTexture(string handyMaterial)
     {
@@ -34,5 +33,14 @@ public class noticePoint : MonoBehaviourPun
         rend.material = Resources.Load("standardMat") as Material;
         rend.material.mainTexture = Resources.Load("texture of building/" + handyMaterial) as Texture;
         this.gameObject.tag = "clickedNoticePoint";
+    }
+
+    //if player use removal tool, change its texture to transparent
+    [PunRPC]
+    public void removeBuildTexture()
+    {
+        Renderer rend = GetComponent<Renderer>();
+        rend.material = Resources.Load("transparent") as Material;
+        this.gameObject.tag = "noticePoint";
     }
 }

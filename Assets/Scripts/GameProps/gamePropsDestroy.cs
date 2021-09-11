@@ -15,7 +15,7 @@ public class gamePropsDestroy : MonoBehaviour
     void Start()
     {
         LeanTween.init(3200);
-        objcolor = gameObject.GetComponent<Renderer>().material.color;
+        objcolor = gameObject.GetComponentInChildren<Renderer>().material.color;
         transform.Rotate(45, 0, 45);
     }
 
@@ -37,6 +37,7 @@ public class gamePropsDestroy : MonoBehaviour
             }
         }
         transform.Rotate(-0.75f, -0.75f, 0.75f);
+        //transform.RotateAround(transform.position, Vector3.up, 1.0f);
     }
 
     //if the game prop was clicked, destroy it (only master client do it) 
