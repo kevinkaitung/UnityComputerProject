@@ -55,7 +55,10 @@ public class Synthesis : MonoBehaviourPunCallbacks
         if (firstInputItem == "empty" && holdMaterial != "empty")
         {
             firstInputItem = holdMaterial;
-            firstInputItemHashtable[firstInputItemForBlueTeamKeyName] = holdMaterial;   //第一個物品被放上去之後，要修改customproperties前，先將hashtable相對應隊伍的value改成新的東西
+            if (myTeam == "Blue")
+                firstInputItemHashtable[firstInputItemForBlueTeamKeyName] = holdMaterial;   //第一個物品被放上去之後，要修改customproperties前，先將hashtable相對應隊伍的value改成新的東西
+            else if (myTeam == "Red")
+                firstInputItemHashtable[firstInputItemForRedTeamKeyName] = holdMaterial;
             PhotonNetwork.CurrentRoom.SetCustomProperties(firstInputItemHashtable);     //要set customproperties時，直接把hashtable當成參數傳入修改(執行此動作的玩家)
             return "empty";
         }
@@ -114,9 +117,19 @@ public class Synthesis : MonoBehaviourPunCallbacks
     {
         Debug.Log(propertiesThatChanged[firstInputItemForBlueTeamKeyName]);
         Debug.Log(propertiesThatChanged[firstInputItemForRedTeamKeyName]);
-        if (propertiesThatChanged[firstInputItemForBlueTeamKeyName] != null)
+        if (myTeam == "Blue")
         {
-            firstInputItem = propertiesThatChanged[firstInputItemForBlueTeamKeyName].ToString();
+            if (propertiesThatChanged[firstInputItemForBlueTeamKeyName] != null)
+            {
+                firstInputItem = propertiesThatChanged[firstInputItemForBlueTeamKeyName].ToString();
+            }
+        }
+        else if (myTeam == "Red")
+        {
+            if (propertiesThatChanged[firstInputItemForRedTeamKeyName] != null)
+            {
+                firstInputItem = propertiesThatChanged[firstInputItemForRedTeamKeyName].ToString();
+            }
         }
     }
 }

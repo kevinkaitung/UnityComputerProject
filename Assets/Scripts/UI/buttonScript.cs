@@ -41,7 +41,7 @@ public class buttonScript : MonoBehaviour
                 optionPanel.SetActive(true);
                 clicktimeOP = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Return))
+            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 PlayerInputActionMode.instance.stateThree();
                 chatroomPanel.SetActive(true);
