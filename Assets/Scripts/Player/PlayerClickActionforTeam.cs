@@ -12,14 +12,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     //public static bool bpc;     //for controlling freeze camera action
     private string team;    //which team belong to
     public GameObject showHoldMaterialCube;
-    private string materialTexture;
-    private MeshRenderer holdMaterialMesh;
 
     void Start()
     {
         //get player's camera(for raycast)
         this.holdMaterial = "empty";
-        holdMaterialMesh = showHoldMaterialCube.GetComponent<MeshRenderer>();
         playerCam = GetComponentInChildren<Camera>();
         if (GetComponent<Rigidbody>())
         {
@@ -53,16 +50,12 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
-        if(holdMaterial == "empty")
-        {
-            showHoldMaterialCube.SetActive(false);            
-        }
         if (Input.GetMouseButtonUp(1))
         {
             bluePrint.instance.noticePointInfoPanel.SetActive(false);
             bluePrint.instance.synthesisformulaPanel.SetActive(false);
         }
-        if(!PlayerInputActionMode.instance.enablePlayerClickAction)
+        if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
             return;
         }
@@ -95,6 +88,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 //after using the material, abandon the material
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //change hold material cube texture (networked)
+                                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
                             }
                             else
                             {
@@ -106,10 +101,56 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             Debug.Log("You can't build for other team");
                         }
                     }
+                    //click builded building
+                    else if (hit.collider.tag == "clickedNoticePoint")
+                    {
+                        //use removal tool (remove my team)
+                        if (holdMaterial == "removalToolMyself")
+                        {
+                            if (hit.collider.GetComponent<teamTag>().belongingTeam == team)
+                            {
+                                //change texture to transparent
+                                hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //pass affected team to game logic controller
+                                teamGameLogicController.instance.playerRemoveThing(team);
+                                //drop tool
+                                holdMaterial = "empty";
+                                teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            }
+                            else
+                            {
+                                Debug.Log("You can just remove your team's building");
+                            }
+                        }
+                        //use removal tool (remove other team)
+                        else if (holdMaterial == "removalToolOther")
+                        {
+                            if (hit.collider.GetComponent<teamTag>().belongingTeam != team)
+                            {
+                                //change texture to transparent
+                                hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //pass affected team to game logic controller
+                                teamGameLogicController.instance.playerRemoveThing(hit.collider.GetComponent<teamTag>().belongingTeam);
+                                //drop tool
+                                holdMaterial = "empty";
+                                teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                            }
+                            else
+                            {
+                                Debug.Log("You can just remove other team's building");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("You should have removal tool");
+                        }
+                    }
                     else if (hit.collider.tag == "synthesis")
                     {
                         holdMaterial = Synthesis.instance.synthesis(holdMaterial);
                         teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                        //change hold material cube texture (networked)
+                        showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
                     }
                     //click other material
                     else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
@@ -123,8 +164,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             holdMaterial = temp;
                             Debug.Log(holdMaterial);
                             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-                            holdMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
-                            showHoldMaterialCube.SetActive(true);
+                            //change hold material cube texture (networked)
+                            showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
                         }
                     }
                 }
@@ -164,6 +205,20 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             //after collision, destroy the game prop (only master client destroy the networked object)
             other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
             gamePropsManager.instance.clickGameProps(team);
+        }
+        else if (other.collider.tag == "removalToolMyself")
+        {
+            //after collision, destroy the game prop (only master client destroy the networked object)
+            other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            holdMaterial = "removalToolMyself";
+            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        }
+        else if (other.collider.tag == "removalToolOther")
+        {
+            //after collision, destroy the game prop (only master client destroy the networked object)
+            other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            holdMaterial = "removalToolOther";
+            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
         }
     }
 }

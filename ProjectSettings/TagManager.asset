@@ -25,6 +25,8 @@ TagManager:
   - slowdown
   - ground
   - itembox
+  - removalToolMyself
+  - removalToolOther
   layers:
   - Default
   - TransparentFX
