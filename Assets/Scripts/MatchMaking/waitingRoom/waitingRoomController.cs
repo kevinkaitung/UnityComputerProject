@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -176,21 +176,6 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LocalPlayer.SwitchTeam(teamCode: 1);
         }
-        // 這裡紅藍兩隊人數相反
-        // 不知道為什麼但是可以跑
-        /*int blueNum = playersContainerRed.transform.childCount;
-        int redNum = playersContainerBlue.transform.childCount;
-        if(((redNum - blueNum) >= -1) &&
-            (redNum - blueNum) <= 1)
-        {
-            showIfReadyStart.text = "準備開始遊戲\n紅隊" + redNum + "人";
-            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
-        }
-        else
-        {
-            showIfReadyStart.text = "人數差距過大無法遊戲\n紅隊" + redNum + "人";
-            showIfReadyStart.text += "\n藍隊" + blueNum + "人";
-        }*/
     }
 
     public void StartGame()
@@ -227,6 +212,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        Chatclicktime = false;
         BlackPanel.SetActive(true);
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         if (PhotonNetwork.IsMasterClient)
@@ -244,7 +230,17 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ChatPanel.SetActive(true);
+            Chatclicktime = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ChatPanel.SetActive(false);
+            Chatclicktime = false;
+        }
+        
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -255,7 +251,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         ListPlayers();
     }
 
-    public void ShowChatPanel()
+    public void ShowChatRoomPanel()
     {
         if(Chatclicktime == false)
         {
@@ -266,7 +262,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         {
             ChatPanel.SetActive(false);
             Chatclicktime = false;
-        }      
+        }
     }
 
     public void ShowCharacterPanel()

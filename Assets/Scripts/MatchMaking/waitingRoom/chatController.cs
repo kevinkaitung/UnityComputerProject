@@ -21,7 +21,7 @@ public class chatController : MonoBehaviour, IChatClientListener
         // init
         public MESSAGE() { }
     }
-    public TextMeshProUGUI connectionState;
+    public Text connectionState;
     public InputField msgInput;
     public Text msgArea;
     private ChatClient chatClient;
@@ -69,6 +69,10 @@ public class chatController : MonoBehaviour, IChatClientListener
         if (chatClient != null)
         {
             chatClient.Service();
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SendMsg();
         }
     }
 
@@ -213,7 +217,7 @@ public class chatController : MonoBehaviour, IChatClientListener
             Debug.Log("channels = " + channel);
             chatClient.PublishMessage(channel, "( joined )");
         }
-        connectionState.text = "ChatRoom is connected";
+        connectionState.text = "聊天室連接成功";
     }
 
     public void OnUnsubscribed(string[] channels)
