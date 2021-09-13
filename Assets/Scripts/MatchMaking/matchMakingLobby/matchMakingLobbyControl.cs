@@ -219,6 +219,14 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         roomListings = new List<RoomInfo>();
         flashword();
     }   
+     // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            JoinLobbyOnClick();
+        }
+    }
 
     public void flashword()
     {
