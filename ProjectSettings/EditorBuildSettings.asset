@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/launch.unity
+    path: Assets/Scripts/GameProps/Scenes/launch.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/waitingRoomScene.unity
+    path: Assets/Scripts/GameProps/Scenes/waitingRoomScene.unity
     guid: f7367145d79c410479ae3ef0cee795c0
   - enabled: 1
-    path: Assets/Scenes/mainScene.unity
+    path: Assets/Scripts/GameProps/Scenes/mainScene.unity
     guid: 7bb40d34ed6868b4593968e5e04309d7
   - enabled: 1
-    path: Assets/Scenes/mainSceneTeam.unity
+    path: Assets/Scripts/GameProps/Scenes/mainSceneTeam.unity
     guid: 0e0a00d9d70973245873ab93b63525f6
   m_configObjects: {}
