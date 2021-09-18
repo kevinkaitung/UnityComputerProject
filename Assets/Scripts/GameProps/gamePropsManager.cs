@@ -367,7 +367,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
             ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
             Debug.Log(attackEffect);
-            ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+            ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
         }
     }
 
@@ -401,6 +401,6 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
         ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
         Debug.Log(attackEffect);
-        ImageCountdownEffect.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+        ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
     }
 }
