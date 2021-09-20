@@ -63,12 +63,15 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private float getMaterialTimeDuration = 0.5f;   //max time between two click when the player gets material
     private bool startGetMaterialTimer = false;     //start player getting material timer
     [SerializeField]
-    public GameObject actionInfoPanel;      //panel for the player to show some action info (ex. get what material, some warnings)
+    public GameObject takeMatActionPanel;      //panel for the player to show what material to get
     [SerializeField]
-    public GameObject actionInfoText;
-    private Text actionInfoTextProp;
+    public GameObject takeMatActionText;
+    private Text takeMatActionTextComponent;
     [SerializeField]
-    public GameObject cancelButton;     //for the player canceling getting material
+    public GameObject actionWarningPanel;      //panel for the player to show action warnings
+    [SerializeField]
+    public GameObject actionWarningText;
+    private Text actionWarningTextComponent;
     private string gettingMaterial;     //which material is the player getting now
     public bool isGetMat = false;       //if sucessfully get material or not
     private int getMatClickCount = 0;   //click count for checking if the player can get material or not
@@ -118,7 +121,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
             PhotonNetwork.RaiseEvent(gameTimerEventCode, content, raiseEventOptions, SendOptions.SendReliable);
         }
-        actionInfoTextProp = actionInfoText.GetComponent<Text>();
+        takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
+        actionWarningTextComponent = actionWarningText.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -145,15 +149,15 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             min = (int)tempTimer / 60;
             sec = (int)tempTimer % 60;
             millisec = (float)tempTimer % 1 * 1000;
-            if(tempTimer > 30)
+            if (tempTimer > 30)
             {
                 timerText.color = Color.white;
-                timerText.text =  min.ToString() + ":" + sec.ToString("00");
+                timerText.text = min.ToString() + ":" + sec.ToString("00");
             }
             else
             {
                 timerText.color = Color.red;
-                timerText.text =  sec.ToString("00") + ":" + millisec.ToString("000");
+                timerText.text = sec.ToString("00") + ":" + millisec.ToString("000");
             }
             if (timerIncrementValue >= timer)
             {
@@ -191,7 +195,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public void playerRemoveThing(string team)
     {
         //affected team
-        if(team == "blue")
+        if (team == "blue")
         {
             blueTeam.playerRemoveBuildingTexture();
         }
@@ -241,13 +245,12 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         startGetMaterialTimer = true;
         getMaterialTimer = 0.0f;
-        actionInfoPanel.SetActive(true);
-        cancelButton.SetActive(true);
+        takeMatActionPanel.SetActive(true);
         gettingMaterial = getMaterial;
         isGetMat = false;
         getMatClickCount++;
         //show getting material count down
-        actionInfoTextProp.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
+        takeMatActionTextComponent.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
         Barmask.fillAmount = (float)getMatClickCount / (float)getMatClickTimes;
         //check if the player's click count is enough
         if (getMatClickCount >= getMatClickTimes)
@@ -260,8 +263,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public void playerFinishGetMaterial()
     {
         startGetMaterialTimer = false;
-        actionInfoPanel.SetActive(false);
-        cancelButton.SetActive(false);
+        takeMatActionPanel.SetActive(false);
     }
 
     public void playerSuccessfullyGetMat()
@@ -270,18 +272,30 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         isGetMat = true;
     }
 
-    //if player click the obj. too far
-    public void tooFarClickNotice()
+    //player action warnings
+    Coroutine warningsCoroutine = null;
+    public void actionWarnings(string warnings)
     {
         //start coroutine to show warnings
-        StartCoroutine(showNotice());
+        if (warningsCoroutine == null)
+        {
+            warningsCoroutine = StartCoroutine(showWarnings(warnings));
+            Debug.Log("start coroutine");
+        }
+        else
+        {
+            //if there is coroutine active, stop it and start a new
+            StopCoroutine(warningsCoroutine);
+            warningsCoroutine = StartCoroutine(showWarnings(warnings));
+            Debug.Log("new coroutine");
+        }
     }
 
-    IEnumerator showNotice()
+    IEnumerator showWarnings(string warnings)
     {
-        actionInfoPanel.SetActive(true);
-        actionInfoTextProp.text = "Closer to click the object.";
+        actionWarningPanel.SetActive(true);
+        actionWarningTextComponent.text = warnings;
         yield return new WaitForSeconds(1);
-        actionInfoPanel.SetActive(false);
+        actionWarningPanel.SetActive(false);
     }
 }

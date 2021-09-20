@@ -16,7 +16,8 @@ public class gamePropsDestroy : MonoBehaviour
     {
         LeanTween.init(3200);
         objcolor = gameObject.GetComponentInChildren<Renderer>().material.color;
-        transform.Rotate(45, 0, 45);
+        if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
+            transform.Rotate(35f, 0, 45f);
     }
 
     // Update is called once per frame
@@ -36,7 +37,8 @@ public class gamePropsDestroy : MonoBehaviour
                 flash = true;
             }
         }
-        transform.Rotate(-0.75f, -0.75f, 0.75f);
+        if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
+            transform.Rotate(-0.75f, -0.75f, 0.75f);
         //transform.RotateAround(transform.position, Vector3.up, 1.0f);
     }
 

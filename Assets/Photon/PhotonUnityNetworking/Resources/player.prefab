@@ -2191,6 +2191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdMaterial: 
   showHoldMaterialCube: {fileID: 5970201452286973504}
+  isBlackholeEffect: 0
 --- !u!114 &5097714677948238416
 MonoBehaviour:
   m_ObjectHideFlags: 0

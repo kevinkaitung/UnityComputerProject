@@ -70,7 +70,7 @@ public class chatController : MonoBehaviour, IChatClientListener
         {
             chatClient.Service();
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             SendMsg();
         }

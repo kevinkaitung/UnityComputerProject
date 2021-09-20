@@ -12,6 +12,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     //public static bool bpc;     //for controlling freeze camera action
     private string team;    //which team belong to
     public GameObject showHoldMaterialCube;
+    //black hole effect block player click action
+    public bool isBlackholeEffect = false;
 
     void Start()
     {
@@ -59,6 +61,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
+        //if blackhole effect is active, block player click action
+        if (isBlackholeEffect)
+        {
+            return;
+        }
         //player act with scene
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -94,11 +101,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             else
                             {
                                 Debug.Log("You don't have any materials");
+                                teamGameLogicController.instance.actionWarnings("You don't have any materials");
                             }
                         }
                         else
                         {
                             Debug.Log("You can't build for other team");
+                            teamGameLogicController.instance.actionWarnings("You can't build for other team");
                         }
                     }
                     //click builded building
@@ -120,6 +129,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             else
                             {
                                 Debug.Log("You can just remove your team's building");
+                                teamGameLogicController.instance.actionWarnings("You can just remove your team's building");
                             }
                         }
                         //use removal tool (remove other team)
@@ -138,11 +148,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             else
                             {
                                 Debug.Log("You can just remove other team's building");
+                                teamGameLogicController.instance.actionWarnings("You can just remove other team's building");
                             }
                         }
                         else
                         {
                             Debug.Log("You should have removal tool");
+                            teamGameLogicController.instance.actionWarnings("You should have removal tool");
                         }
                     }
                     else if (hit.collider.tag == "synthesis")
@@ -172,7 +184,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 else if (hit.collider.tag != "ground")
                 {
                     Debug.Log("be more close to what you click");
-                    teamGameLogicController.instance.tooFarClickNotice();
+                    teamGameLogicController.instance.actionWarnings("Closer to click the object.");
                 }
             }
         }
@@ -200,6 +212,15 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     //collision to itembox, activate effect
     private void OnCollisionEnter(Collision other)
     {
+        if (!PlayerInputActionMode.instance.enablePlayerClickAction)
+        {
+            return;
+        }
+        //if blackhole effect is active, block player click action
+        if (isBlackholeEffect)
+        {
+            return;
+        }
         if (other.collider.tag == "itembox")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
