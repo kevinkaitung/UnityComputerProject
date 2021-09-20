@@ -128,7 +128,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         //after join room successfully, do some initialization
-        roomNameDisplay.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name;
+        roomNameDisplay.text = "房間名稱: " + PhotonNetwork.CurrentRoom.Name;
         //only master client can start the game
         if (PhotonNetwork.IsMasterClient)
         {
