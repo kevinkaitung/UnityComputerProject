@@ -10,6 +10,7 @@ public class gamePropsDestroy : MonoBehaviour
     [SerializeField]
     float durationTime = 20.0f;
     bool flash = false;
+    bool rotatectl = true;
     Color objcolor;
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,7 @@ public class gamePropsDestroy : MonoBehaviour
         LeanTween.init(3200);
         objcolor = gameObject.GetComponentInChildren<Renderer>().material.color;
         if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
-            transform.Rotate(35f, 0, 45f);
+            transform.Rotate(35f, 30, 45f);
     }
 
     // Update is called once per frame
@@ -37,9 +38,13 @@ public class gamePropsDestroy : MonoBehaviour
                 flash = true;
             }
         }
-        if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
-            transform.Rotate(-0.75f, -0.75f, 0.75f);
-        //transform.RotateAround(transform.position, Vector3.up, 1.0f);
+        if(rotatectl)
+        {
+            if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
+                rotate();
+            rotatectl = false;
+            //transform.Rotate(-0.75f, -0.75f, 0.75f);
+        }//transform.RotateAround(transform.position, Vector3.up, 1.0f);
     }
 
     //if the game prop was clicked, destroy it (only master client do it) 
@@ -55,5 +60,9 @@ public class gamePropsDestroy : MonoBehaviour
     void show()
     {
         LeanTween.alpha(gameObject, 1.0f, 0.15f).setOnComplete(hide);
+    }
+    void rotate()
+    {
+        LeanTween.rotateAround(gameObject, Vector3.up, 360f, 1f).setOnComplete(rotate);
     }
 }

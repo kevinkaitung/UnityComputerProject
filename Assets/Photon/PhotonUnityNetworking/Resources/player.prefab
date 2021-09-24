@@ -2191,6 +2191,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdMaterial: 
   showHoldMaterialCube: {fileID: 5970201452286973504}
+  throwMaterialCube: {fileID: 2846683972221922212, guid: 210f1e24d9c906648b9817100e18e640,
+    type: 3}
   isBlackholeEffect: 0
 --- !u!114 &5097714677948238416
 MonoBehaviour:

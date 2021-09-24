@@ -11,15 +11,17 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     public string holdMaterial;
     //public static bool bpc;     //for controlling freeze camera action
     private string team;    //which team belong to
-    public GameObject showHoldMaterialCube;
+    public GameObject showHoldMaterialCube, throwMaterialCube;
     //black hole effect block player click action
     public bool isBlackholeEffect = false;
+    private MeshRenderer throwMaterialMesh;
 
     void Start()
     {
         //get player's camera(for raycast)
         this.holdMaterial = "empty";
         playerCam = GetComponentInChildren<Camera>();
+        throwMaterialMesh = throwMaterialCube.GetComponent<MeshRenderer>();
         if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().freezeRotation = true;
@@ -65,6 +67,18 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         if (isBlackholeEffect)
         {
             return;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (holdMaterial != "empty")
+            {
+                throwMaterialCube.transform.position = this.transform.position;
+                throwMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
+                PhotonNetwork.Instantiate("throwMaterialCube", throwMaterialCube.transform.position, throwMaterialCube.transform.rotation, 0);
+                holdMaterial = "empty";
+                teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+            }
         }
         //player act with scene
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);

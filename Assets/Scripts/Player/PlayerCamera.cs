@@ -62,8 +62,6 @@ public class PlayerCamera : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(god);
-        Debug.Log(playerCam);
         //Cursor.visible = false;
         //if not me, just return
         if (!photonView.IsMine)
