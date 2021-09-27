@@ -35,6 +35,8 @@ public class Synthesis : MonoBehaviourPunCallbacks
     private string firstInputItemForRedTeamKeyName = "synthesisFirstInputItemForRedTeam";   //紀錄紅隊的合成台的第一項物品的 hashtable key
     ExitGames.Client.Photon.Hashtable firstInputItemHashtable;  //key-value hashtable 兩組key-value分別存藍隊和紅隊的第一項物品(算是要傳遞設置customproperties，傳遞參數的資料結構)
     private string myTeam;  //紀錄本地端玩家的隊伍，以修改相對應的第一項物品
+    public GameObject showSynthesisMaterialCube;
+    private MeshRenderer synthesisMaterialMesh;
     void Start()
     {
         firstInputItem = "empty";
@@ -44,6 +46,8 @@ public class Synthesis : MonoBehaviourPunCallbacks
         firstInputItemHashtable = new ExitGames.Client.Photon.Hashtable();  //實例化hashtable
         firstInputItemHashtable.Add(firstInputItemForBlueTeamKeyName, "empty"); //將hashtable新增一組key-value
         firstInputItemHashtable.Add(firstInputItemForRedTeamKeyName, "empty");  //將hashtable新增一組key-value
+        synthesisMaterialMesh = showSynthesisMaterialCube.GetComponent<MeshRenderer>();
+        showSynthesisMaterialCube.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(firstInputItemHashtable); //第一次新增customproperties由房主新增就好(如果每個人都執行這個動作也不影響，只是沒有必要)
@@ -60,6 +64,7 @@ public class Synthesis : MonoBehaviourPunCallbacks
             else if (myTeam == "Red")
                 firstInputItemHashtable[firstInputItemForRedTeamKeyName] = holdMaterial;
             PhotonNetwork.CurrentRoom.SetCustomProperties(firstInputItemHashtable);     //要set customproperties時，直接把hashtable當成參數傳入修改(執行此動作的玩家)
+            showSynthesisMaterial(firstInputItem);
             return "empty";
         }
         else if (secondInputItem == "empty" && firstInputItem != holdMaterial && holdMaterial != "empty")
@@ -69,18 +74,9 @@ public class Synthesis : MonoBehaviourPunCallbacks
         if (firstInputItem != "empty" && secondInputItem != "empty")
         {
             string result = check(firstInputItem, secondInputItem);
-            if (result != "empty")
-            {
-                firstInputItem = "empty";
-                secondInputItem = "empty";
-                //PlayerClickActionforTeam.instance.holdMaterial = result;
-            }
-            else
-            {
-                Synthesis.instance.firstInputItem = "empty";
-                Synthesis.instance.secondInputItem = "empty";
-                //PlayerClickActionforTeam.instance.holdMaterial = "empty";
-            }
+            firstInputItem = "empty";
+            secondInputItem = "empty";
+            showSynthesisMaterial(firstInputItem);
             return result;
         }
         return "empty";
@@ -130,6 +126,21 @@ public class Synthesis : MonoBehaviourPunCallbacks
             {
                 firstInputItem = propertiesThatChanged[firstInputItemForRedTeamKeyName].ToString();
             }
+        }
+    }
+    public void showSynthesisMaterial(string firstInputItem)
+    {
+        //if hold material is empty
+        if (firstInputItem == "empty")
+        {
+            showSynthesisMaterialCube.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("fkjshldf");
+            //show texture to hold material
+            showSynthesisMaterialCube.SetActive(true);
+            synthesisMaterialMesh.material = Resources.Load("materialTexture/Materials/" + firstInputItem) as Material;
         }
     }
 }

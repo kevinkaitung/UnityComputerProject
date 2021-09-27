@@ -81,6 +81,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField]
     public Image Barmask;   //for progress bar
 
+    public GameObject blackhole;
+
+    double ringspeed;
+
     //register for raise event
     public override void OnEnable()
     {
@@ -149,6 +153,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             min = (int)tempTimer / 60;
             sec = (int)tempTimer % 60;
             millisec = (float)tempTimer % 1 * 1000;
+            ringspeed = (float)tempTimer % 1 * 180;
             if (tempTimer > 30)
             {
                 timerText.color = Color.white;
@@ -157,7 +162,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             else
             {
                 timerText.color = Color.red;
-                timerText.text = sec.ToString("00") + ":" + millisec.ToString("000");
+                timerText.text = sec.ToString("00") + ":" + millisec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
@@ -166,6 +171,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 gameFinishDoing();
             }
         }
+        
+        blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
     }
 
     public void playerPutThingsOnPoint(noticePoint pointInfo, string handyMaterial, string team)
