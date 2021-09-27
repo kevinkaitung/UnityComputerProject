@@ -162,7 +162,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             else
             {
                 timerText.color = Color.red;
-                timerText.text = sec.ToString("00") + ":" + millisec.ToString("000");
+                timerText.text = sec.ToString("00") + ":" + millisec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
