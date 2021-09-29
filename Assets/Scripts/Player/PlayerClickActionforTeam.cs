@@ -72,8 +72,9 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             if (holdMaterial != "empty")
             {
-                throwMaterialCube.transform.position = this.transform.position;
+                throwMaterialCube.transform.position = this.transform.position + new Vector3(this.transform.forward.x * 6.0f, 0.5f, this.transform.right.z * 4.0f);
                 throwMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
+                throwMaterialCube.tag = holdMaterial;
                 PhotonNetwork.Instantiate("throwMaterialCube", throwMaterialCube.transform.position, throwMaterialCube.transform.rotation, 0);
                 holdMaterial = "empty";
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
@@ -254,6 +255,28 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolOther";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!PlayerInputActionMode.instance.enablePlayerClickAction)
+        {
+            return;
+        }
+        //if blackhole effect is active, block player click action
+        if (isBlackholeEffect)
+        {
+            return;
+        }
+        if (other.tag == "wood" || other.tag == "gravel" || other.tag == "iron" || other.tag == "water" || other.tag == "fire")
+        {
+            holdMaterial = other.tag;
+            Debug.Log(holdMaterial);
+            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+            //change hold material cube texture (networked)
+            showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+            other.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
         }
     }
 }

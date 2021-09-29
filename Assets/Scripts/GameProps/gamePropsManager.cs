@@ -135,10 +135,10 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     {
         float randPosX = Random.Range(-30.0f, 30.0f);
         float randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/removalTool(myself)", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/removalToolMyself", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         randPosX = Random.Range(-30.0f, 30.0f);
         randPosZ = Random.Range(-30.0f, 30.0f);
-        PhotonNetwork.Instantiate("gameProps/removalTool(other)", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
+        PhotonNetwork.Instantiate("gameProps/removalToolOther", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
     }
 
     //when players click game props, give one effect
