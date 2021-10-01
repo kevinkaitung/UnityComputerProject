@@ -11,7 +11,7 @@ public class throwMaterialCube : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.LeanMoveLocalY(1.0f, 1.5f).setEaseInOutCubic().setLoopPingPong();
     }
 
     // Update is called once per frame

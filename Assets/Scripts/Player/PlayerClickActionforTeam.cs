@@ -70,9 +70,15 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (holdMaterial != "empty")
+            if(holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")
             {
-                throwMaterialCube.transform.position = this.transform.position + new Vector3(this.transform.forward.x * 6.0f, 0.5f, this.transform.right.z * 4.0f);
+                Debug.Log("You can't drop removal tool");
+                teamGameLogicController.instance.actionWarnings("不可丟除拆除工具");
+            }
+            else if (holdMaterial != "empty")
+            {
+                Transform tempTransform = this.transform;
+                throwMaterialCube.transform.position = new Vector3(tempTransform.position.x, 1.5f, tempTransform.position.z) + tempTransform.forward * 5.0f + tempTransform.right * 3.0f;
                 throwMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
                 throwMaterialCube.tag = holdMaterial;
                 PhotonNetwork.Instantiate("throwMaterialCube", throwMaterialCube.transform.position, throwMaterialCube.transform.rotation, 0);
@@ -97,7 +103,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         //check the player click the correct notice point
                         if (hit.collider.GetComponent<teamTag>().belongingTeam == team)
                         {
-                            if (holdMaterial != "empty")
+                            //should have building-available material
+                            if (holdMaterial == "brick" || holdMaterial == "cement" || holdMaterial == "glass" || holdMaterial == "iron" || holdMaterial == "steel" || holdMaterial == "wood")
                             {
                                 Debug.Log("click notice point");
                                 //Get player clicked point's component to know clicked point's detail
@@ -115,14 +122,14 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             }
                             else
                             {
-                                Debug.Log("You don't have any materials");
-                                teamGameLogicController.instance.actionWarnings("You don't have any materials");
+                                Debug.Log("You don't have any building-available materials");
+                                teamGameLogicController.instance.actionWarnings("尚未擁有任何可建築建材");
                             }
                         }
                         else
                         {
                             Debug.Log("You can't build for other team");
-                            teamGameLogicController.instance.actionWarnings("You can't build for other team");
+                            teamGameLogicController.instance.actionWarnings("此為敵方建地");
                         }
                     }
                     //click builded building
@@ -144,7 +151,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             else
                             {
                                 Debug.Log("You can just remove your team's building");
-                                teamGameLogicController.instance.actionWarnings("You can just remove your team's building");
+                                teamGameLogicController.instance.actionWarnings("僅能拆除我方建築");
                             }
                         }
                         //use removal tool (remove other team)
@@ -163,13 +170,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             else
                             {
                                 Debug.Log("You can just remove other team's building");
-                                teamGameLogicController.instance.actionWarnings("You can just remove other team's building");
+                                teamGameLogicController.instance.actionWarnings("僅能拆除敵方建築");
                             }
                         }
                         else
                         {
                             Debug.Log("You should have removal tool");
-                            teamGameLogicController.instance.actionWarnings("You should have removal tool");
+                            teamGameLogicController.instance.actionWarnings("須擁有拆除工具");
                         }
                     }
                     else if (hit.collider.tag == "synthesis")
@@ -199,7 +206,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 else if (hit.collider.tag != "ground")
                 {
                     Debug.Log("be more close to what you click");
-                    teamGameLogicController.instance.actionWarnings("Closer to click the object.");
+                    teamGameLogicController.instance.actionWarnings("離點選物件太遠");
                 }
             }
         }
@@ -269,7 +276,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
-        if (other.tag == "wood" || other.tag == "gravel" || other.tag == "iron" || other.tag == "water" || other.tag == "fire")
+        if (other.tag == "brick" || other.tag == "cement" || other.tag == "fire" || other.tag == "glass" || other.tag == "gravel" || other.tag == "iron" || other.tag == "steel" || other.tag == "water" || other.tag == "wood")
         {
             holdMaterial = other.tag;
             Debug.Log(holdMaterial);
