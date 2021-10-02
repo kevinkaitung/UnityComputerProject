@@ -49,7 +49,7 @@ public class buttonScript : MonoBehaviour
             }
         }
         //state 3
-        else
+        else if (PlayerInputActionMode.instance.state == 3)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -126,5 +126,4 @@ public class buttonScript : MonoBehaviour
             Debug.Log("state 1");
         }
     }
-
 }
