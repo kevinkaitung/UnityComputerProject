@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: b263270b-3705-4e00-bcbb-f0a8505d3f34
+    AppIdFusion: 
     AppIdChat: 4d2a5469-c079-4aaa-88ac-c62793ba9fde
-    AppIdVoice: 
+    AppIdVoice: 23103b6a-0bcb-4bb0-a618-7fd11771b358
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -32,7 +33,28 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - buildToChangeTexture
+  - CantHearYou
+  - ChangeColour
+  - ClickRpc
+  - destroyObject
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - gameFinishDoing
+  - gamePropBlackholeEffect
+  - gamePropFlameEffect
+  - gamePropSmokeEffect
+  - HeresWhy
+  - otherPlayerPut
+  - otherPlayerPutThingOnPoint
+  - otherPlayerRemoveBuildingTexture
+  - otherSettingStage
+  - removeBuildTexture
+  - RespawnSpaceship
+  - showGamePropTypeTextEffect
+  - showPlayerHoldMaterialCube
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
