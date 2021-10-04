@@ -58,6 +58,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
 
+    [SerializeField]
+    private GameObject holdMaterialImage;   //show hold material image
+    private Image holdMaterialImageComponent;
+
     private float getMaterialTimer = 0.0f;  //timer for player getting material count down
     [SerializeField]
     private float getMaterialTimeDuration = 0.5f;   //max time between two click when the player gets material
@@ -125,6 +129,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
             PhotonNetwork.RaiseEvent(gameTimerEventCode, content, raiseEventOptions, SendOptions.SendReliable);
         }
+        holdMaterialImageComponent = holdMaterialImage.GetComponent<Image>();
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
     }
@@ -152,7 +157,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             tempTimer = timer - timerIncrementValue;
             min = (int)tempTimer / 60;
             sec = (int)tempTimer % 60;
-            millisec = (float)tempTimer % 1 * 1000;
+            millisec = (float)tempTimer % 1 * 100;
             ringspeed = (float)tempTimer % 1 * 180;
             if (tempTimer > 30)
             {
@@ -171,7 +176,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 gameFinishDoing();
             }
         }
-        
+
         blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
     }
 
@@ -219,7 +224,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         startTimer = false;
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
-        PlayerInputActionMode.instance.stateThree();
+        PlayerInputActionMode.instance.stateFour();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好
@@ -245,6 +250,15 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public void showPlayerHandyMaterial(string holdMaterialtoPass)
     {
         holdMaterialText.text = holdMaterialtoPass;
+        if (holdMaterialtoPass == "empty")
+        {
+            holdMaterialImageComponent.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        }
+        else
+        {
+            holdMaterialImageComponent.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            holdMaterialImageComponent.sprite = Resources.Load<Sprite>("materialSprite/" + holdMaterialtoPass);
+        }
     }
 
     //for player call to get material

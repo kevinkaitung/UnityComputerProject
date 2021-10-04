@@ -27,6 +27,9 @@ TagManager:
   - itembox
   - removalToolMyself
   - removalToolOther
+  - cement
+  - glass
+  - steel
   layers:
   - Default
   - TransparentFX
