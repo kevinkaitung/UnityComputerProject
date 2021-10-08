@@ -24,7 +24,7 @@ public class PlayerCamera : MonoBehaviourPun
     public float m_maximumX = 360f;
     // 垂直方向的 镜头转向 (这里给个限度 最大仰角为45°)
     public float m_minimumY = -30f;
-    public float m_maximumY = 45f;
+    public float m_maximumY = 65f;
     private string myTeam;
 
     float m_rotationY = 0f;

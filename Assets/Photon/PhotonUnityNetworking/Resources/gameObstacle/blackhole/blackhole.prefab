@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8394906147238629529}
   - component: {fileID: 8394906147238629531}
   - component: {fileID: 8394906147238629530}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: waves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4710,7 +4710,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 46892078c8592354485f409ed48b683c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4765,7 +4764,7 @@ GameObject:
   - component: {fileID: 8394906147669605859}
   - component: {fileID: 8394906147669605861}
   - component: {fileID: 8394906147669605860}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DarkOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9522,7 +9521,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9577,7 +9575,7 @@ GameObject:
   - component: {fileID: 8394906147711341077}
   - component: {fileID: 8394906147711341079}
   - component: {fileID: 8394906147711341078}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: waves2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14276,7 +14274,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 46892078c8592354485f409ed48b683c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14333,7 +14330,7 @@ GameObject:
   - component: {fileID: 8394906147962671085}
   - component: {fileID: -7774976681432655512}
   - component: {fileID: 1460802877471054785}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: blackhole
   m_TagString: blackholeObstacle
   m_Icon: {fileID: 0}
@@ -19036,7 +19033,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19117,7 +19113,7 @@ GameObject:
   - component: {fileID: 8394906148536067047}
   - component: {fileID: 8394906148536067049}
   - component: {fileID: 8394906148536067048}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: rim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23874,7 +23870,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a59c17b31bcf9c74c975bcd288f3518f, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

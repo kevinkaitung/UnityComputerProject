@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7963000986941394391}
   - component: {fileID: 7963000986941394388}
   - component: {fileID: 7980484766709048106}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: "\u7ACB\u65B9\u9AD4"
   m_TagString: removalToolOther
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 7963000987989555778}
   - component: {fileID: 4621074560290692762}
   - component: {fileID: 5981676695893258568}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: removalToolOther
   m_TagString: removalToolOther
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 7963000988186078163}
   - component: {fileID: 7963000988186078160}
   - component: {fileID: 9138161854613751982}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: "\u5713\u67F1\u9AD4.001"
   m_TagString: removalToolOther
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9018708785810242456}
   - component: {fileID: -3823608458461409233}
   - component: {fileID: 5028680740140010260}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: throwMaterialCube
   m_TagString: wood
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2846683972221922212}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -41.465954, y: 1.5, z: 28.466558}
+  m_LocalPosition: {x: 17.118002, y: 1.5, z: 17.883667}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
