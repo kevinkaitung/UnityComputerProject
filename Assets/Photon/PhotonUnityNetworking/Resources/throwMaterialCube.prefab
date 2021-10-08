@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5028680740140010260}
   m_Layer: 0
   m_Name: throwMaterialCube
-  m_TagString: gravel
+  m_TagString: wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2846683972221922212}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -78.60177, y: 1.5, z: 61.55336}
+  m_LocalPosition: {x: -41.465954, y: 1.5, z: 28.466558}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f01e71b2cc08fab448d7ca30573dc4e4, type: 2}
+  - {fileID: 2100000, guid: 33fb542d2a8d7d442ad0d25737f2a52c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
