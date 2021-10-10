@@ -137,7 +137,6 @@ public class Synthesis : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.Log("fkjshldf");
             //show texture to hold material
             showSynthesisMaterialCube.SetActive(true);
             synthesisMaterialMesh.material = Resources.Load("materialTexture/Materials/" + firstInputItem) as Material;

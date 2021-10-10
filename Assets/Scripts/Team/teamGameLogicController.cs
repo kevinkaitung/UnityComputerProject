@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
@@ -41,7 +42,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     double startTime;
     //countdown time
     [SerializeField] double timer = 10;
-    [SerializeField] Text timerText;
+    [SerializeField] Text timerText_left;
+    [SerializeField] Text timerText_mid;
+    [SerializeField] Text timerText_right;
     [SerializeField] Text holdMaterialText;
 
     public const byte gameTimerEventCode = 1;   //raise event for timer
@@ -88,6 +91,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject blackhole;
 
     double ringspeed;
+
+    public GameObject BackToWaitRoomButton;
+
+    public int countdown = 0;
 
     //register for raise event
     public override void OnEnable()
@@ -161,13 +168,19 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             ringspeed = (float)tempTimer % 1 * 180;
             if (tempTimer > 30)
             {
-                timerText.color = Color.white;
-                timerText.text = min.ToString() + ":" + sec.ToString("00");
+                timerText_left.color = Color.white;
+                timerText_mid.color = Color.white;
+                timerText_right.color = Color.white;
+                timerText_left.text = min.ToString("00");
+                timerText_right.text = sec.ToString("00");
             }
             else
             {
-                timerText.color = Color.red;
-                timerText.text = sec.ToString("00") + ":" + millisec.ToString("00");
+                timerText_left.color = Color.red;
+                timerText_mid.color = Color.red;
+                timerText_right.color = Color.red;
+                timerText_left.text = sec.ToString("00");
+                timerText_right.text =  millisec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
@@ -218,7 +231,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     }
 
     [PunRPC]
-    void gameFinishDoing()
+    async void gameFinishDoing()
     {
         //disable timer
         startTimer = false;
@@ -231,6 +244,18 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.DestroyAll();
+            await Task.Delay(10000);
+            BackToWaitRoomButton.SetActive(true);
+        }
+        while(true)
+        { 
+            await Task.Delay(1000);
+            countdown++;
+            if(countdown == 20)
+            {
+                backToWaitingRoomOnClick();
+                break;
+            }
         }
         //Debug.Log("accuracy:" + accuracy);
     }

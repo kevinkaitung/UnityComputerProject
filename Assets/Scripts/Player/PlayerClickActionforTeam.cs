@@ -70,7 +70,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")
+            if (holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")
             {
                 Debug.Log("You can't drop removal tool");
                 teamGameLogicController.instance.actionWarnings("不可丟除拆除工具");
@@ -90,6 +90,22 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         //player act with scene
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        //check if clickable, and change cursor color
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+        {
+            if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 500)
+            {
+                PlayerInputActionMode.instance.fixedCenterCursorDetected();
+            }
+            else
+            {
+                PlayerInputActionMode.instance.fixedCenterCursorRest();
+            }
+        }
+        else
+        {
+            PlayerInputActionMode.instance.fixedCenterCursorRest();
+        }
         if (Input.GetMouseButtonUp(0))
         {
             if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
@@ -203,7 +219,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         }
                     }
                 }
-                else if (hit.collider.tag != "ground")
+                else
                 {
                     Debug.Log("be more close to what you click");
                     teamGameLogicController.instance.actionWarnings("離點選物件太遠");

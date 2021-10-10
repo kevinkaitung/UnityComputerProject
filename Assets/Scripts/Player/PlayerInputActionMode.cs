@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInputActionMode : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class PlayerInputActionMode : MonoBehaviour
         stateOne();
         //calculate for screen center
         fixedCenterCursor.GetComponent<RectTransform>().position = new Vector3Int(Screen.width / 2, Screen.height / 2, 0);
+        fixedCenterCursor.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.8f);
     }
 
     // Update is called once per frame
@@ -72,9 +74,11 @@ public class PlayerInputActionMode : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         fixedCenterCursor.SetActive(false);
+        Vector2 hotSpot = Vector2.zero;
+        Cursor.SetCursor(cursorPointTexture, hotSpot, CursorMode.Auto);
         enableCameraControl = false;
-        enablePlayerMovement = true;
-        enablePlayerClickAction = true;
+        enablePlayerMovement = false;
+        enablePlayerClickAction = false;
         state = 2;
     }
 
@@ -103,5 +107,17 @@ public class PlayerInputActionMode : MonoBehaviour
         enablePlayerMovement = false;
         enablePlayerClickAction = false;
         state = 4;
+    }
+
+    //cursor not use in game: color black
+    public void fixedCenterCursorRest()
+    {
+        fixedCenterCursor.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.8f);
+    }
+
+    //cursor clickable in game: color green
+    public void fixedCenterCursorDetected()
+    {
+        fixedCenterCursor.GetComponent<Image>().color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
     }
 }
