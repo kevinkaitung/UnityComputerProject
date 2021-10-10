@@ -91,7 +91,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         //check if clickable, and change cursor color
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
         {
             if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 500)
             {
@@ -108,7 +108,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
             {
                 //click objcet when closing to it
                 if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 500)

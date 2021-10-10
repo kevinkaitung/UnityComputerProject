@@ -5137,7 +5137,7 @@ GameObject:
   - component: {fileID: 1382401621}
   - component: {fileID: 1382401620}
   - component: {fileID: 1382401619}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: Terrain
   m_TagString: ground
   m_Icon: {fileID: 0}
@@ -55688,7 +55688,7 @@ GameObject:
   - component: {fileID: 7761239943379389883}
   - component: {fileID: 1563259226982172372}
   - component: {fileID: 3977479522618168618}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: blueBuildingSite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55707,7 +55707,7 @@ GameObject:
   - component: {fileID: 7761239943912014192}
   - component: {fileID: 1563259227531545119}
   - component: {fileID: 3977479523167541729}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: redBuildingSite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
