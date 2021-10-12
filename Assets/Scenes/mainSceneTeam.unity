@@ -1938,7 +1938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeamBuildingField: {fileID: 1051243745}
   redTeamBuildingField: {fileID: 962559152}
-  timer: 300
+  timer: 10
   timerText_left: {fileID: 1196289043}
   timerText_mid: {fileID: 1436367061}
   timerText_right: {fileID: 1984979766}
