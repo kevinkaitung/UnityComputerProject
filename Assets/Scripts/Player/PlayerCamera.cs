@@ -121,14 +121,19 @@ public class PlayerCamera : MonoBehaviourPun
                 playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !jump)
         {
-            LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 3.0f, 0.3f).setOnComplete(down);
+            jump = true;
+            LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 5.0f, 0.3f).setOnComplete(down);
         }
     }
 
     void down()
     {
-        LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 3.0f, 0.3f);
+        LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 5.0f, 1.35f).setOnComplete(jumpfinish);
+    }
+    void jumpfinish()
+    {
+        jump = false;
     }
 }
