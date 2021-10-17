@@ -82,12 +82,12 @@ public class PlayerCamera : MonoBehaviourPun
             {
                 //playerCam.gameObject.SetActive(false);
                 blueteam.gameObject.SetActive(true);
-            }    
+            }
             else if (myTeam == "Red")
             {
                 //playerCam.gameObject.SetActive(false);
                 redteam.gameObject.SetActive(true);
-            }    
+            }
             god = true;
         }
         if (Input.GetKeyDown(KeyCode.X) && god)
@@ -107,10 +107,13 @@ public class PlayerCamera : MonoBehaviourPun
 
                 transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
                 playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, m_rotationX, 0/*transform.rotation.z*/), Time.deltaTime);
+                //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y, playerCam.transform.rotation.z*/,0), Time.deltaTime);
             }
             else if (m_axes == RotationAxes.MouseX)
             {
                 transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, Input.GetAxis("Mouse X") * m_sensitivityX, 0/*transform.rotation.z*/), Time.deltaTime);
             }
             else
             {
@@ -119,6 +122,8 @@ public class PlayerCamera : MonoBehaviourPun
 
                 transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
                 playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, playerCam.transform.localEulerAngles.y, 0/*transform.rotation.z*/), Time.deltaTime);
+                //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y*/, 0/*playerCam.transform.rotation.z*/), Time.deltaTime);
             }
         }
         if (Input.GetKeyDown(KeyCode.Space) && !jump)
