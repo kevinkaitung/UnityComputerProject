@@ -124,8 +124,8 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         //place game props
         for (int i = 0; i < 5; i++)
         {
-            randPosX = Random.Range(-30.0f, 30.0f);
-            randPosZ = Random.Range(-30.0f, 30.0f);
+            randPosX = Random.Range(-15.0f, 15.0f);
+            randPosZ = Random.Range(-20.0f, 20.0f);
             PhotonNetwork.Instantiate("gameProps/itembox", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
         }
     }
@@ -133,11 +133,11 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //randomly place game props (removal tool)
     void randomPlaceRemovalTool()
     {
-        float randPosX = Random.Range(-30.0f, 30.0f);
-        float randPosZ = Random.Range(-30.0f, 30.0f);
+        float randPosX = Random.Range(-15.0f, 15.0f);
+        float randPosZ = Random.Range(-20.0f, 20.0f);
         PhotonNetwork.Instantiate("gameProps/removalToolMyself", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
-        randPosX = Random.Range(-30.0f, 30.0f);
-        randPosZ = Random.Range(-30.0f, 30.0f);
+        randPosX = Random.Range(-15.0f, 15.0f);
+        randPosZ = Random.Range(-20.0f, 20.0f);
         PhotonNetwork.Instantiate("gameProps/removalToolOther", new Vector3(randPosX, 1.5f, randPosZ), Quaternion.identity);
     }
 
@@ -162,8 +162,8 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofFlame];
             for (int i = 0; i < numberofFlame; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropFlameEffect", RpcTarget.All, team, obstacleRandPos);
@@ -176,8 +176,8 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofBlackhole];
             for (int i = 0; i < numberofBlackhole; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropBlackholeEffect", RpcTarget.All, team, obstacleRandPos);
@@ -190,8 +190,8 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofSmoke];
             for (int i = 0; i < numberofSmoke; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-30.0f, 30.0f);
-                obstacleRandPos[2 * i + 1] = (object)Random.Range(-30.0f, 30.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
             photonView.RPC("gamePropSmokeEffect", RpcTarget.All, team, obstacleRandPos);

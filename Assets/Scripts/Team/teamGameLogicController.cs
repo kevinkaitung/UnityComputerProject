@@ -47,6 +47,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField] Text timerText_right;
     [SerializeField] Text holdMaterialText;
 
+    bool backtowaitingroomclick = false;
+
     public const byte gameTimerEventCode = 1;   //raise event for timer
 
     int min;    //for display timer min
@@ -95,6 +97,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
+
 
     //register for raise event
     public override void OnEnable()
@@ -247,7 +250,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             await Task.Delay(10000);
             BackToWaitRoomButton.SetActive(true);
         }
-        while(true)
+        while( backtowaitingroomclick == false)
         { 
             await Task.Delay(1000);
             countdown++;
@@ -264,6 +267,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         //5/9 test, redundant?
         //5/12待修改
+        backtowaitingroomclick = true;
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)

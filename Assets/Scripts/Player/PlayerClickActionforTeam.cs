@@ -91,9 +91,9 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         //check if clickable, and change cursor color
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
         {
-            if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 500)
+            if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 350)
             {
                 PlayerInputActionMode.instance.fixedCenterCursorDetected();
             }
@@ -108,10 +108,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
             {
                 //click objcet when closing to it
-                if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 500)
+                if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 350)
                 {
                     Debug.Log(hit.transform.name);
                     if (hit.collider.tag == "noticePoint")
@@ -248,7 +248,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     }
 
     //collision to itembox, activate effect
-    private void OnCollisionEnter(Collision other)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
@@ -259,25 +259,38 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
-        if (other.collider.tag == "itembox")
+        if (hit.collider.tag == "itembox")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
-            other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            Debug.Log(hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
+            hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
             gamePropsManager.instance.clickGameProps(team);
         }
-        else if (other.collider.tag == "removalToolMyself")
+        else if (hit.collider.tag == "removalToolMyself")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
-            other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            hit.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolMyself";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
         }
-        else if (other.collider.tag == "removalToolOther")
+        else if (hit.collider.tag == "removalToolOther")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
-            other.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            hit.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolOther";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        }
+        else if (hit.gameObject.layer == 2) //layer ignore raycast
+        {
+            if (hit.collider.tag == "brick" || hit.collider.tag == "cement" || hit.collider.tag == "fire" || hit.collider.tag == "glass" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "steel" || hit.collider.tag == "water" || hit.collider.tag == "wood")
+            {
+                holdMaterial = hit.collider.tag;
+                Debug.Log(holdMaterial);
+                teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                //change hold material cube texture (networked)
+                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                hit.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            }
         }
     }
 
