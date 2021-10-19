@@ -16,8 +16,8 @@ public class PlayerCamera : MonoBehaviourPun
     }
 
     public RotationAxes m_axes = RotationAxes.MouseXAndY;
-    public float m_sensitivityX = 10f;
-    public float m_sensitivityY = 10f;
+    public float m_sensitivityX = 1f;
+    public float m_sensitivityY = 1f;
 
     // 水平方向的 镜头转向
     public float m_minimumX = -360f;
@@ -126,19 +126,19 @@ public class PlayerCamera : MonoBehaviourPun
                 //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y*/, 0/*playerCam.transform.rotation.z*/), Time.deltaTime);
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !jump)
+        /*if (Input.GetKeyDown(KeyCode.Space) && !jump)
         {
             jump = true;
             LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 5.0f, 0.3f).setOnComplete(down);
-        }
+        }*/
     }
 
-    void down()
+    /*void down()
     {
         LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 5.0f, 1.35f).setOnComplete(jumpfinish);
     }
     void jumpfinish()
     {
         jump = false;
-    }
+    }*/
 }

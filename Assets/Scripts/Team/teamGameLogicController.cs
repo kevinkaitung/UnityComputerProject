@@ -62,6 +62,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
+    public GameObject exitPanel;
 
     [SerializeField]
     private GameObject holdMaterialImage;   //show hold material image
@@ -142,6 +143,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         holdMaterialImageComponent = holdMaterialImage.GetComponent<Image>();
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
+        exitPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -191,6 +193,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 Debug.Log("time's up");
                 gameFinishDoing();
             }
+        }
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            exitPanel.SetActive(true);
         }
 
         blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
@@ -347,5 +353,14 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningTextComponent.text = warnings;
         yield return new WaitForSeconds(1);
         actionWarningPanel.SetActive(false);
+    }
+
+    public void exitgame()
+    {
+        Application.Quit();
+    }
+    public void backtogame()
+    {
+        exitPanel.SetActive(false);
     }
 }
