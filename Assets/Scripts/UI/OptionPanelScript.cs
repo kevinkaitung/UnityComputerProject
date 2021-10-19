@@ -12,6 +12,7 @@ public class OptionPanelScript : MonoBehaviour
     public GameObject quesion;
     public GameObject setting;
     public GameObject optionPanel;
+    public GameObject TeachPanel;
 
     bool clicktime;
 
@@ -64,8 +65,8 @@ public class OptionPanelScript : MonoBehaviour
 
     public void queswindow()
     {
-        optionPanel.SetActive(false);
-        quesion.SetActive(true);
+        //optionPanel.SetActive(false);
+        TeachPanel.SetActive(true);
         clicktime = true;
     }
 
