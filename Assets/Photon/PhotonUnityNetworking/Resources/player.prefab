@@ -1601,6 +1601,7 @@ GameObject:
   - component: {fileID: 2843069420952890216}
   - component: {fileID: 1381401455339314997}
   - component: {fileID: 4064508430825830498}
+  - component: {fileID: 2858015487924499980}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -1754,6 +1755,14 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!81 &2858015487924499980
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996155449028842639}
+  m_Enabled: 1
 --- !u!1 &4039016976500487816
 GameObject:
   m_ObjectHideFlags: 0
