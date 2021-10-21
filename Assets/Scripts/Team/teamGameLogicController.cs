@@ -76,7 +76,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject takeMatActionPanel;      //panel for the player to show what material to get
     [SerializeField]
     public GameObject takeMatActionText;
+    public GameObject takeMatActionImage;
     private Text takeMatActionTextComponent;
+    private Image takeMatActionImageComponent;
     [SerializeField]
     public GameObject actionWarningPanel;      //panel for the player to show action warnings
     [SerializeField]
@@ -142,6 +144,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         }
         holdMaterialImageComponent = holdMaterialImage.GetComponent<Image>();
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
+        takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
         exitPanel.SetActive(false);
     }
@@ -185,7 +188,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 timerText_mid.color = Color.red;
                 timerText_right.color = Color.red;
                 timerText_left.text = sec.ToString("00");
-                timerText_right.text =  millisec.ToString("00");
+                timerText_right.text = millisec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
@@ -194,7 +197,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 gameFinishDoing();
             }
         }
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             exitPanel.SetActive(true);
         }
@@ -256,11 +259,11 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             await Task.Delay(10000);
             BackToWaitRoomButton.SetActive(true);
         }
-        while( backtowaitingroomclick == false)
-        { 
+        while (backtowaitingroomclick == false)
+        {
             await Task.Delay(1000);
             countdown++;
-            if(countdown == 20)
+            if (countdown == 20)
             {
                 backToWaitingRoomOnClick();
                 break;
@@ -305,8 +308,17 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         gettingMaterial = getMaterial;
         isGetMat = false;
         getMatClickCount++;
+        if (getMatClickCount > getMatClickTimes)
+        {
+            getMatClickCount = getMatClickTimes;
+        }
         //show getting material count down
         takeMatActionTextComponent.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
+        //only first time click to load material image
+        if (getMatClickCount == 1)
+        {
+            takeMatActionImageComponent.sprite = Resources.Load<Sprite>("materialSprite/" + getMaterial);
+        }
         Barmask.fillAmount = (float)getMatClickCount / (float)getMatClickTimes;
         //check if the player's click count is enough
         if (getMatClickCount >= getMatClickTimes)

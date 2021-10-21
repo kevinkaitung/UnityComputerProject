@@ -263,8 +263,16 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
             Debug.Log(hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
-            hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
-            gamePropsManager.instance.clickGameProps(team);
+            //有時候不知道為什麼會偵測到碰撞兩次道具箱的樣子(所以先用is active檢查避免)
+            if (hit.collider.gameObject.GetComponent<PhotonView>().isActiveAndEnabled)
+            {
+                hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+                gamePropsManager.instance.clickGameProps(team);
+            }
+            else
+            {
+                Debug.Log("item box photonview has problem");
+            }
         }
         else if (hit.collider.tag == "removalToolMyself")
         {

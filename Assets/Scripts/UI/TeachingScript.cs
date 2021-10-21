@@ -9,13 +9,13 @@ using UnityEngine.UI;
 
 public class TeachingScript : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     public GameObject TeachPanel;
-    [SerializeField] 
+    [SerializeField]
     public GameObject Exitbutton;
-    [SerializeField] 
+    [SerializeField]
     public GameObject NextPagebutton;
-    [SerializeField] 
+    [SerializeField]
     public GameObject FrontPageburron;
     [SerializeField]
     public GameObject Billboard_one;
@@ -26,10 +26,12 @@ public class TeachingScript : MonoBehaviour
     [SerializeField]
     public GameObject Billboard_four;
 
+    private bool firstTime = true;
 
-    
+
+
     public int Clicktime = 0;  //預計做三頁教學 數字可更改
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +43,12 @@ public class TeachingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Clicktime == 0)
-            FrontPageburron.SetActive(false);   
+        if (Clicktime == 0)
+            FrontPageburron.SetActive(false);
         else
             FrontPageburron.SetActive(true);
 
-        if(Clicktime == 3)
+        if (Clicktime == 3)
             NextPagebutton.SetActive(false);
         else
             NextPagebutton.SetActive(true);
@@ -57,7 +59,7 @@ public class TeachingScript : MonoBehaviour
         Clicktime += 1;
         switch (Clicktime)
         {
-            case 0 :
+            case 0:
                 Billboard_one.SetActive(true);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(false);
@@ -69,27 +71,27 @@ public class TeachingScript : MonoBehaviour
                 Billboard_three.SetActive(false);
                 Billboard_four.SetActive(false);
                 break;
-            case 2 :
+            case 2:
                 Billboard_one.SetActive(false);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(true);
                 Billboard_four.SetActive(false);
                 break;
-            case 3 :
+            case 3:
                 Billboard_one.SetActive(false);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(false);
                 Billboard_four.SetActive(true);
                 break;
         }
-        
+
     }
     public void GoFrontPage()
     {
         Clicktime -= 1;
         switch (Clicktime)
         {
-            case 0 :
+            case 0:
                 Billboard_one.SetActive(true);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(false);
@@ -101,20 +103,20 @@ public class TeachingScript : MonoBehaviour
                 Billboard_three.SetActive(false);
                 Billboard_four.SetActive(false);
                 break;
-            case 2 :
+            case 2:
                 Billboard_one.SetActive(false);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(true);
                 Billboard_four.SetActive(false);
                 break;
-            case 3 :
+            case 3:
                 Billboard_one.SetActive(false);
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(false);
                 Billboard_four.SetActive(true);
                 break;
         }
-        
+
     }
 
     public void ClosePanel()
@@ -125,6 +127,10 @@ public class TeachingScript : MonoBehaviour
         Billboard_four.SetActive(false);
         TeachPanel.SetActive(false);
         Clicktime = 0;
-
+        if (firstTime)
+        {
+            PlayerInputActionMode.instance.stateOne();
+            firstTime = false;
+        }
     }
 }
