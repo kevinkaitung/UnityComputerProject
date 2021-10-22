@@ -257,3 +257,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durationTime: 20
+  settingRoatation: {x: 45, y: 0, z: 0}

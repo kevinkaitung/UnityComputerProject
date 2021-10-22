@@ -12,13 +12,17 @@ public class gamePropsDestroy : MonoBehaviour
     bool flash = false;
     bool rotatectl = true;
     Color objcolor;
+    [SerializeField]
+    Vector3 settingRoatation;
+
     // Start is called before the first frame update
     void Start()
     {
         LeanTween.init(3200);
         objcolor = gameObject.GetComponentInChildren<Renderer>().material.color;
-        if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
-            transform.Rotate(35f, 30, 45f);
+        //if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
+        //    transform.Rotate(35f, 30, 45f);
+        transform.Rotate(settingRoatation);
     }
 
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class gamePropsDestroy : MonoBehaviour
         }
         if(rotatectl)
         {
-            if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
+            //if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
                 rotate();
             rotatectl = false;
             //transform.Rotate(-0.75f, -0.75f, 0.75f);

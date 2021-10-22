@@ -89,6 +89,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private int getMatClickCount = 0;   //click count for checking if the player can get material or not
     [SerializeField]
     private int getMatClickTimes = 10;  //min click times when the player wants to get material
+    [SerializeField]
+    public GameObject throwMaterialCube;
 
     [SerializeField]
     public Image Barmask;   //for progress bar
@@ -338,6 +340,32 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         Debug.Log("successfully get mat");
         isGetMat = true;
+    }
+
+    //instantiate throw material cube by player position and hold material
+    public void throwMaterialCubeInstantiate(Vector3 instPos, string materialType)
+    {
+        GameObject throwMaterialCubeClone = Instantiate(throwMaterialCube, instPos, Quaternion.identity) as GameObject;
+        throwMaterialCubeClone.GetComponent<MeshRenderer>().material = Resources.Load("materialTexture/Materials/" + materialType) as Material;
+        throwMaterialCubeClone.tag = materialType;
+        //assign photonview id for networked-destroy
+        PhotonView PV = throwMaterialCubeClone.GetComponent<PhotonView>();
+        if (PhotonNetwork.AllocateViewID(PV))
+        {
+            Debug.Log("success allocate view ID");
+        }
+        //call other players instantiate throw material cube by RPC
+        photonView.RPC("OtherThrowMaterialCubeInstantiate", RpcTarget.Others, instPos, materialType, PV.ViewID);
+    }
+
+    [PunRPC]
+    public void OtherThrowMaterialCubeInstantiate(Vector3 instPos, string materialType, int viewId)
+    {
+        GameObject throwMaterialCubeClone = Instantiate(throwMaterialCube, instPos, Quaternion.identity) as GameObject;
+        throwMaterialCubeClone.GetComponent<MeshRenderer>().material = Resources.Load("materialTexture/Materials/" + materialType) as Material;
+        throwMaterialCubeClone.tag = materialType;
+        PhotonView PV = throwMaterialCubeClone.GetComponent<PhotonView>();
+        PV.ViewID = viewId;
     }
 
     //player action warnings

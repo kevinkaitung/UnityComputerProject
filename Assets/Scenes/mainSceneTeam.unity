@@ -647,7 +647,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62216510}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &62216512
 Camera:
   m_ObjectHideFlags: 0
@@ -2744,6 +2744,8 @@ MonoBehaviour:
   actionWarningText: {fileID: 470595545}
   isGetMat: 0
   getMatClickTimes: 10
+  throwMaterialCube: {fileID: 2846683972221922212, guid: 210f1e24d9c906648b9817100e18e640,
+    type: 3}
   Barmask: {fileID: 1673026785}
   blackhole: {fileID: 2359471}
   BackToWaitRoomButton: {fileID: 724669649}
@@ -5674,7 +5676,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098539239}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1098539241
 Camera:
   m_ObjectHideFlags: 0
@@ -6383,7 +6385,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208548401}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &1208548403
 Camera:
   m_ObjectHideFlags: 0

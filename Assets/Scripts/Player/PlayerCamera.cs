@@ -45,10 +45,10 @@ public class PlayerCamera : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
         playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
         playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
-        blueteam = GameObject.Find("blueteamCamera").GetComponent<Camera>();
-        redteam = GameObject.Find("redteamCamera").GetComponent<Camera>();
-        blueteam.gameObject.SetActive(false);
-        redteam.gameObject.SetActive(false);
+        //blueteam = GameObject.Find("blueteamCamera").GetComponent<Camera>();
+        //redteam = GameObject.Find("redteamCamera").GetComponent<Camera>();
+        //blueteam.gameObject.SetActive(false);
+        //redteam.gameObject.SetActive(false);
         myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
         temp = playerCam.transform.position;
         //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
