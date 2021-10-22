@@ -1657,6 +1657,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 2910839384325683706}
+  slower: 0.3
+  speedup: 2
   speed: 12
   gravity: -9.81
   groundCheck: {fileID: 3790285834623141931}
@@ -2591,7 +2593,7 @@ Animator:
   m_GameObject: {fileID: 6065710309060867581}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f997149e48fb7564cbfe820189612254, type: 2}
-  m_Controller: {fileID: 9100000, guid: 533532475d776694dba26693223bc011, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0599086bbd8409b4e989328e2133a2ed, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

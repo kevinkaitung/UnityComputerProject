@@ -8,6 +8,9 @@ using ExitGames.Client.Photon;
 public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public CharacterController controller;
+    public float slower = 0.3f;
+
+    public float speedup = 2.0f;
 
     public float speed = 7.0f;
     public  float gravity = -9.81f;
@@ -56,6 +59,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 //slow down speed effect
                 change = 0;
+                speed *= slower;
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
             }
@@ -70,6 +74,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 //speedup effect
                 change = 2;
+                speed *= speedup;
                 //restart the timer
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
@@ -93,6 +98,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
     }
+    
     // Update is called once per frame
     void Update()
     {
@@ -104,6 +110,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 timerForChangeSpeedDuration = 0.0f;
                 change = 1;
+                speed = 7.0f;
                 startTimer = false;
             }
         }
@@ -114,36 +121,45 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         if(!PlayerInputActionMode.instance.enablePlayerMovement)
         {
+            anim.Play("Idle");
             return;
         }
+        //normal speed
+
         Move();
+        Debug.Log(speed);
     }
+   
     private void Move()
     {
         //anim.SetBool("Jump",false);
         isGround = Physics.CheckSphere(groundCheck.position,grounDistance,groundMask);
         if(isGround && velocity.y<0)
         {
-            velocity.y = -2f;
+            velocity.y = -2.0f;
         }
         float moveX  = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
         anim.SetFloat("Vertical", moveZ);
         anim.SetFloat("Horizontal", moveX);
+        
+        Vector3 move = transform.right * moveX + transform.forward * moveZ ;
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+       // SpeedChange();
+        
         if(isGround)
         {
-            if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space))
-            {
-                anim.SetBool("Jump",true);
-                Jump();
-            }
-                //moveDirection *= movespeed;
-         }
-         else if(!isGround)
+            anim.SetFloat("Velocity.y",velocity.y);
+            
+        }
+        if(isGround&&Input.GetButtonDown("Jump"))
+        {
+             Jump();   
+        }
+        else if(!isGround)
          {
              anim.SetBool("Jump",false);
+             anim.SetFloat("Velocity.y",velocity.y);
          }
         controller.Move(move * speed * Time.deltaTime);
         velocity.y += gravity * Time.deltaTime;
@@ -151,6 +167,31 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
     }
     private void Jump()
     {
+        anim.SetBool("Jump",true);
         velocity.y = Mathf.Sqrt(JumpHeight * -2 * gravity);
     }
+
+    /*
+    private void SpeedChange()
+    {
+        if (change == 1)
+        {
+            //anim.SetBool("Slower", false);
+            speed = 7.0f;
+        }
+        //slow down speed
+        else if (change == 0)
+        {
+            //anim.SetBool("Slower", true);
+            speed *= slower;
+
+        }
+        //speed up
+        else if (change == 2)
+        {
+           // anim.SetBool("Slower", false);
+            speed *= speedup;
+        
+        }
+    }*/
 }
