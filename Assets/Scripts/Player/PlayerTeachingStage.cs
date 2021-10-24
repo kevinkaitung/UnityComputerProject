@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerTeachingStage : MonoBehaviour
+public class PlayerTeachingStage : MonoBehaviourPun
 {
     private Camera playerCam;
     private float timer = 0.0f;
