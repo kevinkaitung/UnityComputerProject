@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerTeachingStage : MonoBehaviour
 {
@@ -10,12 +11,20 @@ public class PlayerTeachingStage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         playerCam = GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
