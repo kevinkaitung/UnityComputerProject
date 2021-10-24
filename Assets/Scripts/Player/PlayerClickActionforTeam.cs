@@ -77,11 +77,13 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             }
             else if (holdMaterial != "empty")
             {
-                Transform tempTransform = this.transform;
-                throwMaterialCube.transform.position = new Vector3(tempTransform.position.x, 1.5f, tempTransform.position.z) + tempTransform.forward * 5.0f + tempTransform.right * 3.0f;
+                /*throwMaterialCube.transform.position = new Vector3(tempTransform.position.x, 1.5f, tempTransform.position.z) + tempTransform.forward * 5.0f + tempTransform.right * 3.0f;
                 throwMaterialMesh.material = Resources.Load("materialTexture/Materials/" + holdMaterial) as Material;
                 throwMaterialCube.tag = holdMaterial;
-                PhotonNetwork.Instantiate("throwMaterialCube", throwMaterialCube.transform.position, throwMaterialCube.transform.rotation, 0);
+                PhotonNetwork.Instantiate("throwMaterialCube", throwMaterialCube.transform.position, throwMaterialCube.transform.rotation, 0);*/
+                Transform tempTransform = this.transform;
+                //call for instantiate throw material cube
+                teamGameLogicController.instance.throwMaterialCubeInstantiate(new Vector3(tempTransform.position.x, 1.5f, tempTransform.position.z) + tempTransform.forward * 5.0f + tempTransform.right * 3.0f, holdMaterial);
                 holdMaterial = "empty";
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
@@ -259,26 +261,64 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
+        PhotonView tempPV = null;
+        if (hit.collider.gameObject.GetComponentInParent<PhotonView>())
+        {
+            tempPV = hit.collider.gameObject.GetComponentInParent<PhotonView>();
+            if (tempPV.enabled == false)
+            {
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
         if (hit.collider.tag == "itembox")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
-            Debug.Log(hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
-            hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            Debug.Log(tempPV.ViewID);
+            //有時候不知道為什麼會偵測到碰撞兩次道具箱的樣子(所以先用is active檢查避免)
+            /*if (hit.collider.gameObject.GetComponent<PhotonView>().isActiveAndEnabled)
+            {
+                hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+                gamePropsManager.instance.clickGameProps(team);
+                hit.collider.gameObject.GetComponent<PhotonView>().enabled = false;
+            }
+            else
+            {
+                Debug.Log("item box photonview has problem");
+            }*/
+            tempPV.RPC("destroyObject", RpcTarget.MasterClient);
             gamePropsManager.instance.clickGameProps(team);
+            if (tempPV)
+            {
+                tempPV.enabled = false;
+            }
         }
         else if (hit.collider.tag == "removalToolMyself")
         {
+            Debug.Log(tempPV.ViewID);
             //after collision, destroy the game prop (only master client destroy the networked object)
-            hit.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            tempPV.RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolMyself";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+            if (tempPV)
+            {
+                tempPV.enabled = false;
+            }
         }
         else if (hit.collider.tag == "removalToolOther")
         {
+            Debug.Log(tempPV.ViewID);
             //after collision, destroy the game prop (only master client destroy the networked object)
-            hit.collider.gameObject.GetComponentInParent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+            tempPV.RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolOther";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+            if (tempPV)
+            {
+                tempPV.enabled = false;
+            }
         }
         else if (hit.gameObject.layer == 2) //layer ignore raycast
         {
@@ -289,7 +329,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 //change hold material cube texture (networked)
                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
-                hit.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+                tempPV.RPC("destroyObject", RpcTarget.All);
+                if(tempPV)
+                {
+                    tempPV.enabled = false;
+                }
             }
         }
     }

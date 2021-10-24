@@ -36,10 +36,10 @@ public class blackholeCollisionEffect : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         //if the player collide to blackhole, enable blackhole effect
-        if (other.collider.gameObject.tag == "blackholeObstacle")
+        if (hit.collider.gameObject.tag == "blackholeObstacle")
         {
             startTimer = true;
             //control player click action

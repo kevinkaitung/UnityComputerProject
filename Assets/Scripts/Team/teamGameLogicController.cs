@@ -62,6 +62,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
+    public GameObject exitPanel;
 
     [SerializeField]
     private GameObject holdMaterialImage;   //show hold material image
@@ -75,7 +76,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject takeMatActionPanel;      //panel for the player to show what material to get
     [SerializeField]
     public GameObject takeMatActionText;
+    public GameObject takeMatActionImage;
     private Text takeMatActionTextComponent;
+    private Image takeMatActionImageComponent;
     [SerializeField]
     public GameObject actionWarningPanel;      //panel for the player to show action warnings
     [SerializeField]
@@ -86,6 +89,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private int getMatClickCount = 0;   //click count for checking if the player can get material or not
     [SerializeField]
     private int getMatClickTimes = 10;  //min click times when the player wants to get material
+    [SerializeField]
+    public GameObject throwMaterialCube;
 
     [SerializeField]
     public Image Barmask;   //for progress bar
@@ -141,7 +146,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         }
         holdMaterialImageComponent = holdMaterialImage.GetComponent<Image>();
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
+        takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
+        exitPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -183,7 +190,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 timerText_mid.color = Color.red;
                 timerText_right.color = Color.red;
                 timerText_left.text = sec.ToString("00");
-                timerText_right.text =  millisec.ToString("00");
+                timerText_right.text = millisec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
@@ -191,6 +198,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 Debug.Log("time's up");
                 gameFinishDoing();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            exitPanel.SetActive(true);
         }
 
         blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
@@ -250,11 +261,11 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             await Task.Delay(10000);
             BackToWaitRoomButton.SetActive(true);
         }
-        while( backtowaitingroomclick == false)
-        { 
+        while (backtowaitingroomclick == false)
+        {
             await Task.Delay(1000);
             countdown++;
-            if(countdown == 20)
+            if (countdown == 20)
             {
                 backToWaitingRoomOnClick();
                 break;
@@ -299,8 +310,17 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         gettingMaterial = getMaterial;
         isGetMat = false;
         getMatClickCount++;
+        if (getMatClickCount > getMatClickTimes)
+        {
+            getMatClickCount = getMatClickTimes;
+        }
         //show getting material count down
         takeMatActionTextComponent.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
+        //only first time click to load material image
+        if (getMatClickCount == 1)
+        {
+            takeMatActionImageComponent.sprite = Resources.Load<Sprite>("materialSprite/" + getMaterial);
+        }
         Barmask.fillAmount = (float)getMatClickCount / (float)getMatClickTimes;
         //check if the player's click count is enough
         if (getMatClickCount >= getMatClickTimes)
@@ -320,6 +340,32 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         Debug.Log("successfully get mat");
         isGetMat = true;
+    }
+
+    //instantiate throw material cube by player position and hold material
+    public void throwMaterialCubeInstantiate(Vector3 instPos, string materialType)
+    {
+        GameObject throwMaterialCubeClone = Instantiate(throwMaterialCube, instPos, Quaternion.identity) as GameObject;
+        throwMaterialCubeClone.GetComponent<MeshRenderer>().material = Resources.Load("materialTexture/Materials/" + materialType) as Material;
+        throwMaterialCubeClone.tag = materialType;
+        //assign photonview id for networked-destroy
+        PhotonView PV = throwMaterialCubeClone.GetComponent<PhotonView>();
+        if (PhotonNetwork.AllocateViewID(PV))
+        {
+            Debug.Log("success allocate view ID");
+        }
+        //call other players instantiate throw material cube by RPC
+        photonView.RPC("OtherThrowMaterialCubeInstantiate", RpcTarget.Others, instPos, materialType, PV.ViewID);
+    }
+
+    [PunRPC]
+    public void OtherThrowMaterialCubeInstantiate(Vector3 instPos, string materialType, int viewId)
+    {
+        GameObject throwMaterialCubeClone = Instantiate(throwMaterialCube, instPos, Quaternion.identity) as GameObject;
+        throwMaterialCubeClone.GetComponent<MeshRenderer>().material = Resources.Load("materialTexture/Materials/" + materialType) as Material;
+        throwMaterialCubeClone.tag = materialType;
+        PhotonView PV = throwMaterialCubeClone.GetComponent<PhotonView>();
+        PV.ViewID = viewId;
     }
 
     //player action warnings
@@ -347,5 +393,14 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningTextComponent.text = warnings;
         yield return new WaitForSeconds(1);
         actionWarningPanel.SetActive(false);
+    }
+
+    public void exitgame()
+    {
+        Application.Quit();
+    }
+    public void backtogame()
+    {
+        exitPanel.SetActive(false);
     }
 }

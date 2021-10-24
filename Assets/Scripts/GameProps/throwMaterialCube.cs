@@ -11,6 +11,7 @@ public class throwMaterialCube : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        transform.Rotate(0.0f, 0.0f, -90.0f);
         transform.LeanMoveLocalY(1.0f, 1.5f).setEaseInOutCubic().setLoopPingPong();
     }
 
@@ -28,6 +29,8 @@ public class throwMaterialCube : MonoBehaviourPun
     [PunRPC]
     public void destroyObject()
     {
-        PhotonNetwork.Destroy(this.gameObject);
+        //PhotonNetwork.Destroy(this.gameObject);
+        //destroy by rpc (all clients)
+        Destroy(this.gameObject);
     }
 }

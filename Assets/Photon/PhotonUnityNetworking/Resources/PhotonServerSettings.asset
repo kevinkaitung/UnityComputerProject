@@ -55,6 +55,9 @@ MonoBehaviour:
   - RespawnSpaceship
   - showGamePropTypeTextEffect
   - showPlayerHoldMaterialCube
+  - destroyObject2
+  - throwMaterialCubeInstantiate
+  - OtherThrowMaterialCubeInstantiate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

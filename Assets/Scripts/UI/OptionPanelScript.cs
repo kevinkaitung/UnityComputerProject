@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.UI;
+using Photon.Pun.UtilityScripts;
 public class OptionPanelScript : MonoBehaviour
 {
     public GameObject exit;
     public GameObject quesion;
     public GameObject setting;
     public GameObject optionPanel;
+    public GameObject TeachPanel;
 
     bool clicktime;
 
@@ -26,10 +31,17 @@ public class OptionPanelScript : MonoBehaviour
         exit.SetActive(true);
         clicktime = true;
     }
-
+    IEnumerator rejoinLobby()
+    {
+        yield return new WaitForSeconds(1);
+        PhotonNetwork.LoadLevel("launch");
+        PhotonNetwork.JoinLobby();
+    }
     public void Exitgame()
     {
-
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveLobby();
+        StartCoroutine(rejoinLobby());
     }
 
     public void BacktoPanel()
@@ -53,8 +65,8 @@ public class OptionPanelScript : MonoBehaviour
 
     public void queswindow()
     {
-        optionPanel.SetActive(false);
-        quesion.SetActive(true);
+        //optionPanel.SetActive(false);
+        TeachPanel.SetActive(true);
         clicktime = true;
     }
 

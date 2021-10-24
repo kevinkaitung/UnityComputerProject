@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durationTime: 20
+  settingRoatation: {x: 45, y: 0, z: 0}
 --- !u!1 &7963000988186078174
 GameObject:
   m_ObjectHideFlags: 0

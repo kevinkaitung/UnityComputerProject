@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5028680740140010260}
   m_Layer: 2
   m_Name: throwMaterialCube
-  m_TagString: wood
+  m_TagString: water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2846683972221922212}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2.2194402, y: 1.5, z: 47.066086}
+  m_LocalPosition: {x: -35.21439, y: 1.5, z: 73.54424}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33fb542d2a8d7d442ad0d25737f2a52c, type: 2}
+  - {fileID: 2100000, guid: 8473668fe250a0149aa2c834a11277ae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -15,6 +15,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private GameObject lobbyPanel;  //lobby panel, show available room list and create room action
     [SerializeField]
     private GameObject mainPanel;   //start menu panel (before enter lobby)
+    public GameObject exitPanel;
 
     public InputField playerNameInput;  //get start menu panel player name input
 
@@ -45,9 +46,6 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private GameObject BlackPanel;
 
     
-    
-
-
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -218,6 +216,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         //initialize when back from waiting room scene or when into the start menu
         roomListings = new List<RoomInfo>();
         flashword();
+        exitPanel.SetActive(false);
     }   
      // Update is called once per frame
     void Update()
@@ -225,6 +224,10 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             JoinLobbyOnClick();
+        }
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            exitPanel.SetActive(true);
         }
     }
 
@@ -251,5 +254,13 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         await Task.Delay(1000);
         CreateRoom();
+    }
+    public void exitgame()
+    {
+        Application.Quit();
+    }
+    public void backtogame()
+    {
+        exitPanel.SetActive(false);
     }
 }

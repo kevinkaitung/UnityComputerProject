@@ -35,7 +35,7 @@ public class PlayerInputActionMode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stateOne();
+        stateThree();
         //calculate for screen center
         fixedCenterCursor.GetComponent<RectTransform>().position = new Vector3Int(Screen.width / 2, Screen.height / 2, 0);
         fixedCenterCursor.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.8f);
