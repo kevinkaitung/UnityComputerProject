@@ -6,7 +6,6 @@ using Photon.Pun.UtilityScripts;
 using Cinemachine;
 public class PlayerCamera : MonoBehaviourPun
 {
-    private Camera blueteam, redteam;
     private Camera playerCam;
     public enum RotationAxes
     {
@@ -45,10 +44,6 @@ public class PlayerCamera : MonoBehaviourPun
         playerCam = GetComponentInChildren<Camera>();
         playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
         playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
-        //blueteam = GameObject.Find("blueteamCamera").GetComponent<Camera>();
-        //redteam = GameObject.Find("redteamCamera").GetComponent<Camera>();
-        //blueteam.gameObject.SetActive(false);
-        //redteam.gameObject.SetActive(false);
         myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
         temp = playerCam.transform.position;
         //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
@@ -68,7 +63,13 @@ public class PlayerCamera : MonoBehaviourPun
         {
             return;
         }
-
+        if (Input.GetKeyDown(KeyCode.X) && god)
+        {
+            Debug.Log("jfklsa");
+            teamGameLogicController.instance.godcamera.SetActive(false);
+            playerCam.gameObject.SetActive(true);
+            god = false;
+        }
         //if open blueprint or see notice point info, freeze camera action
         if (!PlayerInputActionMode.instance.enableCameraControl)
         {
@@ -78,25 +79,11 @@ public class PlayerCamera : MonoBehaviourPun
         //rotate about y-axis: rotate character
         if (Input.GetKeyDown(KeyCode.C) && !god)
         {
-            if (myTeam == "Blue")
-            {
-                //playerCam.gameObject.SetActive(false);
-                blueteam.gameObject.SetActive(true);
-            }
-            else if (myTeam == "Red")
-            {
-                //playerCam.gameObject.SetActive(false);
-                redteam.gameObject.SetActive(true);
-            }
+            Debug.Log("sdjhflkds");
+            teamGameLogicController.instance.godcamera.SetActive(true);
             god = true;
         }
-        if (Input.GetKeyDown(KeyCode.X) && god)
-        {
-            playerCam.gameObject.SetActive(true);
-            redteam.gameObject.SetActive(false);
-            blueteam.gameObject.SetActive(false);
-            god = false;
-        }
+        
         if (!god)
         {
             if (m_axes == RotationAxes.MouseXAndY)

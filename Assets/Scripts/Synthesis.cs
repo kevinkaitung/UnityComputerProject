@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using LitJson;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
@@ -94,17 +95,24 @@ public class Synthesis : MonoBehaviourPunCallbacks
         AllData allData;
         allData = JsonMapper.ToObject<AllData>(datas);
         Debug.Log(allData);
+        PlayerInputActionMode.instance.stateTwo();
         foreach (var data in allData.synthesisDataNodes)
         {
             if (item1 == data.firstInputItem && item2 == data.secondInputItem)
-            {
+            {   
+                teamGameLogicController.instance.synthesisPanel.SetActive(true);
+                teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
                 return data.outputItem;
             }
             if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
+                teamGameLogicController.instance.synthesisPanel.SetActive(true);
+                teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
                 return data.outputItem;
             }
         }
+        teamGameLogicController.instance.synthesisPanel.SetActive(true);
+        teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
         return "empty";
     }
 
@@ -141,6 +149,11 @@ public class Synthesis : MonoBehaviourPunCallbacks
             showSynthesisMaterialCube.SetActive(true);
             synthesisMaterialMesh.material = Resources.Load("materialTexture/Materials/" + firstInputItem) as Material;
         }
+    }
+    public void closeSynthesisPanel()
+    {
+        teamGameLogicController.instance.synthesisPanel.SetActive(false);
+        PlayerInputActionMode.instance.stateOne();
     }
 }
 public class AllData

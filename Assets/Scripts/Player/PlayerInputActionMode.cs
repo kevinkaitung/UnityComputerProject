@@ -32,6 +32,7 @@ public class PlayerInputActionMode : MonoBehaviour
     public Texture2D cursorPointTexture;
     [SerializeField]
     private GameObject fixedCenterCursor;
+    bool exit = false, godcam = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +52,26 @@ public class PlayerInputActionMode : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftAlt) && state == 2)
         {
             stateOne();
+        }
+        if(teamGameLogicController.instance.exitPanel.active == true)
+        {
+            stateTwo();
+            exit = true;
+        }
+        if(teamGameLogicController.instance.exitPanel.active == false && exit)
+        {
+            stateOne();
+            exit = false;
+        }
+        if(teamGameLogicController.instance.godcamera.active == true && !godcam)
+        {
+            stateTwo();
+            godcam = true;
+        }
+        if(teamGameLogicController.instance.godcamera.active == false && godcam)
+        {
+            stateOne();
+            godcam = false;
         }
     }
 

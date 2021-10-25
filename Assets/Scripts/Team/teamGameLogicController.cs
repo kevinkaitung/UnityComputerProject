@@ -63,6 +63,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
     public GameObject exitPanel;
+    public GameObject synthesisPanel;
 
     [SerializeField]
     private GameObject holdMaterialImage;   //show hold material image
@@ -102,7 +103,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
-
+    public GameObject godcamera;
 
     //register for raise event
     public override void OnEnable()
@@ -149,6 +150,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
         exitPanel.SetActive(false);
+        godcamera = PhotonNetwork.Instantiate("godCamera", new Vector3(0f, 85f, 24.7f), Quaternion.Euler (90, 0, 0));
+        godcamera.SetActive(false);
+        synthesisPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -199,7 +203,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 gameFinishDoing();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             exitPanel.SetActive(true);
         }
