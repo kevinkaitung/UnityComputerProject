@@ -102,17 +102,20 @@ public class Synthesis : MonoBehaviourPunCallbacks
             {   
                 teamGameLogicController.instance.synthesisPanel.SetActive(true);
                 teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
             if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
                 teamGameLogicController.instance.synthesisPanel.SetActive(true);
                 teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
         }
         teamGameLogicController.instance.synthesisPanel.SetActive(true);
         teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
+        StartCoroutine(showSynthesisPanel());
         return "empty";
     }
 
@@ -155,6 +158,12 @@ public class Synthesis : MonoBehaviourPunCallbacks
         teamGameLogicController.instance.synthesisPanel.SetActive(false);
         PlayerInputActionMode.instance.stateOne();
     }
+    IEnumerator showSynthesisPanel()
+{
+    yield return new WaitForSeconds(2);
+    teamGameLogicController.instance.synthesisPanel.SetActive(false);
+}
+
 }
 public class AllData
 {
@@ -166,3 +175,4 @@ public class synthesisDataNode
     public string secondInputItem;
     public string outputItem;
 }
+

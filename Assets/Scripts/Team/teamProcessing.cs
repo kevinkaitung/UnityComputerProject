@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class teamProcessing : MonoBehaviourPunCallbacks
@@ -26,6 +27,22 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //check if finish building
     private bool isFinish;
     private string playerTeam;
+    
+    [SerializeField]
+    private Image Blueprint;
+
+    [SerializeField]
+    private Sprite one;
+    [SerializeField]
+    private Sprite two;
+    [SerializeField]
+    private Sprite three;
+    [SerializeField]
+    private Sprite four;
+    [SerializeField]
+    private Sprite five;
+    [SerializeField]
+    private Sprite six;
 
 
     // Start is called before the first frame update
@@ -72,7 +89,28 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             if (playerTeam == team)
             {
                 //show notice points info on blueprint
-                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+                switch (stageNumber)
+                {
+                    case 1:
+                        Blueprint.sprite = one;
+                        break;
+                    case 2:
+                        Blueprint.sprite = two;
+                        break;
+                    case 3:
+                        Blueprint.sprite = three;
+                        break;
+                    case 4:
+                        Blueprint.sprite = four;
+                        break;
+                    case 5:
+                        Blueprint.sprite = five;
+                        break;
+                    case 6:
+                        Blueprint.sprite = six;
+                        break;
+                }               
+//                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
@@ -101,7 +139,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+//                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 //assing photon view ID to sync
                 PhotonView PV = clone.GetComponent<PhotonView>();
@@ -137,8 +175,29 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             //change blue print if my team set new stage
             if (playerTeam == team)
             {
+                switch (stageNumber)
+                {
+                    case 1:
+                        Blueprint.sprite = one;
+                        break;
+                    case 2:
+                        Blueprint.sprite = two;
+                        break;
+                    case 3:
+                        Blueprint.sprite = three;
+                        break;
+                    case 4:
+                        Blueprint.sprite = four;
+                        break;
+                    case 5:
+                        Blueprint.sprite = five;
+                        break;
+                    case 6:
+                        Blueprint.sprite = six;
+                        break;
+                }               
                 //show notice points info on blueprint
-                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+//                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
@@ -167,7 +226,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+//                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 PV.ViewID = viewIDs[viewidIndex];

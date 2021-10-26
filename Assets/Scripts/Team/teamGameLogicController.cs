@@ -46,6 +46,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField] Text timerText_mid;
     [SerializeField] Text timerText_right;
     [SerializeField] Text holdMaterialText;
+    [SerializeField] Text TPtimerText_left;
+    [SerializeField] Text TPtimerText_mid;
+    [SerializeField] Text TPtimerText_right;
 
     bool backtowaitingroomclick = false;
 
@@ -185,16 +188,16 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 timerText_left.color = Color.white;
                 timerText_mid.color = Color.white;
                 timerText_right.color = Color.white;
-                timerText_left.text = min.ToString("00");
-                timerText_right.text = sec.ToString("00");
+                timerText_left.text = TPtimerText_left.text = min.ToString("00");
+                timerText_right.text = TPtimerText_right.text = sec.ToString("00");
             }
             else
             {
-                timerText_left.color = Color.red;
-                timerText_mid.color = Color.red;
-                timerText_right.color = Color.red;
-                timerText_left.text = sec.ToString("00");
-                timerText_right.text = millisec.ToString("00");
+                timerText_left.color = TPtimerText_left.color = Color.red;
+                timerText_mid.color = TPtimerText_mid.color = Color.red;
+                timerText_right.color = TPtimerText_right.color = Color.red;
+                timerText_left.text = TPtimerText_left.text = min.ToString("00");
+                timerText_right.text = TPtimerText_right.text = sec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
