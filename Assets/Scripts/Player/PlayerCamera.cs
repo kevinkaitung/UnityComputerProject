@@ -4,8 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Cinemachine;
+using UnityStandardAssets.Characters.FirstPerson;
 public class PlayerCamera : MonoBehaviourPun
 {
+    public MouseLook mouselook = new MouseLook();
+    public GameObject cam;
     private Camera playerCam;
     public enum RotationAxes
     {
@@ -27,8 +30,6 @@ public class PlayerCamera : MonoBehaviourPun
     private string myTeam;
 
     float m_rotationY = 0f;
-    bool jump = false;
-    bool god = false;
     Vector3 temp;
 
     // Start is called before the first frame update
@@ -40,10 +41,11 @@ public class PlayerCamera : MonoBehaviourPun
 
     void Awake()
     {
+        mouselook.Init(this.gameObject.transform, cam.transform);
         //get player's camera
         playerCam = GetComponentInChildren<Camera>();
-        playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
-        playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
+        //playerCam.gameObject.AddComponent<CinemachineVirtualCamera>();
+        //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().Follow = transform;
         myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
         temp = playerCam.transform.position;
         //playerCam.gameObject.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
@@ -63,13 +65,6 @@ public class PlayerCamera : MonoBehaviourPun
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.X) && god)
-        {
-            Debug.Log("jfklsa");
-            teamGameLogicController.instance.godcamera.SetActive(false);
-            playerCam.gameObject.SetActive(true);
-            god = false;
-        }
         //if open blueprint or see notice point info, freeze camera action
         if (!PlayerInputActionMode.instance.enableCameraControl)
         {
@@ -77,55 +72,41 @@ public class PlayerCamera : MonoBehaviourPun
         }
         //rotate about x-axis: rotate camera
         //rotate about y-axis: rotate character
-        if (Input.GetKeyDown(KeyCode.C) && !god)
         {
-            Debug.Log("sdjhflkds");
-            teamGameLogicController.instance.godcamera.SetActive(true);
-            god = true;
+            // get the rotation before it's changed
+            float oldYRotation = transform.eulerAngles.y;
+
+            mouselook.LookRotation(this.gameObject.transform, cam.transform);
+
+            // Rotate the rigidbody velocity to match the new direction that the character is looking
+            Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
+            //m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
+            // if (m_axes == RotationAxes.MouseXAndY)
+            // {
+            //     float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
+            //     m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            //     m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+            //     transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
+            //     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, m_rotationX, 0/*transform.rotation.z*/), Time.deltaTime);
+            //     //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y, playerCam.transform.rotation.z*/,0), Time.deltaTime);
+            // }
+            // else if (m_axes == RotationAxes.MouseX)
+            // {
+            //     transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
+            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, Input.GetAxis("Mouse X") * m_sensitivityX, 0/*transform.rotation.z*/), Time.deltaTime);
+            // }
+            // else
+            // {
+            //     m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
+            //     m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+
+            //     transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
+            //     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
+            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, playerCam.transform.localEulerAngles.y, 0/*transform.rotation.z*/), Time.deltaTime);
+            //     //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y*/, 0/*playerCam.transform.rotation.z*/), Time.deltaTime);
+            // }
         }
-        
-        if (!god)
-        {
-            if (m_axes == RotationAxes.MouseXAndY)
-            {
-                float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-                transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, m_rotationX, 0/*transform.rotation.z*/), Time.deltaTime);
-                //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y, playerCam.transform.rotation.z*/,0), Time.deltaTime);
-            }
-            else if (m_axes == RotationAxes.MouseX)
-            {
-                transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, Input.GetAxis("Mouse X") * m_sensitivityX, 0/*transform.rotation.z*/), Time.deltaTime);
-            }
-            else
-            {
-                m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-                m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-                transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
-                playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, playerCam.transform.localEulerAngles.y, 0/*transform.rotation.z*/), Time.deltaTime);
-                //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y*/, 0/*playerCam.transform.rotation.z*/), Time.deltaTime);
-            }
-        }
-        /*if (Input.GetKeyDown(KeyCode.Space) && !jump)
-        {
-            jump = true;
-            LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y + 5.0f, 0.3f).setOnComplete(down);
-        }*/
     }
-
-    /*void down()
-    {
-        LeanTween.moveY(playerCam.gameObject, playerCam.transform.position.y - 5.0f, 1.35f).setOnComplete(jumpfinish);
-    }
-    void jumpfinish()
-    {
-        jump = false;
-    }*/
 }

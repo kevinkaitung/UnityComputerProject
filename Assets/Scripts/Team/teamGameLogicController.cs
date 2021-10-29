@@ -65,8 +65,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
-    public GameObject exitPanel;
-    public GameObject synthesisPanel;
 
     [SerializeField]
     private GameObject holdMaterialImage;   //show hold material image
@@ -106,7 +104,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
-    public GameObject godcamera;
 
     //register for raise event
     public override void OnEnable()
@@ -152,10 +149,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
-        exitPanel.SetActive(false);
-        godcamera = PhotonNetwork.Instantiate("godCamera", new Vector3(0f, 85f, 24.7f), Quaternion.Euler (90, 0, 0));
-        godcamera.SetActive(false);
-        synthesisPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -205,10 +198,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 Debug.Log("time's up");
                 gameFinishDoing();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            exitPanel.SetActive(true);
         }
 
         blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
@@ -402,12 +391,4 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningPanel.SetActive(false);
     }
 
-    public void exitgame()
-    {
-        Application.Quit();
-    }
-    public void backtogame()
-    {
-        exitPanel.SetActive(false);
-    }
 }

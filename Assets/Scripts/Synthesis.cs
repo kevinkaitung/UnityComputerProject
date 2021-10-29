@@ -38,6 +38,7 @@ public class Synthesis : MonoBehaviourPunCallbacks
     private string myTeam;  //紀錄本地端玩家的隊伍，以修改相對應的第一項物品
     public GameObject showSynthesisMaterialCube;
     private MeshRenderer synthesisMaterialMesh;
+    public GameObject synthesisPanel;
     void Start()
     {
         firstInputItem = "empty";
@@ -95,26 +96,25 @@ public class Synthesis : MonoBehaviourPunCallbacks
         AllData allData;
         allData = JsonMapper.ToObject<AllData>(datas);
         Debug.Log(allData);
-        PlayerInputActionMode.instance.stateTwo();
         foreach (var data in allData.synthesisDataNodes)
         {
             if (item1 == data.firstInputItem && item2 == data.secondInputItem)
-            {   
-                teamGameLogicController.instance.synthesisPanel.SetActive(true);
-                teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+            {
+                synthesisPanel.SetActive(true);
+                synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
                 StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
             if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
-                teamGameLogicController.instance.synthesisPanel.SetActive(true);
-                teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                synthesisPanel.SetActive(true);
+                synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
                 StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
         }
-        teamGameLogicController.instance.synthesisPanel.SetActive(true);
-        teamGameLogicController.instance.synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
+        synthesisPanel.SetActive(true);
+        synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
         StartCoroutine(showSynthesisPanel());
         return "empty";
     }
@@ -155,14 +155,13 @@ public class Synthesis : MonoBehaviourPunCallbacks
     }
     public void closeSynthesisPanel()
     {
-        teamGameLogicController.instance.synthesisPanel.SetActive(false);
-        PlayerInputActionMode.instance.stateOne();
+        synthesisPanel.SetActive(false);
     }
     IEnumerator showSynthesisPanel()
-{
-    yield return new WaitForSeconds(2);
-    teamGameLogicController.instance.synthesisPanel.SetActive(false);
-}
+    {
+        yield return new WaitForSeconds(2);
+        synthesisPanel.SetActive(false);
+    }
 
 }
 public class AllData

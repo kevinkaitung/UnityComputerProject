@@ -8,11 +8,12 @@ using ExitGames.Client.Photon;
 public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public CharacterController controller;
-    public float slower = 0.3f;
+    public float slower = 0.5f;
 
-    public float speedup = 2.0f;
+    public float speedup = 1.5f;
 
-    public float speed = 7.0f;
+    public float speed = 12.0f;
+    public float changedSpeedHeadBob = 4.0f;
     public  float gravity = -9.81f;
 
     public Transform groundCheck;
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public float JumpHeight = 3f;
 
-    bool isGround;
+    public bool isGround;
 
     Vector3 velocity;
     private Animator anim;
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 //slow down speed effect
                 change = 0;
                 speed *= slower;
+                changedSpeedHeadBob *= slower;
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
             }
@@ -75,6 +77,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 //speedup effect
                 change = 2;
                 speed *= speedup;
+                changedSpeedHeadBob *= speedup;
                 //restart the timer
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
@@ -98,7 +101,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
     }
-    
+    public Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);
     // Update is called once per frame
     void Update()
     {
@@ -110,7 +113,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 timerForChangeSpeedDuration = 0.0f;
                 change = 1;
-                speed = 7.0f;
+                speed = 12.0f;
+                changedSpeedHeadBob = 4.0f;
                 startTimer = false;
             }
         }
@@ -125,9 +129,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             return;
         }
         //normal speed
-
+        
         Move();
-        Debug.Log(speed);
     }
    
     private void Move()
@@ -143,7 +146,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         anim.SetFloat("Vertical", moveZ);
         anim.SetFloat("Horizontal", moveX);
         
-        Vector3 move = transform.right * moveX + transform.forward * moveZ ;
+        move = transform.right * moveX + transform.forward * moveZ ;
 
        // SpeedChange();
         

@@ -7,22 +7,27 @@ public class buttonScript : MonoBehaviour
     public GameObject blueprintPanel;
     public GameObject optionPanel;
     public GameObject chatroomPanel;
+    public GameObject godCamera;
+    public GameObject teachingPanel;
 
     bool clicktimeBP;
     bool clicktimeOP;
     bool clicktimeCP;
+    bool clicktimeGC;
     // Start is called before the first frame update
     void Start()
     {
         blueprintPanel.SetActive(false);
         optionPanel.SetActive(false);
         chatroomPanel.SetActive(false);
+        godCamera.SetActive(false);
         /*LeanTween.scale(blueprintPanel, new Vector3(0, 0, 0), 0.1f);
         LeanTween.moveX(blueprintPanel.GetComponent<RectTransform>(), 415f, 0.1f);
         LeanTween.moveY(blueprintPanel.GetComponent<RectTransform>(), -148f, 0.1f);*/
         clicktimeBP = false;
         clicktimeOP = false;
         clicktimeCP = false;
+        clicktimeGC = false;
     }
 
     void Update()
@@ -47,19 +52,40 @@ public class buttonScript : MonoBehaviour
                 chatroomPanel.SetActive(true);
                 clicktimeCP = true;
             }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                PlayerInputActionMode.instance.stateThree();
+                godCamera.SetActive(true);
+                clicktimeGC = true;
+            }
         }
         //state 3
         else if (PlayerInputActionMode.instance.state == 3)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                PlayerInputActionMode.instance.stateOne();
                 blueprintPanel.SetActive(false);
                 optionPanel.SetActive(false);
                 chatroomPanel.SetActive(false);
+                teachingPanel.SetActive(false);
                 clicktimeBP = false;
                 clicktimeOP = false;
                 clicktimeCP = false;
+                //check for whether other actions are active or not
+                if (!clicktimeBP && !clicktimeOP && !clicktimeCP && !clicktimeGC)
+                {
+                    PlayerInputActionMode.instance.stateOne();
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                godCamera.SetActive(false);
+                clicktimeGC = false;
+                //check for whether other actions are active or not
+                if (!clicktimeBP && !clicktimeOP && !clicktimeCP && !clicktimeGC)
+                {
+                    PlayerInputActionMode.instance.stateOne();
+                }
             }
         }
     }
@@ -115,7 +141,7 @@ public class buttonScript : MonoBehaviour
 
     public void callUIChangeState()
     {
-        if (clicktimeBP == true || clicktimeOP == true || clicktimeCP == true)
+        if (clicktimeBP == true || clicktimeOP == true || clicktimeCP == true || clicktimeGC == true)
         {
             PlayerInputActionMode.instance.stateThree();
             Debug.Log("state 3");
