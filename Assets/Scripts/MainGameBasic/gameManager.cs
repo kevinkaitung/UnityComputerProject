@@ -25,10 +25,14 @@ namespace mySection
         // Start is called before the first frame update
         void Start()
         {
-            playerStyle = (string)PhotonNetwork.LocalPlayer.CustomProperties["playerStyle"];
-            if (playerStyle == null)
+            object playerStyleOutput;
+            if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("playerStyle", out playerStyleOutput))
             {
-                playerStyle = "player";
+                playerStyle = (string)playerStyleOutput;
+            }
+            else
+            {
+                playerStyle = "character1";
             }
             if (playerPrefab == null)
             {

@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 //slow down speed effect
                 change = 0;
-                speed *= slower;
+                speed = 6.0f;
                 changedSpeedHeadBob *= slower;
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 //speedup effect
                 change = 2;
-                speed *= speedup;
+                speed = 18.0f;
                 changedSpeedHeadBob *= speedup;
                 //restart the timer
                 startTimer = true;
