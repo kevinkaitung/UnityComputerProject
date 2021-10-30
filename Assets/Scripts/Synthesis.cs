@@ -39,6 +39,7 @@ public class Synthesis : MonoBehaviourPunCallbacks
     public GameObject showSynthesisMaterialCube;
     private MeshRenderer synthesisMaterialMesh;
     public GameObject synthesisPanel;
+    public GameObject synthesisImage;
     void Start()
     {
         firstInputItem = "empty";
@@ -102,6 +103,8 @@ public class Synthesis : MonoBehaviourPunCallbacks
             {
                 synthesisPanel.SetActive(true);
                 synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                synthesisImage.SetActive(true);
+                synthesisImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + data.outputItem);
                 StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
@@ -109,11 +112,14 @@ public class Synthesis : MonoBehaviourPunCallbacks
             {
                 synthesisPanel.SetActive(true);
                 synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                synthesisImage.SetActive(true);
+                synthesisImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + data.outputItem);
                 StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
         }
         synthesisPanel.SetActive(true);
+        synthesisImage.SetActive(false);
         synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
         StartCoroutine(showSynthesisPanel());
         return "empty";
