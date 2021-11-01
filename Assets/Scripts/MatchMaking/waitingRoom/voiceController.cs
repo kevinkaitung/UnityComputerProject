@@ -82,6 +82,8 @@ public class voiceController : MonoBehaviourPunCallbacks
             {
                 //Photon.Voice.PUN.PhotonVoiceNetwork.Instance.Client.OpChangeGroups(worldGroup, redGroup);
                 Photon.Voice.PUN.PhotonVoiceNetwork.Instance.Client.GlobalAudioGroup = 1;
+                //PhotonNetwork.SetInterestGroups((byte)0, false);
+                //PhotonNetwork.SetInterestGroups((byte)1, true);
                 Debug.Log("切換到紅隊語音頻道");
             }
             else
