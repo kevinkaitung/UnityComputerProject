@@ -13,6 +13,7 @@ public class OptionPanelScript : MonoBehaviour
     public GameObject setting;
     public GameObject optionPanel;
     public GameObject TeachPanel;
+    public GameObject shutDownGamePanel;
 
     bool clicktime;
 
@@ -22,6 +23,7 @@ public class OptionPanelScript : MonoBehaviour
         exit.SetActive(false);
         quesion.SetActive(false);
         setting.SetActive(false);
+        shutDownGamePanel.SetActive(false);
         clicktime = false;
     }
 
@@ -52,8 +54,9 @@ public class OptionPanelScript : MonoBehaviour
             exit.SetActive(false);
             setting.SetActive(false);
             quesion.SetActive(false);
+            shutDownGamePanel.SetActive(false);
+            clicktime = false;
         }
-        
     }
 
     public void settingwindow()
@@ -68,6 +71,18 @@ public class OptionPanelScript : MonoBehaviour
         //optionPanel.SetActive(false);
         TeachPanel.SetActive(true);
         clicktime = true;
+    }
+
+    public void shutDownGameWindow()
+    {
+        //optionPanel.SetActive(false);
+        shutDownGamePanel.SetActive(true);
+        clicktime = true;
+    }
+
+    public void shutDownGame()
+    {
+        Application.Quit();
     }
 
 }

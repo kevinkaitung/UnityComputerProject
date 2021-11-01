@@ -44,7 +44,8 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private GameObject buttonPanel;
     [SerializeField]
     private GameObject BlackPanel;
-
+    [SerializeField]
+    private GameObject RoomListPanel;
     
     public override void OnConnectedToMaster()
     {
@@ -90,7 +91,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     {
         mainPanel.SetActive(false);
         lobbyPanel.SetActive(true);
-
+        
         //show player name in lobby
         Text showPlayerName = showPlayerNameInLobby.GetComponent<Text>();
         showPlayerName.text = "Hello, " + PhotonNetwork.NickName;
@@ -201,6 +202,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     {
         mainPanel.SetActive(true);
         lobbyPanel.SetActive(false);
+        RoomListPanel.SetActive(false);
         PhotonNetwork.LeaveLobby();
         if (PhotonNetwork.IsConnected)
         {
@@ -241,11 +243,13 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         LeanTween.color(FlourishRight.GetComponent<RectTransform>(), Color.white, 1f) .setDelay(1f).setOnComplete(flashword);
     }
 
-    public void LobbyPanelAnimation()
+    async void  LobbyPanelAnimation()
     { 
         LeanTween.scale(wordPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
         LeanTween.scale(buttonBackground, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
         LeanTween.scale(buttonPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeInCubic);
+        await Task.Delay(500);
+        RoomListPanel.SetActive(true);
     }
 
     async void ChangeScene()

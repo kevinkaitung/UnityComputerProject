@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using LitJson;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
@@ -37,6 +38,8 @@ public class Synthesis : MonoBehaviourPunCallbacks
     private string myTeam;  //紀錄本地端玩家的隊伍，以修改相對應的第一項物品
     public GameObject showSynthesisMaterialCube;
     private MeshRenderer synthesisMaterialMesh;
+    public GameObject synthesisPanel;
+    public GameObject synthesisImage;
     void Start()
     {
         firstInputItem = "empty";
@@ -98,13 +101,27 @@ public class Synthesis : MonoBehaviourPunCallbacks
         {
             if (item1 == data.firstInputItem && item2 == data.secondInputItem)
             {
+                synthesisPanel.SetActive(true);
+                synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                synthesisImage.SetActive(true);
+                synthesisImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + data.outputItem);
+                StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
             if (item2 == data.firstInputItem && item1 == data.secondInputItem)
             {
+                synthesisPanel.SetActive(true);
+                synthesisPanel.GetComponentInChildren<Text>().text = "恭喜你成功合成了:\n" + data.outputItem;
+                synthesisImage.SetActive(true);
+                synthesisImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + data.outputItem);
+                StartCoroutine(showSynthesisPanel());
                 return data.outputItem;
             }
         }
+        synthesisPanel.SetActive(true);
+        synthesisImage.SetActive(false);
+        synthesisPanel.GetComponentInChildren<Text>().text = "合成錯誤!\n請放入正確的材料!";
+        StartCoroutine(showSynthesisPanel());
         return "empty";
     }
 
@@ -142,6 +159,16 @@ public class Synthesis : MonoBehaviourPunCallbacks
             synthesisMaterialMesh.material = Resources.Load("materialTexture/Materials/" + firstInputItem) as Material;
         }
     }
+    public void closeSynthesisPanel()
+    {
+        synthesisPanel.SetActive(false);
+    }
+    IEnumerator showSynthesisPanel()
+    {
+        yield return new WaitForSeconds(2);
+        synthesisPanel.SetActive(false);
+    }
+
 }
 public class AllData
 {
@@ -153,3 +180,4 @@ public class synthesisDataNode
     public string secondInputItem;
     public string outputItem;
 }
+

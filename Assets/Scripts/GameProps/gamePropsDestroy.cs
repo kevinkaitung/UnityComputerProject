@@ -67,6 +67,6 @@ public class gamePropsDestroy : MonoBehaviour
     }
     void rotate()
     {
-        LeanTween.rotateAround(gameObject, Vector3.up, 360f, 1f).setOnComplete(rotate);
+        LeanTween.rotateAround(gameObject, Vector3.up, 360f, 2.0f).setOnComplete(rotate);
     }
 }

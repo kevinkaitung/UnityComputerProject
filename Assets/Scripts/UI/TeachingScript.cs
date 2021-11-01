@@ -25,10 +25,8 @@ public class TeachingScript : MonoBehaviour
     public GameObject Billboard_three;
     [SerializeField]
     public GameObject Billboard_four;
-
+    
     private bool firstTime = true;
-
-
 
     public int Clicktime = 0;  //預計做三頁教學 數字可更改
 
@@ -76,6 +74,7 @@ public class TeachingScript : MonoBehaviour
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(true);
                 Billboard_four.SetActive(false);
+                
                 break;
             case 3:
                 Billboard_one.SetActive(false);

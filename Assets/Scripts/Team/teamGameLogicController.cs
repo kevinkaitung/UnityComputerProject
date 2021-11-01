@@ -46,6 +46,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     [SerializeField] Text timerText_mid;
     [SerializeField] Text timerText_right;
     [SerializeField] Text holdMaterialText;
+    [SerializeField] Text TPtimerText_left;
+    [SerializeField] Text TPtimerText_mid;
+    [SerializeField] Text TPtimerText_right;
 
     bool backtowaitingroomclick = false;
 
@@ -62,7 +65,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
     private GameObject mainGamePanel;  //lobby panel, showing when game is progressing
-    public GameObject exitPanel;
 
     [SerializeField]
     private GameObject holdMaterialImage;   //show hold material image
@@ -102,7 +104,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
-
 
     //register for raise event
     public override void OnEnable()
@@ -148,7 +149,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
-        exitPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -181,16 +181,16 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 timerText_left.color = Color.white;
                 timerText_mid.color = Color.white;
                 timerText_right.color = Color.white;
-                timerText_left.text = min.ToString("00");
-                timerText_right.text = sec.ToString("00");
+                timerText_left.text = TPtimerText_left.text = min.ToString("00");
+                timerText_right.text = TPtimerText_right.text = sec.ToString("00");
             }
             else
             {
-                timerText_left.color = Color.red;
-                timerText_mid.color = Color.red;
-                timerText_right.color = Color.red;
-                timerText_left.text = sec.ToString("00");
-                timerText_right.text = millisec.ToString("00");
+                timerText_left.color = TPtimerText_left.color = Color.red;
+                timerText_mid.color = TPtimerText_mid.color = Color.red;
+                timerText_right.color = TPtimerText_right.color = Color.red;
+                timerText_left.text = TPtimerText_left.text = min.ToString("00");
+                timerText_right.text = TPtimerText_right.text = sec.ToString("00");
             }
             if (timerIncrementValue >= timer)
             {
@@ -198,10 +198,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
                 Debug.Log("time's up");
                 gameFinishDoing();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            exitPanel.SetActive(true);
         }
 
         blackhole.transform.rotation = Quaternion.Euler(0.0f, 0.0f, (float)ringspeed);
@@ -395,12 +391,4 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningPanel.SetActive(false);
     }
 
-    public void exitgame()
-    {
-        Application.Quit();
-    }
-    public void backtogame()
-    {
-        exitPanel.SetActive(false);
-    }
 }
