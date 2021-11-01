@@ -156,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 190, y: 140}
+  m_AnchoredPosition: {x: 0, y: 32}
+  m_SizeDelta: {x: 161.0039, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &16837293
 MonoBehaviour:
@@ -187,7 +187,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 37b5f9da2be310b4ea84a93e1da0e944,
+    m_HighlightedSprite: {fileID: 21300000, guid: 4d8b8efe27d118c41a3c29d01c9030c5,
       type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 86d5f1b493c0bd345a9088a7e366e7d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aaca8e2e20eb89d4e91947d17ed106e4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
