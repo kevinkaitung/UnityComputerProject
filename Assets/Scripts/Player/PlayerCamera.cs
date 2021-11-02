@@ -54,6 +54,20 @@ public class PlayerCamera : MonoBehaviourPun
             //close other's camera to avoid rendering other's camera scene
             playerCam.gameObject.SetActive(false);
         }
+        for(int i = 0; i < 10; i++)
+        {
+            if(PhotonNetwork.NickName == teamGameLogicController.instance.playerlist[i])
+            {
+                Debug.Log("hajsklsd");
+                this.gameObject.layer = LayerMask.NameToLayer(teamGameLogicController.instance.layerlist[i]);
+                foreach(Transform j in GetComponentsInChildren<Transform>())
+                {
+			        j.gameObject.layer = LayerMask.NameToLayer(teamGameLogicController.instance.layerlist[i]);//更改物體的Layer層
+		        }
+                playerCam.cullingMask =~(1 << i+10);
+                break;
+            }
+        }
     }
 
     // Update is called once per frame

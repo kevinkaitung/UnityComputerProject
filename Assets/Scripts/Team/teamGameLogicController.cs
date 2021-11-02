@@ -104,6 +104,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
+    public List<string> playerlist;
+    public List<string> layerlist;
 
     //register for raise event
     public override void OnEnable()
@@ -149,6 +151,19 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
+        foreach(var i in PhotonNetwork.PlayerList)
+        {
+            string temp;
+            temp = i.ToString().Remove(i.ToString().Length-1);
+            temp = temp.Remove(0,5);
+            playerlist.Add(temp);
+            temp = i.ToString().Remove(3);
+            layerlist.Add(temp);
+        }
+        foreach(var i in playerlist)
+        {
+            Debug.Log(i);
+        }
     }
 
     // Update is called once per frame
