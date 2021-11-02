@@ -32,17 +32,35 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private Image Blueprint;
 
     [SerializeField]
-    private Sprite one;
+    private Sprite one_front;
     [SerializeField]
-    private Sprite two;
+    private Sprite one_left;
     [SerializeField]
-    private Sprite three;
+    private Sprite one_right;
     [SerializeField]
-    private Sprite four;
+    private Sprite one_back;
     [SerializeField]
-    private Sprite five;
+    private Sprite three_front;
+    [SerializeField]
+    private Sprite three_left;
+    [SerializeField]
+    private Sprite three_right;
+    [SerializeField]
+    private Sprite three_back;
+
+    [SerializeField]
+    private Sprite five_front;
+    [SerializeField]
+    private Sprite five_left;
+    [SerializeField]
+    private Sprite five_right;
+    [SerializeField]
+    private Sprite five_back;
     [SerializeField]
     private Sprite six;
+    [SerializeField]
+    private Sprite six_plus;
+
 
 
     // Start is called before the first frame update
@@ -92,19 +110,19 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 switch (stageNumber)
                 {
                     case 1:
-                        Blueprint.sprite = one;
+                        Blueprint.sprite = one_front;
                         break;
                     case 2:
-                        Blueprint.sprite = two;
+                        Blueprint.sprite = one_front;
                         break;
                     case 3:
-                        Blueprint.sprite = three;
+                        Blueprint.sprite = three_front;
                         break;
                     case 4:
-                        Blueprint.sprite = four;
+                        Blueprint.sprite = three_front;
                         break;
                     case 5:
-                        Blueprint.sprite = five;
+                        Blueprint.sprite = five_front;
                         break;
                     case 6:
                         Blueprint.sprite = six;
@@ -178,19 +196,19 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 switch (stageNumber)
                 {
                     case 1:
-                        Blueprint.sprite = one;
+                        Blueprint.sprite = one_front;
                         break;
                     case 2:
-                        Blueprint.sprite = two;
+                        Blueprint.sprite = one_front;
                         break;
                     case 3:
-                        Blueprint.sprite = three;
+                        Blueprint.sprite = three_front;
                         break;
                     case 4:
-                        Blueprint.sprite = four;
+                        Blueprint.sprite = three_front;
                         break;
                     case 5:
-                        Blueprint.sprite = five;
+                        Blueprint.sprite = five_front;
                         break;
                     case 6:
                         Blueprint.sprite = six;
@@ -316,5 +334,97 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     {
         accuracy = (float)correctCount / (float)dataNodeLen;
         return accuracy;
+    }
+
+    public void ChangeSightNorth()//目前有bug 下面數字不會動
+    {
+        switch (currentStageNumber)
+        {
+            case 1:
+                Blueprint.sprite = one_front;
+                break;
+            case 2:
+                Blueprint.sprite = one_front;
+                break;
+            case 3:
+                Blueprint.sprite = three_front;
+                break;
+            case 4:
+                Blueprint.sprite = three_front;
+                break;
+            case 5:
+                Blueprint.sprite = five_front;
+                break;
+        }
+
+    }
+    public void ChangeSightEast()
+    {
+        switch (currentStageNumber)
+        {
+            case 1:
+                Blueprint.sprite = one_left;
+                break;
+            case 2:
+                Blueprint.sprite = one_left;
+                break;
+            case 3:
+                Blueprint.sprite = three_left;
+                break;
+            case 4:
+                Blueprint.sprite = three_left;
+                break;
+            case 5:
+                Blueprint.sprite = five_left;
+                break;
+        }
+
+    }
+    public void ChangeSightWest()
+    {
+        switch (currentStageNumber)
+        {
+            case 1:
+                Blueprint.sprite = one_right;
+                break;
+            case 2:
+                Blueprint.sprite = one_right;
+                break;
+            case 3:
+                Blueprint.sprite = three_right;
+                break;
+            case 4:
+                Blueprint.sprite = three_right;
+                break;
+            case 5:
+                Blueprint.sprite = five_right;
+                break;
+            case 6:
+                Blueprint.sprite = six_plus;
+                break;
+        }
+
+    }
+    public void ChangeSightSouth()
+    {
+        switch (currentStageNumber)
+        {
+            case 1:
+                Blueprint.sprite = one_back;
+                break;
+            case 2:
+                Blueprint.sprite = one_back;
+                break;
+            case 3:
+                Blueprint.sprite = three_back;
+                break;
+            case 4:
+                Blueprint.sprite = three_back;
+                break;
+            case 5:
+                Blueprint.sprite = three_back;
+                break;
+        }
+
     }
 }
