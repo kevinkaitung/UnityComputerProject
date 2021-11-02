@@ -58,6 +58,7 @@ public class PlayerCamera : MonoBehaviourPun
         {
             if(PhotonNetwork.NickName == teamGameLogicController.instance.playerlist[i])
             {
+                PhotonNetwork.NickName = PhotonNetwork.NickName + "new";
                 Debug.Log("hajsklsd");
                 this.gameObject.layer = LayerMask.NameToLayer(teamGameLogicController.instance.layerlist[i]);
                 foreach(Transform j in GetComponentsInChildren<Transform>())
