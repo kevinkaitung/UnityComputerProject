@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.451343, g: 0.5009481, b: 0.57293546, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1242,6 +1242,9 @@ MonoBehaviour:
   noticePointInfoPanel: {fileID: 326468692}
   blueprintPanel: {fileID: 2108008631}
   synthesisformulaPanel: {fileID: 1279533764}
+  materialFieldInfoPanel: {fileID: 0}
+  materialFieldInfoText: {fileID: 0}
+  materialFieldInfoImage: {fileID: 0}
   closeBlueprintButton: {fileID: 2090549259}
   singleNoticePointInfoText: {fileID: 1505845760}
   bluePrintText: {fileID: 1574842671}
@@ -2806,9 +2809,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8880ec56f8be68b44ba8829397c1e085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectionState: {fileID: 363020084}
-  msgInput: {fileID: 639793397}
-  msgArea: {fileID: 367764678}
+  connectionState: {fileID: 0}
+  msgInput: {fileID: 0}
+  msgArea: {fileID: 0}
   userID: 
 --- !u!1 &1661138079
 GameObject:
@@ -4102,6 +4105,9 @@ MonoBehaviour:
   secondInputItem: 
   outputItem: 
   synthesisJsonFile: {fileID: 4900000, guid: 7cea11cb388c49640bd73501b162ee1d, type: 3}
+  showSynthesisMaterialCube: {fileID: 0}
+  synthesisPanel: {fileID: 0}
+  synthesisImage: {fileID: 0}
 --- !u!1 &919132149018541220
 GameObject:
   m_ObjectHideFlags: 0

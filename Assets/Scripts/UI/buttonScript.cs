@@ -21,6 +21,7 @@ public class buttonScript : MonoBehaviour
         optionPanel.SetActive(false);
         chatroomPanel.SetActive(false);
         godCamera.SetActive(false);
+        GodViewPlayersInfo.instance.GodViewPlayersInfoPanel.SetActive(false);
         /*LeanTween.scale(blueprintPanel, new Vector3(0, 0, 0), 0.1f);
         LeanTween.moveX(blueprintPanel.GetComponent<RectTransform>(), 415f, 0.1f);
         LeanTween.moveY(blueprintPanel.GetComponent<RectTransform>(), -148f, 0.1f);*/
@@ -57,6 +58,7 @@ public class buttonScript : MonoBehaviour
                 PlayerInputActionMode.instance.stateThree();
                 godCamera.SetActive(true);
                 clicktimeGC = true;
+                GodViewPlayersInfo.instance.GodViewPlayersInfoPanel.SetActive(true);
             }
         }
         //state 3
@@ -81,6 +83,7 @@ public class buttonScript : MonoBehaviour
             {
                 godCamera.SetActive(false);
                 clicktimeGC = false;
+                GodViewPlayersInfo.instance.GodViewPlayersInfoPanel.SetActive(false);
                 //check for whether other actions are active or not
                 if (!clicktimeBP && !clicktimeOP && !clicktimeCP && !clicktimeGC)
                 {
