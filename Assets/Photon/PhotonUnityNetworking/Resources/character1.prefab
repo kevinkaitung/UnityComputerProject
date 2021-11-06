@@ -3721,7 +3721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNameText: {fileID: 5471188831870293025}
-  cam: {fileID: 0}
   thisCharacter: {fileID: 3996155449028842639}
   currentPlayerPos: {x: 0, y: 0}
   myTeam: 
