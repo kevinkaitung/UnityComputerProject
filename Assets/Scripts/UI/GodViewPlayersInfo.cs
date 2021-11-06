@@ -34,7 +34,7 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
     public RectTransform playerUIprefab;
     public float width, height;
     private string myTeam;
-    List<PlayerInfoUI> playersInfo;
+    public List<PlayerInfoUI> playersInfo;
     private int okCount = 0;
     // Start is called before the first frame update
     void Start()
@@ -76,6 +76,27 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
     void Update()
     {
 
+    }
+
+    //if any player left room, adjust list
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        playersInfo.Clear();
+        int count = GodViewPlayersInfoPanel.transform.childCount;
+        for (int i = 0; i < count; i++)
+        {
+            PlayerInfoUI tempInfo = GodViewPlayersInfoPanel.transform.GetChild(i).GetComponent<PlayerInfoUI>();
+            if (tempInfo.myTeam == myTeam)
+            {
+                //add the same team members to list
+                playersInfo.Add(tempInfo);
+            }
+            else
+            {
+                //disable the opposite team members
+                tempInfo.transform.gameObject.SetActive(false);
+            }
+        }
     }
 
     void LateUpdate()

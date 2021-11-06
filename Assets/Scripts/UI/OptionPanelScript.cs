@@ -41,6 +41,10 @@ public class OptionPanelScript : MonoBehaviour
     }
     public void Exitgame()
     {
+        //leave game, clear the list
+        GodViewPlayersInfo.instance.playersInfo.Clear();
+        teamGameLogicController.instance.startTimer = false;
+        PhotonNetwork.LocalPlayer.LeaveCurrentTeam();
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.LeaveLobby();
         StartCoroutine(rejoinLobby());

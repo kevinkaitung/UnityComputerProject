@@ -11,12 +11,14 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject BlackPanel;
-    
+
     [SerializeField]
     private int multiPlayerSceneIndex;  //main game scene index
 
     [SerializeField]
     private GameObject startButton;     //game start button, available for master client
+    [SerializeField]
+    private GameObject readyButton;
 
     [SerializeField]
     private Transform playersContainerBlue; //container for holding all the blue player listings items
@@ -50,6 +52,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     bool Chatclicktime;
     bool Characterclicktime;
 
+    private bool ifReadyforGame = false;
+    ExitGames.Client.Photon.Hashtable playerReady;
+    [SerializeField]
+    private Text playerReadyDisplay;   //display player if ready
+    private string playerReadyKeyName = "playerReady";  //const string, store hashtable player ready's key 
+
     void ClearPlayerListings()
     {
         for (int i = playersContainerBlue.childCount - 1; i >= 0; i--)
@@ -78,6 +86,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
                     Image tempImage = tempListing.GetComponent<Image>();
                     tempText.text = player.NickName;
                     //tempImage.color = Color.blue;
+                    //if ready, show ready mark
+                    object result;
+                    if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
+                    {
+                        tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
+                    }
                 }
                 else
                 {
@@ -87,6 +101,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
                     Image tempImage = tempListing.GetComponent<Image>();
                     tempText.text = player.NickName;
                     //tempImage.color = Color.red;
+                    //if ready, show ready mark
+                    object result;
+                    if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
+                    {
+                        tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
+                    }
                 }
             }
         }
@@ -113,31 +133,60 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        ClearPlayerListings();
-        ListPlayers();
+        //if someone left room, also check if all other players ready
         if (PhotonNetwork.IsMasterClient)
         {
-            startButton.SetActive(true);
+            if (checkAllPlayersifReady())
+            {
+                startButton.SetActive(true);
+            }
+            else
+            {
+                startButton.SetActive(false);
+            }
+        }
+
+        ClearPlayerListings();
+        ListPlayers();
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        //player ready setup
+        //master client no need ready button
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ifReadyforGame = true;
+            readyButton.SetActive(false);
         }
         else
         {
-            startButton.SetActive(false);
+            ifReadyforGame = false;
+            readyButton.SetActive(true);
         }
+        playerReady[playerReadyKeyName] = ifReadyforGame;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
     }
 
     public override void OnJoinedRoom()
     {
-        //after join room successfully, do some initialization
-        roomNameDisplay.text = "房間名稱: " + PhotonNetwork.CurrentRoom.Name;
-        //only master client can start the game
+        //player ready setup
+        //master client no need ready button
         if (PhotonNetwork.IsMasterClient)
         {
-            startButton.SetActive(true);
+            ifReadyforGame = true;
+            readyButton.SetActive(false);
         }
         else
         {
-            startButton.SetActive(false);
+            ifReadyforGame = false;
+            readyButton.SetActive(true);
         }
+        playerReady[playerReadyKeyName] = ifReadyforGame;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
+
+        //after join room successfully, do some initialization
+        roomNameDisplay.text = "房間名稱: " + PhotonNetwork.CurrentRoom.Name;
         //re-display current room player list
         ClearPlayerListings();
         ListPlayers();
@@ -209,20 +258,56 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         StartCoroutine(rejoinLobby());
     }
 
-    // Start is called before the first frame update
-    void Start()
+    //player click for ready to game
+    public void readyButtonClickToggle()
     {
-        Chatclicktime = false;
-        BlackPanel.SetActive(true);
-        LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
-        if (PhotonNetwork.IsMasterClient)
+        if (ifReadyforGame == false)
         {
-            startButton.SetActive(true);
+            readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            ifReadyforGame = true;
+            playerReady[playerReadyKeyName] = ifReadyforGame;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
         }
         else
         {
-            startButton.SetActive(false);
+            readyButton.GetComponentInChildren<Text>().text = "準備";
+            ifReadyforGame = false;
+            playerReady[playerReadyKeyName] = ifReadyforGame;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //new hashtable for player custom properties
+        playerReady = new ExitGames.Client.Photon.Hashtable();
+        playerReady.Add(playerReadyKeyName, ifReadyforGame);
+        //when the player enters the waiting room from main game (already in the room)
+        if (PhotonNetwork.InRoom)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                ifReadyforGame = true;
+                readyButton.SetActive(false);
+            }
+            else
+            {
+                ifReadyforGame = false;
+                readyButton.SetActive(true);
+            }
+            playerReady[playerReadyKeyName] = ifReadyforGame;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
+        }
+        else
+        {
+            ifReadyforGame = false;
+        }
+
+        Chatclicktime = false;
+        BlackPanel.SetActive(true);
+        LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+
         ClearPlayerListings();
         ListPlayers();
     }
@@ -240,25 +325,55 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
             ChatPanel.SetActive(false);
             Chatclicktime = false;
         }
-        
+
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         //after let player call JointTeam, must wait server actually set custom properties and broadcast to all client
         //after finishing setting team, update the playerListings' color in container
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (checkAllPlayersifReady())
+            {
+                startButton.SetActive(true);
+            }
+            else
+            {
+                startButton.SetActive(false);
+            }
+        }
+
         ClearPlayerListings();
         ListPlayers();
     }
 
+    //only master client check for all player if ready or not
+    bool checkAllPlayersifReady()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            object result;
+            player.CustomProperties.TryGetValue(playerReadyKeyName, out result);
+            //if one player not ready, return false
+            if (!(bool)result)
+            {
+                return false;
+            }
+        }
+        //all players are ready, return true
+        return true;
+    }
+
     public void ShowChatRoomPanel()
     {
-        if(Chatclicktime == false)
+        if (Chatclicktime == false)
         {
             ChatPanel.SetActive(true);
             Chatclicktime = true;
         }
-        else if(Chatclicktime == true)
+        else if (Chatclicktime == true)
         {
             ChatPanel.SetActive(false);
             Chatclicktime = false;
@@ -267,12 +382,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
 
     public void ShowCharacterPanel()
     {
-        if(Characterclicktime == false)
+        if (Characterclicktime == false)
         {
             CharacterPanel.SetActive(true);
             Characterclicktime = true;
         }
-        else if(Characterclicktime == true)
+        else if (Characterclicktime == true)
         {
             CharacterPanel.SetActive(false);
             Characterclicktime = false;

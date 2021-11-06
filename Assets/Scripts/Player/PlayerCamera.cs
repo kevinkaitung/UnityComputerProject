@@ -54,7 +54,7 @@ public class PlayerCamera : MonoBehaviourPun
             //close other's camera to avoid rendering other's camera scene
             playerCam.gameObject.SetActive(false);
         }
-        for(int i = 0; i < 10; i++)
+        /*for(int i = 0; i < 10; i++)
         {
             if(PhotonNetwork.NickName == teamGameLogicController.instance.playerlist[i])
             {
@@ -68,6 +68,15 @@ public class PlayerCamera : MonoBehaviourPun
                 playerCam.cullingMask =~(1 << i+10);
                 break;
             }
+        }*/
+        if (photonView.IsMine)
+        {
+            this.gameObject.layer = LayerMask.NameToLayer("#0" + PhotonNetwork.LocalPlayer.ActorNumber.ToString());
+            foreach (Transform j in GetComponentsInChildren<Transform>())
+            {
+                j.gameObject.layer = LayerMask.NameToLayer("#0" + PhotonNetwork.LocalPlayer.ActorNumber.ToString());//更改物體的Layer層
+            }
+            playerCam.cullingMask = ~(1 << PhotonNetwork.LocalPlayer.ActorNumber + 9);
         }
     }
 
