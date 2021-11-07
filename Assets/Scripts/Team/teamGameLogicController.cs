@@ -35,7 +35,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     private teamProcessing blueTeam, redTeam;
 
     //enable and disable timer
-    bool startTimer = false;
+    public bool startTimer = false;
     //local player timer
     double timerIncrementValue;
     //master client start time shared with others
@@ -104,6 +104,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public GameObject BackToWaitRoomButton;
 
     public int countdown = 0;
+    public List<string> playerlist;
+    public List<string> layerlist;
 
     //register for raise event
     public override void OnEnable()
@@ -149,6 +151,19 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         takeMatActionTextComponent = takeMatActionText.GetComponent<Text>();
         takeMatActionImageComponent = takeMatActionImage.GetComponent<Image>();
         actionWarningTextComponent = actionWarningText.GetComponent<Text>();
+        /*foreach(var i in PhotonNetwork.PlayerList)
+        {
+            string temp;
+            temp = i.ToString().Remove(i.ToString().Length-1);
+            temp = temp.Remove(0,5);
+            playerlist.Add(temp);
+            temp = i.ToString().Remove(3);
+            layerlist.Add(temp);
+        }
+        foreach(var i in playerlist)
+        {
+            Debug.Log(i);
+        }*/
     }
 
     // Update is called once per frame
@@ -241,30 +256,32 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     }
 
     [PunRPC]
-    async void gameFinishDoing()
+    /*async*/ void gameFinishDoing()
     {
         //disable timer
         startTimer = false;
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
         PlayerInputActionMode.instance.stateFour();
+        //after networked-objects destroy (time's up), clear the playersInfo (which are instantiated with networked-objects)
+        GodViewPlayersInfo.instance.playersInfo.Clear();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.DestroyAll();
-            await Task.Delay(10000);
+            //await Task.Delay(10000);
             BackToWaitRoomButton.SetActive(true);
         }
-        while (backtowaitingroomclick == false)
+        //while (backtowaitingroomclick == false)
         {
-            await Task.Delay(1000);
+            //await Task.Delay(1000);
             countdown++;
-            if (countdown == 20)
+            //if (countdown == 20)
             {
                 backToWaitingRoomOnClick();
-                break;
+                //break;
             }
         }
         //Debug.Log("accuracy:" + accuracy);
@@ -275,6 +292,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         //5/9 test, redundant?
         //5/12待修改
         backtowaitingroomclick = true;
+        Debug.Log(tempTimer);
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)

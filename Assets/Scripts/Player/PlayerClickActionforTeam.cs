@@ -258,8 +258,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
     }
 
-    //collision to itembox, activate effect
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnTriggerEnter(Collider other)
     {
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
@@ -271,9 +270,9 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             return;
         }
         PhotonView tempPV = null;
-        if (hit.collider.gameObject.GetComponentInParent<PhotonView>())
+        if (other.gameObject.GetComponentInParent<PhotonView>())
         {
-            tempPV = hit.collider.gameObject.GetComponentInParent<PhotonView>();
+            tempPV = other.gameObject.GetComponentInParent<PhotonView>();
             if (tempPV.enabled == false)
             {
                 return;
@@ -283,7 +282,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
-        if (hit.collider.tag == "itembox")
+        if (other.tag == "itembox")
         {
             //after collision, destroy the game prop (only master client destroy the networked object)
             Debug.Log(tempPV.ViewID);
@@ -305,35 +304,37 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 tempPV.enabled = false;
             }
         }
-        else if (hit.collider.tag == "removalToolMyself")
+        else if (other.tag == "removalToolMyself")
         {
             Debug.Log(tempPV.ViewID);
             //after collision, destroy the game prop (only master client destroy the networked object)
             tempPV.RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolMyself";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+            showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
             if (tempPV)
             {
                 tempPV.enabled = false;
             }
         }
-        else if (hit.collider.tag == "removalToolOther")
+        else if (other.tag == "removalToolOther")
         {
             Debug.Log(tempPV.ViewID);
             //after collision, destroy the game prop (only master client destroy the networked object)
             tempPV.RPC("destroyObject", RpcTarget.MasterClient);
             holdMaterial = "removalToolOther";
             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+            showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
             if (tempPV)
             {
                 tempPV.enabled = false;
             }
         }
-        else if (hit.gameObject.layer == 2) //layer ignore raycast
+        else if (other.gameObject.layer == 2) //layer ignore raycast
         {
-            if (hit.collider.tag == "brick" || hit.collider.tag == "cement" || hit.collider.tag == "fire" || hit.collider.tag == "glass" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "steel" || hit.collider.tag == "water" || hit.collider.tag == "wood")
+            if (other.tag == "brick" || other.tag == "cement" || other.tag == "fire" || other.tag == "glass" || other.tag == "gravel" || other.tag == "iron" || other.tag == "steel" || other.tag == "water" || other.tag == "wood")
             {
-                holdMaterial = hit.collider.tag;
+                holdMaterial = other.tag;
                 Debug.Log(holdMaterial);
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 //change hold material cube texture (networked)
@@ -347,25 +348,92 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    //collision to itembox, activate effect
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (!PlayerInputActionMode.instance.enablePlayerClickAction)
-        {
-            return;
-        }
-        //if blackhole effect is active, block player click action
-        if (isBlackholeEffect)
-        {
-            return;
-        }
-        if (other.tag == "brick" || other.tag == "cement" || other.tag == "fire" || other.tag == "glass" || other.tag == "gravel" || other.tag == "iron" || other.tag == "steel" || other.tag == "water" || other.tag == "wood")
-        {
-            holdMaterial = other.tag;
-            Debug.Log(holdMaterial);
-            teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
-            //change hold material cube texture (networked)
-            showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
-            other.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
-        }
+        // if (!PlayerInputActionMode.instance.enablePlayerClickAction)
+        // {
+        //     return;
+        // }
+        // //if blackhole effect is active, block player click action
+        // if (isBlackholeEffect)
+        // {
+        //     return;
+        // }
+        // PhotonView tempPV = null;
+        // if (hit.collider.gameObject.GetComponentInParent<PhotonView>())
+        // {
+        //     tempPV = hit.collider.gameObject.GetComponentInParent<PhotonView>();
+        //     if (tempPV.enabled == false)
+        //     {
+        //         return;
+        //     }
+        // }
+        // else
+        // {
+        //     return;
+        // }
+        // if (hit.collider.tag == "itembox")
+        // {
+        //     //after collision, destroy the game prop (only master client destroy the networked object)
+        //     Debug.Log(tempPV.ViewID);
+        //     //有時候不知道為什麼會偵測到碰撞兩次道具箱的樣子(所以先用is active檢查避免)
+        //     /*if (hit.collider.gameObject.GetComponent<PhotonView>().isActiveAndEnabled)
+        //     {
+        //         hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyObject", RpcTarget.MasterClient);
+        //         gamePropsManager.instance.clickGameProps(team);
+        //         hit.collider.gameObject.GetComponent<PhotonView>().enabled = false;
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("item box photonview has problem");
+        //     }*/
+        //     tempPV.RPC("destroyObject", RpcTarget.MasterClient);
+        //     gamePropsManager.instance.clickGameProps(team);
+        //     if (tempPV)
+        //     {
+        //         tempPV.enabled = false;
+        //     }
+        // }
+        // else if (hit.collider.tag == "removalToolMyself")
+        // {
+        //     Debug.Log(tempPV.ViewID);
+        //     //after collision, destroy the game prop (only master client destroy the networked object)
+        //     tempPV.RPC("destroyObject", RpcTarget.MasterClient);
+        //     holdMaterial = "removalToolMyself";
+        //     teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        //     if (tempPV)
+        //     {
+        //         tempPV.enabled = false;
+        //     }
+        // }
+        // else if (hit.collider.tag == "removalToolOther")
+        // {
+        //     Debug.Log(tempPV.ViewID);
+        //     //after collision, destroy the game prop (only master client destroy the networked object)
+        //     tempPV.RPC("destroyObject", RpcTarget.MasterClient);
+        //     holdMaterial = "removalToolOther";
+        //     teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        //     if (tempPV)
+        //     {
+        //         tempPV.enabled = false;
+        //     }
+        // }
+        // else if (hit.gameObject.layer == 2) //layer ignore raycast
+        // {
+        //     if (hit.collider.tag == "brick" || hit.collider.tag == "cement" || hit.collider.tag == "fire" || hit.collider.tag == "glass" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "steel" || hit.collider.tag == "water" || hit.collider.tag == "wood")
+        //     {
+        //         holdMaterial = hit.collider.tag;
+        //         Debug.Log(holdMaterial);
+        //         teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+        //         //change hold material cube texture (networked)
+        //         showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+        //         tempPV.RPC("destroyObject", RpcTarget.All);
+        //         if (tempPV)
+        //         {
+        //             tempPV.enabled = false;
+        //         }
+        //     }
+        // }
     }
 }

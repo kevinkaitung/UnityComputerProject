@@ -58,6 +58,7 @@ MonoBehaviour:
   - destroyObject2
   - throwMaterialCubeInstantiate
   - OtherThrowMaterialCubeInstantiate
+  - otherSetUpInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

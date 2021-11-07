@@ -29,6 +29,9 @@ public class PlayerTeachingStage : MonoBehaviourPun
         }
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
+            teachingStageController.instance.clickBuildingNotice.SetActive(false);
+            teachingStageController.instance.clickMaterialFieldNotice.SetActive(false);
+            timerForRemainOnPoint = 0.0f;
             return;
         }
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
@@ -37,6 +40,13 @@ public class PlayerTeachingStage : MonoBehaviourPun
         {
             if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 350)
             {
+                //if already interact with scene objects, close the notice text and show again 3 secs later if inactive
+                if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                {
+                    teachingStageController.instance.clickBuildingNotice.SetActive(false);
+                    teachingStageController.instance.clickMaterialFieldNotice.SetActive(false);
+                    timerForRemainOnPoint = -2.0f;
+                }
                 timerForRemainOnPoint += Time.deltaTime;
                 if (timerForRemainOnPoint >= durationForRemainOnPoint)
                 {
@@ -52,6 +62,7 @@ public class PlayerTeachingStage : MonoBehaviourPun
                     {
                         teachingStageController.instance.clickBuildingNotice.SetActive(false);
                         teachingStageController.instance.clickMaterialFieldNotice.SetActive(false);
+                        timerForRemainOnPoint = 0.0f;
                     }
                 }
             }

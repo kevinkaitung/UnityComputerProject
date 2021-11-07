@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerShowMaterialCube : MonoBehaviourPun
 {
     private MeshRenderer holdMaterialMesh;
+    private Image holdMaterialImg; 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        holdMaterialMesh = this.gameObject.GetComponent<MeshRenderer>();
+        //holdMaterialMesh = this.gameObject.GetComponent<MeshRenderer>();
+        holdMaterialImg = this.gameObject.GetComponent<Image>();
         this.gameObject.SetActive(false);
     }
 
@@ -32,7 +35,8 @@ public class PlayerShowMaterialCube : MonoBehaviourPun
         {
             //show texture to hold material
             this.gameObject.SetActive(true);
-            holdMaterialMesh.material = Resources.Load("materialTexture/Materials/" + showMaterial) as Material;
+            //holdMaterialMesh.material = Resources.Load("materialTexture/Materials/" + showMaterial) as Material;
+            holdMaterialImg.sprite = Resources.Load<Sprite>("materialSprite/" + showMaterial);
         }
     }
 }
