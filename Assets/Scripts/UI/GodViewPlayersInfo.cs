@@ -30,14 +30,15 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
     public GameObject godCamera;
     public GameObject canvas;
     public GameObject GodViewPlayersInfoPanel;
+    public GameObject GodViewInfoPanel;
     //to get the width and height of prefab
     public RectTransform playerUIprefab;
-    public float width, height;
+    public float widthOffset = 55.0f, heightOffset = 25.0f;
     private string myTeam;
     public List<PlayerInfoUI> playersInfo;
     private int okCount = 0;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playersInfo = new List<PlayerInfoUI>();
     }
@@ -116,22 +117,22 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
                 //update infoPrefab's pos
                 playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
                 //adjust info detail pos
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(35.0f, 20.0f);
+                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(widthOffset, heightOffset);
             }
             else if (dir.x >= 0.0f && dir.y < 0.0f)
             {
                 playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(35.0f, -20.0f);
+                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(widthOffset, -heightOffset);
             }
             else if (dir.x < 0.0f && dir.y < 0.0f)
             {
                 playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-35.0f, -20.0f);
+                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-widthOffset, -heightOffset);
             }
             else if (dir.x < 0.0f && dir.y >= 0.0f)
             {
                 playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-35.0f, 20.0f);
+                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-widthOffset, heightOffset);
             }
         }
     }
