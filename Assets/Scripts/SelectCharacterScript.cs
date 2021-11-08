@@ -9,6 +9,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class SelectCharacterScript : MonoBehaviour
 {
+    public GameObject CharacterImage;
+
     private string playerStyle = ""; //player style name that choosed
     ExitGames.Client.Photon.Hashtable playerInfo;
     private string playerStyleKeyName = "playerStyle";  //const string, store hashtable player style's key 
@@ -70,72 +72,78 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterOne()
     {
-        CharacterName.text = "character1";
+        CharacterName.text = "角色名稱 : Mily";
         CharacterFace.sprite = one;
         playerStyle = "character1";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
+        Sprite img = Resources.Load("1", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void charactertwo()
     {
-        CharacterName.text = "character2";
+        CharacterName.text = "角色名稱 : Mary";
         CharacterFace.sprite = two;
         playerStyle = "character2";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("2", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void characterthree()
     {
-        CharacterName.text = "character3";
+        CharacterName.text = "角色名稱 : Angel";
         CharacterFace.sprite = three;
         playerStyle = "character3";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("3", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void characterfour()
     {
-        CharacterName.text = "character4";
+        CharacterName.text = "角色名稱 : Hapi";
         CharacterFace.sprite = four;
         playerStyle = "character4";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("4", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void characterfive()
     {
-        CharacterName.text = "character5";
+        CharacterName.text = "角色名稱 : Peter";
         CharacterFace.sprite = five;
         playerStyle = "character5";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("5", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void charactersix()
     {
-        CharacterName.text = "character6";
+        CharacterName.text = "角色名稱 : Alita";
         CharacterFace.sprite = six;
         playerStyle = "character6";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("6", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
 
     public void characterseven()
     {
-        CharacterName.text = "character7";
+        CharacterName.text = "角色名稱 : Alan";
         CharacterFace.sprite = seven;
         playerStyle = "character7";
         playerInfo[playerStyleKeyName] = playerStyle;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
-
+        Sprite img = Resources.Load("7", typeof(Sprite)) as Sprite;
+        CharacterFace.GetComponent<Image>().sprite = img;
     }
-
-
 }
