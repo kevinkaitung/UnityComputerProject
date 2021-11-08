@@ -41,15 +41,15 @@ public class voiceController : MonoBehaviourPunCallbacks
         if(!isMute)
         {
             Button mButton = muteBtn.GetComponent<Button>();
-            mButton.image.sprite = Resources.Load<Sprite>("voice");
-            voice.SetActive(true);
+            mButton.image.sprite = Resources.Load<Sprite>("mute");
+            voice.SetActive(false);
             isMute = !isMute;
         }
         else
         {
             Button mButton = muteBtn.GetComponent<Button>();
-            mButton.image.sprite = Resources.Load<Sprite>("mute");
-            voice.SetActive(false);
+            mButton.image.sprite = Resources.Load<Sprite>("voice");
+            voice.SetActive(true);
             isMute = !isMute;
         }
     }

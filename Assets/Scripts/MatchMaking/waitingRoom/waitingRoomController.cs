@@ -49,6 +49,9 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject CharacterPanel;
 
+    [SerializeField]
+    private GameObject RoomPanel;
+
     bool Chatclicktime;
     bool Characterclicktime;
 
@@ -385,11 +388,13 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         if (Characterclicktime == false)
         {
             CharacterPanel.SetActive(true);
+            RoomPanel.SetActive(false);
             Characterclicktime = true;
         }
         else if (Characterclicktime == true)
         {
             CharacterPanel.SetActive(false);
+            RoomPanel.SetActive(true);
             Characterclicktime = false;
         }
     }
