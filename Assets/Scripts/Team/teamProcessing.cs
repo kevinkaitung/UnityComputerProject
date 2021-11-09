@@ -13,7 +13,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //how many points have been clicked by player (already build that point)
     private int thisStagePutCount;
     //current stage
-    private int currentStageNumber;
+    static public int currentStageNumber;   //如果不能這樣改的話再跟我說
     //game data nodes' length
     private int dataNodeLen;
     //index for access game data nodes
@@ -27,7 +27,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //check if finish building
     private bool isFinish;
     private string playerTeam;
-    
+
+
     [SerializeField]
     private Image Blueprint;
 
@@ -128,6 +129,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                         Blueprint.sprite = six;
                         break;
                 }               
+                
 //                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             }
             //put notice points of this stage
@@ -427,4 +429,5 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         }
 
     }
+
 }
