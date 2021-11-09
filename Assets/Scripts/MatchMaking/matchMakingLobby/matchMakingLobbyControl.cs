@@ -168,6 +168,10 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         Debug.Log("creating room now");
+        if(roomName == null)
+            roomName = "Room " + Random.Range(1,100).ToString();
+        if(roomSize == 0)
+            roomSize = 8;
         RoomOptions roomOps = new RoomOptions()
         {
             IsVisible = true,
