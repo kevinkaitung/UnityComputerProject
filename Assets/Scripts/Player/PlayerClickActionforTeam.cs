@@ -57,9 +57,9 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetMouseButtonUp(1))
         {
-            bluePrint.instance.noticePointInfoPanel.SetActive(false);
-            bluePrint.instance.synthesisformulaPanel.SetActive(false);
-            bluePrint.instance.materialFieldInfoPanel.SetActive(false);
+            playerInteractiveUI.instance.noticePointInfoPanel.SetActive(false);
+            playerInteractiveUI.instance.synthesisformulaPanel.SetActive(false);
+            playerInteractiveUI.instance.materialFieldInfoPanel.SetActive(false);
         }
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
@@ -239,20 +239,20 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 {
                     Debug.Log("show notice point info");
                     noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                    bluePrint.instance.showNoticePointInfo(clickedPointInfo);
-                    bluePrint.instance.noticePointInfoPanel.SetActive(true);
+                    playerInteractiveUI.instance.showNoticePointInfo(clickedPointInfo);
+                    playerInteractiveUI.instance.noticePointInfoPanel.SetActive(true);
                 }
                 else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
                 {
                     Debug.Log("show material field info");
-                    bluePrint.instance.materialFieldInfoPanel.SetActive(true);
-                    bluePrint.instance.materialFieldInfoText.GetComponent<Text>().text = hit.collider.tag;
-                    bluePrint.instance.materialFieldInfoImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + hit.collider.tag);
+                    playerInteractiveUI.instance.materialFieldInfoPanel.SetActive(true);
+                    playerInteractiveUI.instance.materialFieldInfoText.GetComponent<Text>().text = hit.collider.tag;
+                    playerInteractiveUI.instance.materialFieldInfoImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + hit.collider.tag);
                 }
                 else if (hit.collider.tag == "synthesis")
                 {
                     Debug.Log("show synthesis formula");
-                    bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                    playerInteractiveUI.instance.synthesisformulaPanel.SetActive(true);
                 }
             }
         }

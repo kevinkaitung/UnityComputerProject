@@ -705,7 +705,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &65281911
 GameObject:
@@ -890,7 +890,7 @@ RectTransform:
   m_LocalScale: {x: 1.2625, y: 1.2625, z: 1.2625}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1541,6 +1541,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &205065975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205065976}
+  - component: {fileID: 205065977}
+  m_Layer: 0
+  m_Name: PlayerInteractiveUIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &205065976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205065975}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 963331269}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205065977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205065975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26baff55f422e5945ba5beadb928c1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noticePointInfoPanel: {fileID: 56403640}
+  synthesisformulaPanel: {fileID: 804772306}
+  materialFieldInfoPanel: {fileID: 1921453656}
+  materialFieldInfoText: {fileID: 1951395278}
+  materialFieldInfoImage: {fileID: 1156884380}
+  singleNoticePointInfoText: {fileID: 1691704394}
+  bluePrintText: {fileID: 0}
 --- !u!1 &231690109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,7 +2185,7 @@ RectTransform:
   m_LocalScale: {x: 1.2625, y: 1.2625, z: 1.2625}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3879,7 +3929,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1567085998}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: NextStage
         m_Mode: 1
         m_Arguments:
@@ -4194,7 +4244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &700178455
 MonoBehaviour:
@@ -4299,7 +4349,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1051243747}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: ChangeSightSouth
         m_Mode: 1
         m_Arguments:
@@ -5940,7 +5990,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &962559154
 MonoBehaviour:
@@ -5955,21 +6005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 
-  Blueprint: {fileID: 1194825447}
-  one_front: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  one_left: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_right: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_back: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  three_front: {fileID: 21300000, guid: e05f98f82ee973c45be531fc85e66fdd, type: 3}
-  three_left: {fileID: 21300000, guid: 435ae91f34b87e94ab68c6e59dfed663, type: 3}
-  three_right: {fileID: 21300000, guid: 7fdfa0d82e211d547958f401358427dd, type: 3}
-  three_back: {fileID: 21300000, guid: 60b88012dbd811f41a2a7edad30edcdc, type: 3}
-  five_front: {fileID: 21300000, guid: dff261d087dc0d242b90db2c9860b01f, type: 3}
-  five_left: {fileID: 21300000, guid: 117f191ed759aee4aa53bd5480eb9bd9, type: 3}
-  five_right: {fileID: 21300000, guid: 8cc1e6142e8878842889bdd14d8ec150, type: 3}
-  five_back: {fileID: 21300000, guid: be1b8e7f3e300354db6e6075493d5a95, type: 3}
-  six: {fileID: 21300000, guid: 890d89fabb1369c40b1980a0fd506ed3, type: 3}
-  six_plus: {fileID: 21300000, guid: 3cacf128ab8a1954fa9ee29546917176, type: 3}
+  currentStageNumber: 0
 --- !u!114 &962559155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6024,8 +6060,10 @@ Transform:
   - {fileID: 1172535138}
   - {fileID: 1750787855}
   - {fileID: 1020939520}
+  - {fileID: 205065976}
+  - {fileID: 1573728963}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963331270
 MonoBehaviour:
@@ -6601,7 +6639,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1051243747}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: ChangeSightEast
         m_Mode: 1
         m_Arguments:
@@ -6679,7 +6717,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1051243747
 MonoBehaviour:
@@ -6694,21 +6732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 
-  Blueprint: {fileID: 1194825447}
-  one_front: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  one_left: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_right: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_back: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  three_front: {fileID: 21300000, guid: e05f98f82ee973c45be531fc85e66fdd, type: 3}
-  three_left: {fileID: 21300000, guid: 435ae91f34b87e94ab68c6e59dfed663, type: 3}
-  three_right: {fileID: 21300000, guid: 7fdfa0d82e211d547958f401358427dd, type: 3}
-  three_back: {fileID: 21300000, guid: 60b88012dbd811f41a2a7edad30edcdc, type: 3}
-  five_front: {fileID: 21300000, guid: dff261d087dc0d242b90db2c9860b01f, type: 3}
-  five_left: {fileID: 21300000, guid: 117f191ed759aee4aa53bd5480eb9bd9, type: 3}
-  five_right: {fileID: 21300000, guid: 8cc1e6142e8878842889bdd14d8ec150, type: 3}
-  five_back: {fileID: 21300000, guid: be1b8e7f3e300354db6e6075493d5a95, type: 3}
-  six: {fileID: 21300000, guid: 890d89fabb1369c40b1980a0fd506ed3, type: 3}
-  six_plus: {fileID: 21300000, guid: 3cacf128ab8a1954fa9ee29546917176, type: 3}
+  currentStageNumber: 0
 --- !u!114 &1051243748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8614,7 +8638,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1285564636
 GameObject:
@@ -9608,7 +9632,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383301192
 GameObject:
@@ -9660,7 +9684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1401346923
 GameObject:
@@ -11042,25 +11066,6 @@ MonoBehaviour:
   chatroomPanel: {fileID: 1115464844}
   godCamera: {fileID: 9142253015610834275}
   teachingPanel: {fileID: 1634698051}
-  blueprintnextstage: {fileID: 0}
-  blueprintpreviousstage: {fileID: 0}
-  StageNumber: 0
-  freecount: 1
-  Blueprint: {fileID: 1194825447}
-  one_front: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  one_left: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_right: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
-  one_back: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
-  three_front: {fileID: 21300000, guid: e05f98f82ee973c45be531fc85e66fdd, type: 3}
-  three_left: {fileID: 21300000, guid: 435ae91f34b87e94ab68c6e59dfed663, type: 3}
-  three_right: {fileID: 21300000, guid: 7fdfa0d82e211d547958f401358427dd, type: 3}
-  three_back: {fileID: 21300000, guid: 60b88012dbd811f41a2a7edad30edcdc, type: 3}
-  five_front: {fileID: 21300000, guid: dff261d087dc0d242b90db2c9860b01f, type: 3}
-  five_left: {fileID: 21300000, guid: 117f191ed759aee4aa53bd5480eb9bd9, type: 3}
-  five_right: {fileID: 21300000, guid: 8cc1e6142e8878842889bdd14d8ec150, type: 3}
-  five_back: {fileID: 21300000, guid: be1b8e7f3e300354db6e6075493d5a95, type: 3}
-  six: {fileID: 21300000, guid: 3cacf128ab8a1954fa9ee29546917176, type: 3}
-  six_plus: {fileID: 21300000, guid: 890d89fabb1369c40b1980a0fd506ed3, type: 3}
 --- !u!4 &1567085999
 Transform:
   m_ObjectHideFlags: 0
@@ -11084,15 +11089,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1573728963}
-  - component: {fileID: 1573728959}
+  - component: {fileID: 1573728960}
   m_Layer: 0
-  m_Name: blueprintField
+  m_Name: blueprintUI
   m_TagString: bluePrint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1573728959
+--- !u!114 &1573728960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11101,18 +11106,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1573728958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26baff55f422e5945ba5beadb928c1bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 205fc1a632c8d8649bae80e55ad9eed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noticePointInfoPanel: {fileID: 56403640}
-  blueprintPanel: {fileID: 1064509748}
-  synthesisformulaPanel: {fileID: 804772306}
-  materialFieldInfoPanel: {fileID: 1921453656}
-  materialFieldInfoText: {fileID: 1951395278}
-  materialFieldInfoImage: {fileID: 1156884380}
-  closeBlueprintButton: {fileID: 1350660320}
-  singleNoticePointInfoText: {fileID: 1691704394}
-  bluePrintText: {fileID: 913493956}
+  myTeamStageNumber: 1
+  freecount: 1
+  Blueprint: {fileID: 1194825447}
+  one_front: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
+  one_left: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
+  one_right: {fileID: 21300000, guid: 05bad46e1586b034dad40628d7ae3888, type: 3}
+  one_back: {fileID: 21300000, guid: 0155e8b6293ef944682a42a879e9608b, type: 3}
+  three_front: {fileID: 21300000, guid: e05f98f82ee973c45be531fc85e66fdd, type: 3}
+  three_left: {fileID: 21300000, guid: 435ae91f34b87e94ab68c6e59dfed663, type: 3}
+  three_right: {fileID: 21300000, guid: 7fdfa0d82e211d547958f401358427dd, type: 3}
+  three_back: {fileID: 21300000, guid: 60b88012dbd811f41a2a7edad30edcdc, type: 3}
+  five_front: {fileID: 21300000, guid: dff261d087dc0d242b90db2c9860b01f, type: 3}
+  five_left: {fileID: 21300000, guid: 117f191ed759aee4aa53bd5480eb9bd9, type: 3}
+  five_right: {fileID: 21300000, guid: 8cc1e6142e8878842889bdd14d8ec150, type: 3}
+  five_back: {fileID: 21300000, guid: be1b8e7f3e300354db6e6075493d5a95, type: 3}
+  six: {fileID: 21300000, guid: 890d89fabb1369c40b1980a0fd506ed3, type: 3}
+  six_plus: {fileID: 21300000, guid: 3cacf128ab8a1954fa9ee29546917176, type: 3}
 --- !u!4 &1573728963
 Transform:
   m_ObjectHideFlags: 0
@@ -11120,12 +11133,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573728958}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.8, y: 0.5, z: 48.7}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -324.8885, y: -194.90965, z: 833.42975}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_Father: {fileID: 963331269}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1580735055
 GameObject:
@@ -11478,7 +11491,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1051243747}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: ChangeSightNorth
         m_Mode: 1
         m_Arguments:
@@ -11926,7 +11939,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1051243747}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: ChangeSightWest
         m_Mode: 1
         m_Arguments:
@@ -13576,7 +13589,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1567085998}
+      - m_Target: {fileID: 1573728960}
         m_MethodName: previousStage
         m_Mode: 1
         m_Arguments:
@@ -84853,7 +84866,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &9143305663390776167
 GameObject:

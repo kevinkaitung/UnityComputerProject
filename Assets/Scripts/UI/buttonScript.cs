@@ -11,51 +11,10 @@ public class buttonScript : MonoBehaviour
     public GameObject godCamera;
     public GameObject teachingPanel;
 
-    public GameObject blueprintnextstage;
-
-    public GameObject blueprintpreviousstage;
-
     bool clicktimeBP;
     bool clicktimeOP;
     bool clicktimeCP;
     bool clicktimeGC;
-
-    public int StageNumber;
-
-    public int freecount = 1;
-
-    [SerializeField]
-    private Image Blueprint;
-
-    [SerializeField]
-    private Sprite one_front;
-    [SerializeField]
-    private Sprite one_left;
-    [SerializeField]
-    private Sprite one_right;
-    [SerializeField]
-    private Sprite one_back;
-    [SerializeField]
-    private Sprite three_front;
-    [SerializeField]
-    private Sprite three_left;
-    [SerializeField]
-    private Sprite three_right;
-    [SerializeField]
-    private Sprite three_back;
-
-    [SerializeField]
-    private Sprite five_front;
-    [SerializeField]
-    private Sprite five_left;
-    [SerializeField]
-    private Sprite five_right;
-    [SerializeField]
-    private Sprite five_back;
-    [SerializeField]
-    private Sprite six;
-    [SerializeField]
-    private Sprite six_plus;
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +35,6 @@ public class buttonScript : MonoBehaviour
 
     void Update()
     {
-        StageNumber = teamProcessing.currentStageNumber;
         if (PlayerInputActionMode.instance.state == 1 || PlayerInputActionMode.instance.state == 2)
         {
             if (Input.GetKeyDown(KeyCode.B))
@@ -144,13 +102,12 @@ public class buttonScript : MonoBehaviour
         {
             blueprintPanel.SetActive(true);
             clicktimeBP = true;
-            Debug.Log("StageNumber " + StageNumber);
         }
         else if (clicktimeBP == true)
         {
             blueprintPanel.SetActive(false);
             clicktimeBP = false;
-            Debug.Log("freecount " + freecount);
+            /*Debug.Log("freecount " + freecount);
             freecount = StageNumber;
             Debug.Log("StageNumber " + StageNumber);
             switch (StageNumber)
@@ -173,7 +130,7 @@ public class buttonScript : MonoBehaviour
                 case 6:
                     Blueprint.sprite = six;
                     break;
-            }
+            }*/
         }
     }
 
@@ -217,63 +174,5 @@ public class buttonScript : MonoBehaviour
             PlayerInputActionMode.instance.stateOne();
             Debug.Log("state 1");
         }
-    }
-
-    public void NextStage()
-    {
-        freecount += 1;
-        if(freecount > 6)
-            freecount = 6;
-        switch(freecount)
-        {
-            case 1:
-                Blueprint.sprite = one_front;
-                break;
-            case 2:
-                Blueprint.sprite = one_front;
-                break;
-            case 3:
-                Blueprint.sprite = three_front;
-                break;
-            case 4:
-                Blueprint.sprite = three_front;
-                break;
-            case 5:
-                Blueprint.sprite = five_front;
-                break;
-            case 6:
-                Blueprint.sprite = six;
-                break;
-        }
-        Debug.Log("freecount " + freecount);
-    }
-
-    public void previousStage()
-    {
-        freecount -= 1;
-        if(freecount < 1)
-            freecount = 1;
-        switch(freecount)
-        {
-            case 1:
-                Blueprint.sprite = one_front;
-                break;
-            case 2:
-                Blueprint.sprite = one_front;
-                break;
-            case 3:
-                Blueprint.sprite = three_front;
-                break;
-            case 4:
-                Blueprint.sprite = three_front;
-                break;
-            case 5:
-                Blueprint.sprite = five_front;
-                break;
-            case 6:
-                Blueprint.sprite = six;
-                break;
-        }
-        Debug.Log("freecount " + freecount);
     }
 }
