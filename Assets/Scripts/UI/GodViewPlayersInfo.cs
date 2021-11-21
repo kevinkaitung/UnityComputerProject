@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.UI;
 
 public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
 {
@@ -35,6 +36,7 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
     public RectTransform playerUIprefab;
     public float widthOffset = 55.0f, heightOffset = 25.0f;
     private string myTeam;
+    //order is not corespond to child order in hierarchy
     public List<PlayerInfoUI> playersInfo;
     private int okCount = 0;
     // Start is called before the first frame update
@@ -55,15 +57,30 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
             for (int i = 0; i < count; i++)
             {
                 PlayerInfoUI tempInfo = GodViewPlayersInfoPanel.transform.GetChild(i).GetComponent<PlayerInfoUI>();
+                Text tempNameText = tempInfo.PlayerNameText;
+                RectTransform tempRect = tempInfo.transform.GetComponent<RectTransform>();
+                float offset = 10.0f;
                 if (tempInfo.myTeam == myTeam)
                 {
                     //add the same team members to list
-                    playersInfo.Add(tempInfo);
+                    //playersInfo.Add(tempInfo);
+                    //adjust playerUI size to fit the player's name and image (image size is const, 30)
+                    tempRect.sizeDelta = new Vector2(tempNameText.preferredWidth + offset + 30.0f, tempRect.sizeDelta.y);
+                    //adjust player name text size to fit
+                    tempNameText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempNameText.preferredHeight);
+                    //set player name text anchoredPos to align the left edge
+                    tempNameText.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2((tempNameText.preferredWidth + offset) / 2.0f, 0.0f);
                 }
                 else
                 {
-                    //disable the opposite team members
-                    tempInfo.transform.gameObject.SetActive(false);
+                    //disable the opposite team members's hold material
+                    tempInfo.containerImage.SetActive(false);
+                    //adjust playerUI size to fit the player's name
+                    tempRect.sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempRect.sizeDelta.y);
+                    //adjust player name text size to fit
+                    tempNameText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempNameText.preferredHeight);
+                    tempNameText.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2((tempNameText.preferredWidth + offset) / 2.0f, 0.0f);
+
                 }
             }
         }
@@ -87,53 +104,36 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
         for (int i = 0; i < count; i++)
         {
             PlayerInfoUI tempInfo = GodViewPlayersInfoPanel.transform.GetChild(i).GetComponent<PlayerInfoUI>();
+            Text tempNameText = tempInfo.PlayerNameText;
+            RectTransform tempRect = tempInfo.transform.GetComponent<RectTransform>();
+            float offset = 10.0f;
             if (tempInfo.myTeam == myTeam)
             {
                 //add the same team members to list
-                playersInfo.Add(tempInfo);
+                //playersInfo.Add(tempInfo);
+                //adjust playerUI size to fit the player's name and image (image size is const, 30)
+                tempRect.sizeDelta = new Vector2(tempNameText.preferredWidth + offset + 30.0f, tempRect.sizeDelta.y);
+                //adjust player name text size to fit
+                tempNameText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempNameText.preferredHeight);
+                //set player name text anchoredPos to align the left edge
+                tempNameText.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2((tempNameText.preferredWidth + offset) / 2.0f, 0.0f);
             }
             else
             {
-                //disable the opposite team members
-                tempInfo.transform.gameObject.SetActive(false);
+                //disable the opposite team members's hold material
+                tempInfo.containerImage.SetActive(false);
+                //adjust playerUI size to fit the player's name
+                tempRect.sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempRect.sizeDelta.y);
+                //adjust player name text size to fit
+                tempNameText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(tempNameText.preferredWidth + offset, tempNameText.preferredHeight);
+                tempNameText.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2((tempNameText.preferredWidth + offset) / 2.0f, 0.0f);
+
             }
         }
     }
 
     void LateUpdate()
     {
-        Vector2 center = new Vector2(0.0f, 0.0f);
-        for (int i = 0; i < playersInfo.Count; i++)
-        {
-            center += playersInfo[i].currentPlayerPos;
-        }
-        center /= playersInfo.Count;
-        for (int i = 0; i < playersInfo.Count; i++)
-        {
-            Vector2 dir = new Vector2(0.0f, 0.0f);
-            dir = playersInfo[i].currentPlayerPos - center;
-            if (dir.x >= 0.0f && dir.y >= 0.0f)
-            {
-                //update infoPrefab's pos
-                playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                //adjust info detail pos
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(widthOffset, heightOffset);
-            }
-            else if (dir.x >= 0.0f && dir.y < 0.0f)
-            {
-                playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(widthOffset, -heightOffset);
-            }
-            else if (dir.x < 0.0f && dir.y < 0.0f)
-            {
-                playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-widthOffset, -heightOffset);
-            }
-            else if (dir.x < 0.0f && dir.y >= 0.0f)
-            {
-                playersInfo[i].transform.GetComponent<RectTransform>().anchoredPosition = playersInfo[i].currentPlayerPos;
-                playersInfo[i].infoBackGround.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-widthOffset, heightOffset);
-            }
-        }
+
     }
 }

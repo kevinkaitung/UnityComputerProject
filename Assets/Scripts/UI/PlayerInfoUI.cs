@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.EventSystems;
 
-public class PlayerInfoUI : MonoBehaviourPun
+public class PlayerInfoUI : MonoBehaviourPun, IPointerEnterHandler
 {
     [SerializeField]
-    private Text PlayerNameText;
+    public Text PlayerNameText;
     //main camera(for UI)(god camera)
     private Camera cam;
     [SerializeField]
@@ -18,6 +19,7 @@ public class PlayerInfoUI : MonoBehaviourPun
 
     public GameObject infoBackGround;
     public GameObject playerMark;
+    public GameObject containerImage;
     //public Collider2D col;
 
     void setUpInfo()
@@ -78,22 +80,15 @@ public class PlayerInfoUI : MonoBehaviourPun
     void Update()
     {
         //transform player position in world space to the coordinate on canvas
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GodViewPlayersInfo.instance.canvas.GetComponent<RectTransform>(), cam.WorldToScreenPoint(thisCharacter.transform.position), null, out currentPlayerPos);
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(GodViewPlayersInfo.instance.canvas.GetComponent<RectTransform>(), cam.WorldToScreenPoint(thisCharacter.transform.position), null, out currentPlayerPos);
+        transform.position = cam.WorldToScreenPoint(thisCharacter.transform.position);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    //when mouse hover on the player info UI
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
-
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-
+        //let this player info UI show on the top
+        this.transform.SetAsLastSibling();
     }
 
     void LateUpdate()
