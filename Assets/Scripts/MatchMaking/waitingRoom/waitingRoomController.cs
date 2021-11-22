@@ -401,11 +401,13 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             object result;
-            player.CustomProperties.TryGetValue(playerReadyKeyName, out result);
-            //if one player not ready, return false
-            if (!(bool)result)
+            if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
             {
-                return false;
+                //if one player not ready, return false
+                if (!(bool)result)
+                {
+                    return false;
+                }
             }
         }
         //all players are ready, return true

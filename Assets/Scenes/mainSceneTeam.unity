@@ -11269,6 +11269,7 @@ MonoBehaviour:
   optionPanel: {fileID: 368020102}
   chatroomPanel: {fileID: 1115464844}
   godCamera: {fileID: 9142253015610834275}
+  mainGamePanel: {fileID: 592595832}
   teachingPanel: {fileID: 1634698051}
 --- !u!4 &1567085999
 Transform:

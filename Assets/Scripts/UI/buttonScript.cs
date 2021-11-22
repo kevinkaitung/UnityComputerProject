@@ -9,6 +9,7 @@ public class buttonScript : MonoBehaviour
     public GameObject optionPanel;
     public GameObject chatroomPanel;
     public GameObject godCamera;
+    public GameObject mainGamePanel;
     public GameObject teachingPanel;
 
     bool clicktimeBP;
@@ -59,8 +60,9 @@ public class buttonScript : MonoBehaviour
             {
                 PlayerInputActionMode.instance.stateThree();
                 godCamera.SetActive(true);
-                clicktimeGC = true;
                 GodViewPlayersInfo.instance.GodViewInfoPanel.SetActive(true);
+                mainGamePanel.SetActive(false);
+                clicktimeGC = true;
             }
         }
         //state 3
@@ -84,8 +86,9 @@ public class buttonScript : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.X))
             {
                 godCamera.SetActive(false);
-                clicktimeGC = false;
                 GodViewPlayersInfo.instance.GodViewInfoPanel.SetActive(false);
+                mainGamePanel.SetActive(true);
+                clicktimeGC = false;
                 //check for whether other actions are active or not
                 if (!clicktimeBP && !clicktimeOP && !clicktimeCP && !clicktimeGC)
                 {
