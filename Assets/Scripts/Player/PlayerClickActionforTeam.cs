@@ -16,7 +16,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     //black hole effect block player click action
     public bool isBlackholeEffect = false;
     private MeshRenderer throwMaterialMesh;
-
+    [SerializeField]
+    private LayerMask clickableMask;
     void Start()
     {
         //get player's camera(for raycast)
@@ -57,9 +58,9 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetMouseButtonUp(1))
         {
-            bluePrint.instance.noticePointInfoPanel.SetActive(false);
-            bluePrint.instance.synthesisformulaPanel.SetActive(false);
-            bluePrint.instance.materialFieldInfoPanel.SetActive(false);
+            playerInteractiveUI.instance.noticePointInfoPanel.SetActive(false);
+            playerInteractiveUI.instance.synthesisformulaPanel.SetActive(false);
+            playerInteractiveUI.instance.materialFieldInfoPanel.SetActive(false);
         }
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
@@ -95,7 +96,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         //check if clickable, and change cursor color
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, clickableMask.value))
         {
             if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 350)
             {
@@ -112,7 +113,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("ground")))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, clickableMask.value))
             {
                 //click objcet when closing to it
                 if (Mathf.Pow(this.gameObject.transform.position.x - hit.point.x, 2) + Mathf.Pow(this.gameObject.transform.position.z - hit.point.z, 2) < 350)
@@ -239,20 +240,20 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 {
                     Debug.Log("show notice point info");
                     noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                    bluePrint.instance.showNoticePointInfo(clickedPointInfo);
-                    bluePrint.instance.noticePointInfoPanel.SetActive(true);
+                    playerInteractiveUI.instance.showNoticePointInfo(clickedPointInfo);
+                    playerInteractiveUI.instance.noticePointInfoPanel.SetActive(true);
                 }
                 else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
                 {
                     Debug.Log("show material field info");
-                    bluePrint.instance.materialFieldInfoPanel.SetActive(true);
-                    bluePrint.instance.materialFieldInfoText.GetComponent<Text>().text = hit.collider.tag;
-                    bluePrint.instance.materialFieldInfoImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + hit.collider.tag);
+                    playerInteractiveUI.instance.materialFieldInfoPanel.SetActive(true);
+                    playerInteractiveUI.instance.materialFieldInfoText.GetComponent<Text>().text = hit.collider.tag;
+                    playerInteractiveUI.instance.materialFieldInfoImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("materialSprite/" + hit.collider.tag);
                 }
                 else if (hit.collider.tag == "synthesis")
                 {
                     Debug.Log("show synthesis formula");
-                    bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                    playerInteractiveUI.instance.synthesisformulaPanel.SetActive(true);
                 }
             }
         }

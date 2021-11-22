@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class buttonScript : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class buttonScript : MonoBehaviour
     public GameObject optionPanel;
     public GameObject chatroomPanel;
     public GameObject godCamera;
+    public GameObject mainGamePanel;
     public GameObject teachingPanel;
 
     bool clicktimeBP;
     bool clicktimeOP;
     bool clicktimeCP;
     bool clicktimeGC;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,8 +60,9 @@ public class buttonScript : MonoBehaviour
             {
                 PlayerInputActionMode.instance.stateThree();
                 godCamera.SetActive(true);
-                clicktimeGC = true;
                 GodViewPlayersInfo.instance.GodViewInfoPanel.SetActive(true);
+                mainGamePanel.SetActive(false);
+                clicktimeGC = true;
             }
         }
         //state 3
@@ -82,8 +86,9 @@ public class buttonScript : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.X))
             {
                 godCamera.SetActive(false);
-                clicktimeGC = false;
                 GodViewPlayersInfo.instance.GodViewInfoPanel.SetActive(false);
+                mainGamePanel.SetActive(true);
+                clicktimeGC = false;
                 //check for whether other actions are active or not
                 if (!clicktimeBP && !clicktimeOP && !clicktimeCP && !clicktimeGC)
                 {
@@ -99,18 +104,36 @@ public class buttonScript : MonoBehaviour
         if (clicktimeBP == false)
         {
             blueprintPanel.SetActive(true);
-            /*LeanTween.moveX(blueprintPanel.GetComponent<RectTransform>(), 000f, 0.5f);
-            LeanTween.moveY(blueprintPanel.GetComponent<RectTransform>(), 000f, 0.5f);
-            LeanTween.scale(blueprintPanel, new Vector3(1, 1, 1), 0.5f);*/
             clicktimeBP = true;
         }
         else if (clicktimeBP == true)
         {
             blueprintPanel.SetActive(false);
-            /*LeanTween.scale(blueprintPanel, new Vector3(0, 0, 0), 0.5f);
-            LeanTween.moveX(blueprintPanel.GetComponent<RectTransform>(), 415f, 0.5f);
-            LeanTween.moveY(blueprintPanel.GetComponent<RectTransform>(), -148f, 0.5f);*/
             clicktimeBP = false;
+            /*Debug.Log("freecount " + freecount);
+            freecount = StageNumber;
+            Debug.Log("StageNumber " + StageNumber);
+            switch (StageNumber)
+            {
+                case 1:
+                    Blueprint.sprite = one_front;
+                    break;
+                case 2:
+                    Blueprint.sprite = one_front;
+                    break;
+                case 3:
+                    Blueprint.sprite = three_front;
+                    break;
+                case 4:
+                    Blueprint.sprite = three_front;
+                    break;
+                case 5:
+                    Blueprint.sprite = five_front;
+                    break;
+                case 6:
+                    Blueprint.sprite = six;
+                    break;
+            }*/
         }
     }
 

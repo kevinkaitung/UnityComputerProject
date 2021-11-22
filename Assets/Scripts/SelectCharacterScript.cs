@@ -72,7 +72,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterOne()
     {
-        CharacterName.text = "角色名稱 : Mily";
+        CharacterName.text = "Mily";
         CharacterFace.sprite = one;
         playerStyle = "character1";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -83,7 +83,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void charactertwo()
     {
-        CharacterName.text = "角色名稱 : Mary";
+        CharacterName.text = "Mary";
         CharacterFace.sprite = two;
         playerStyle = "character2";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -94,7 +94,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterthree()
     {
-        CharacterName.text = "角色名稱 : Angel";
+        CharacterName.text = "Angel";
         CharacterFace.sprite = three;
         playerStyle = "character3";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -105,7 +105,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterfour()
     {
-        CharacterName.text = "角色名稱 : Hapi";
+        CharacterName.text = "Hapi";
         CharacterFace.sprite = four;
         playerStyle = "character4";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -116,7 +116,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterfive()
     {
-        CharacterName.text = "角色名稱 : Peter";
+        CharacterName.text = "Peter";
         CharacterFace.sprite = five;
         playerStyle = "character5";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -127,7 +127,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void charactersix()
     {
-        CharacterName.text = "角色名稱 : Alita";
+        CharacterName.text = "Alita";
         CharacterFace.sprite = six;
         playerStyle = "character6";
         playerInfo[playerStyleKeyName] = playerStyle;
@@ -138,7 +138,7 @@ public class SelectCharacterScript : MonoBehaviour
 
     public void characterseven()
     {
-        CharacterName.text = "角色名稱 : Alan";
+        CharacterName.text = "Alan";
         CharacterFace.sprite = seven;
         playerStyle = "character7";
         playerInfo[playerStyleKeyName] = playerStyle;

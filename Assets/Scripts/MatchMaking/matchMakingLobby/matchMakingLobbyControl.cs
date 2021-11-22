@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -46,6 +48,8 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
     private GameObject BlackPanel;
     [SerializeField]
     private GameObject RoomListPanel;
+    [SerializeField]
+    private GameObject InputErrorPanel;
     
     public override void OnConnectedToMaster()
     {
@@ -56,7 +60,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         //if user doesn't enter the name, give a random name
         if (playerNameInput.text == "")
         {
-            PhotonNetwork.NickName = "Player " + Random.Range(0, 1000);
+            PhotonNetwork.NickName = "Player " + UnityEngine.Random.Range(0, 1000);
         }
         //get user's input as player name
         else
@@ -71,7 +75,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         //if user doesn't enter the name, give a random name
         if (playerNameInput.text == "")
         {
-            PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString();
+            PhotonNetwork.NickName = "Player " + UnityEngine.Random.Range(0, 1000).ToString();
         }
         //get user's input as player name
         else
@@ -162,12 +166,31 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
 
     public void OnRoomSizeChanged(string sizeIn)
     {
-        roomSize = int.Parse(sizeIn);
+        if(sizeIn.All(char.IsDigit))
+        {
+            roomSize = int.Parse(sizeIn);
+        }
+        else
+        {
+            StartCoroutine(ShowInputErrorPanel());
+        }    
+    }
+    IEnumerator ShowInputErrorPanel()
+    {
+        Debug.Log("fklasjlfk");
+        InputErrorPanel.SetActive(true);
+        InputErrorPanel.GetComponentInChildren<Text>().text = "請輸入正確的數字!";
+        yield return new WaitForSeconds(1);
+        InputErrorPanel.SetActive(false);
     }
 
     public void CreateRoom()
     {
         Debug.Log("creating room now");
+        if(roomName == null)
+            roomName = "Room " + UnityEngine.Random.Range(1,100).ToString();
+        if(roomSize == 0)
+            roomSize = 8;
         RoomOptions roomOps = new RoomOptions()
         {
             IsVisible = true,
@@ -219,6 +242,7 @@ public class matchMakingLobbyControl : MonoBehaviourPunCallbacks
         roomListings = new List<RoomInfo>();
         flashword();
         exitPanel.SetActive(false);
+        InputErrorPanel.SetActive(false);
     }   
      // Update is called once per frame
     void Update()

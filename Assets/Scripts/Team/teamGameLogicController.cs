@@ -29,6 +29,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         }
     }
 
+
+    //for change scene
+    [SerializeField]
+    private GameObject blackPanel;
     //for blue and red team to set stage and count score
     [SerializeField]
     private GameObject blueTeamBuildingField, redTeamBuildingField;
@@ -53,6 +57,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     bool backtowaitingroomclick = false;
 
     public const byte gameTimerEventCode = 1;   //raise event for timer
+    private byte callOthersBackEventCode = 5;   //raise event for calling others to back to waiting room
 
     int min;    //for display timer min
     int sec;    //for display timer sec
@@ -130,10 +135,17 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             startTime = (double)data[0];
             startTimer = true;
         }
+        //receive master client's call to change scene anim 
+        else if (eventCode == callOthersBackEventCode)
+        {
+            LeanTween.scale(blackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
+        }
     }
 
     public void Start()
     {
+        blackPanel.SetActive(true);
+        LeanTween.scale(blackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         blueTeam = blueTeamBuildingField.GetComponent<teamProcessing>();
         redTeam = redTeamBuildingField.GetComponent<teamProcessing>();
         blueTeam.team = "blue";
@@ -256,7 +268,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     }
 
     [PunRPC]
-    /*async*/ void gameFinishDoing()
+    /*async*/
+    void gameFinishDoing()
     {
         //disable timer
         startTimer = false;
@@ -272,7 +285,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         {
             PhotonNetwork.DestroyAll();
             //await Task.Delay(10000);
-            BackToWaitRoomButton.SetActive(true);
+            //game fight result
+            StartCoroutine(showBackToWaitRoomButton());
         }
         //while (backtowaitingroomclick == false)
         {
@@ -280,12 +294,24 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             countdown++;
             //if (countdown == 20)
             {
-                backToWaitingRoomOnClick();
+                //backToWaitingRoomOnClick();
                 //break;
             }
         }
         //Debug.Log("accuracy:" + accuracy);
     }
+
+    IEnumerator showBackToWaitRoomButton()
+    {
+        //wait for 5 seconds to show back button
+        yield return new WaitForSeconds(5);
+        BackToWaitRoomButton.SetActive(true);
+        //if player didn't click the button, auto back to waiting room
+        yield return new WaitForSeconds(25);
+        backToWaitingRoomOnClick();
+    }
+
+
 
     public void backToWaitingRoomOnClick()
     {
@@ -297,8 +323,19 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("waitingRoomScene");
+            //raise event
+            //call other players show the scene change anim (back to waiting room)
+            object content = null;
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+            PhotonNetwork.RaiseEvent(callOthersBackEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+            //self scene change anim before back to waiting room
+            LeanTween.scale(blackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic).setOnComplete(loadNewLevel);
         }
+    }
+
+    private void loadNewLevel()
+    {
+        PhotonNetwork.LoadLevel("waitingRoomScene");
     }
 
     public void showPlayerHandyMaterial(string holdMaterialtoPass)

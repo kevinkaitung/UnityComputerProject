@@ -104,7 +104,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                 randomPlaceGameProps();
             }
         }
-        if(timer2 > durationForProp2)
+        if (timer2 > durationForProp2)
         {
             timer2 = 0.0f;
             //only master client randomly place game props (removal tool)
@@ -359,13 +359,16 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                 gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
                 if (currentEffect.propEffect == attackEffect)
                 {
+                    //set timer 0 and set new start time
                     currentEffect.timer = 0.0f;
+                    currentEffect.startTime = Time.timeSinceLevelLoad;
                     return;
                 }
             }
             //game prop effect countdown image
             GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
-            ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+            //initiate the start time and attack effect
+            ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().init(Time.timeSinceLevelLoad, attackEffect);
             Debug.Log(attackEffect);
             ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
         }
@@ -393,13 +396,16 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             gamePropEffectImageCD currentEffect = gamePropCountdownContainerTransform.GetChild(i).GetComponent<gamePropEffectImageCD>();
             if (currentEffect.propEffect == attackEffect)
             {
+                //set timer 0 and set new start time
                 currentEffect.timer = 0.0f;
+                currentEffect.startTime = Time.timeSinceLevelLoad;
                 return;
             }
         }
         //game prop effect countdown image
         GameObject ImageCountdownEffect = Instantiate(Resources.Load("UIPrefab/GamePropCountdownImage", typeof(GameObject)), gamePropCountdownContainerTransform) as GameObject;
-        ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().propEffect = attackEffect;
+        //initiate the start time and attack effect
+        ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().init(Time.timeSinceLevelLoad, attackEffect);
         Debug.Log(attackEffect);
         ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
     }

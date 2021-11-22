@@ -5,9 +5,10 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using Photon.Pun.UtilityScripts;
+using ExitGames.Client.Photon;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class waitingRoomController : MonoBehaviourPunCallbacks
+public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     [SerializeField]
     private GameObject BlackPanel;
@@ -60,6 +61,31 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
     [SerializeField]
     private Text playerReadyDisplay;   //display player if ready
     private string playerReadyKeyName = "playerReady";  //const string, store hashtable player ready's key 
+
+    //raise event code for calling others to start main game
+    public byte callOthersStartEventCode = 4;
+
+    //register for raise event
+    public override void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    public override void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    //receive raise event
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+        //receive master client's call to change scene anim (start main game)
+        if (eventCode == callOthersStartEventCode)
+        {
+            LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
+        }
+    }
 
     void ClearPlayerListings()
     {
@@ -214,6 +240,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
             Debug.Log("joined?" + PhotonNetwork.LocalPlayer.JoinTeam(teamCode: (byte)Random.Range(1, 3)));
             Debug.Log("random join team");
         }
+        //first time join the room
+        LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
     }
 
     public void ChangeTeam()
@@ -238,9 +266,19 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
                 (playersContainerBlue.childCount - playersContainerRed.childCount) <= 1)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
-                PhotonNetwork.LoadLevel("mainSceneTeam");
+                //raise event
+                //call other players show the scene change anim (start main game)
+                object content = null;
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+                PhotonNetwork.RaiseEvent(callOthersStartEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+                LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic).setOnComplete(loadNewLevel);
             }
         }
+    }
+
+    private void loadNewLevel()
+    {
+        PhotonNetwork.LoadLevel("mainSceneTeam");
     }
 
     IEnumerator rejoinLobby()
@@ -309,10 +347,15 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
 
         Chatclicktime = false;
         BlackPanel.SetActive(true);
-        LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
 
         ClearPlayerListings();
         ListPlayers();
+
+        //already in room (back from main game)
+        if (PhotonNetwork.InRoom)
+        {
+            LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+        }
     }
 
     // Update is called once per frame
@@ -358,11 +401,13 @@ public class waitingRoomController : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             object result;
-            player.CustomProperties.TryGetValue(playerReadyKeyName, out result);
-            //if one player not ready, return false
-            if (!(bool)result)
+            if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
             {
-                return false;
+                //if one player not ready, return false
+                if (!(bool)result)
+                {
+                    return false;
+                }
             }
         }
         //all players are ready, return true

@@ -50,11 +50,11 @@ public class PlayerClickAction : MonoBehaviourPun
             return;
         }
 
-        bluePrint.instance.closeBlueprintButton.onClick.AddListener(delegate
+        /*bluePrint.instance.closeBlueprintButton.onClick.AddListener(delegate
         {
             bluePrint.instance.blueprintPanel.SetActive(false);
             bpc = false;
-        });
+        });*/
 
 
         //player act with scene
@@ -76,11 +76,11 @@ public class PlayerClickAction : MonoBehaviourPun
                     hit.collider.gameObject.GetComponent<PhotonView>().RPC("destroyNoticePoint", RpcTarget.MasterClient, null);
                     //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                 }
-                else if (hit.collider.tag == "bluePrint")
+                /*else if (hit.collider.tag == "bluePrint")
                 {
                     bluePrint.instance.blueprintPanel.SetActive(true);
                     bpc = true;
-                }
+                }*/
                 else if (hit.collider.tag == "synthesis")
                 {
                     if (Synthesis.instance.firstInputItem == "empty" && holdMaterial != "empty")
@@ -121,22 +121,22 @@ public class PlayerClickAction : MonoBehaviourPun
                 {
                     Debug.Log("show notice point info");
                     noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
-                    bluePrint.instance.showNoticePointInfo(clickedPointInfo);
+                    playerInteractiveUI.instance.showNoticePointInfo(clickedPointInfo);
                     bpc = true;
-                    bluePrint.instance.noticePointInfoPanel.SetActive(true);
+                    playerInteractiveUI.instance.noticePointInfoPanel.SetActive(true);
                 }
                 else if (hit.collider.tag == "synthesis")
                 {
                     Debug.Log("show synthesis formula");
                     bpc = true;
-                    bluePrint.instance.synthesisformulaPanel.SetActive(true);
+                    playerInteractiveUI.instance.synthesisformulaPanel.SetActive(true);
                 }
             }
         }
         if (Input.GetMouseButtonUp(1))
         {
-            bluePrint.instance.noticePointInfoPanel.SetActive(false);
-            bluePrint.instance.synthesisformulaPanel.SetActive(false);
+            playerInteractiveUI.instance.noticePointInfoPanel.SetActive(false);
+            playerInteractiveUI.instance.synthesisformulaPanel.SetActive(false);
             bpc = false;
         }
     }

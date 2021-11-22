@@ -26,7 +26,7 @@ namespace mySection
         void Start()
         {
             object playerStyleOutput;
-            if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("playerStyle", out playerStyleOutput))
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("playerStyle", out playerStyleOutput))
             {
                 playerStyle = (string)playerStyleOutput;
             }
@@ -40,17 +40,33 @@ namespace mySection
             }
             else
             {
-                //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
-                if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+                //count my team members to decide which spawn point to choose
+                int sameTeamMemberCount;
+                string myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
+                if(myTeam == "Blue")
                 {
-                    PhotonNetwork.Instantiate(playerStyle, spawnPoints[i].position, spawnPoints[i].rotation, 0);
-                    i = i + 1;
+                    //spawn point 0~3 for blue team
+                    sameTeamMemberCount = 0;
                 }
                 else
                 {
-                    PhotonNetwork.Instantiate(playerStyle, spawnPoints[j].position, spawnPoints[j].rotation, 0);
-                    j = j + 1;
+                    //spawn point 4~7 for red team
+                    sameTeamMemberCount = 4;
                 }
+                foreach (Player aPlayer in PhotonNetwork.PlayerList)
+                {
+                    if (aPlayer.GetPhotonTeam().Name == myTeam)
+                    {
+                        if (aPlayer.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                        {
+                            //assign to my team's spawn points
+                            PhotonNetwork.Instantiate(playerStyle, spawnPoints[sameTeamMemberCount].position, spawnPoints[sameTeamMemberCount].rotation, 0);
+                            break;
+                        }
+                        sameTeamMemberCount++;
+                    }
+                }
+                //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
             }
         }
 
