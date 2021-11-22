@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public float speed = 12.0f;
     public float changedSpeedHeadBob = 4.0f;
-    public  float gravity = -9.81f;
+    public float gravity = -9.81f;
 
     public Transform groundCheck;
     public float grounDistance = 0.4f;
@@ -34,8 +34,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField]
     private float durationTimeForChangeSpeed = 10.0f;   //how long will change speed effect
     private bool startTimer = false;    //enable/disable timer
-    
-//register for raise event
+
+    //register for raise event
     public override void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
@@ -123,54 +123,55 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             return;
         }
-        if(!PlayerInputActionMode.instance.enablePlayerMovement)
+        if (!PlayerInputActionMode.instance.enablePlayerMovement)
         {
-            anim.Play("Idle");
+            anim.SetFloat("Vertical", 0f);
+            anim.SetFloat("Horizontal", 0f);
             return;
         }
         //normal speed
-        
+
         Move();
     }
-   
+
     private void Move()
     {
         //anim.SetBool("Jump",false);
-        isGround = Physics.CheckSphere(groundCheck.position,grounDistance,groundMask);
-        if(isGround && velocity.y<0)
+        isGround = Physics.CheckSphere(groundCheck.position, grounDistance, groundMask);
+        if (isGround && velocity.y < 0)
         {
             velocity.y = -2.0f;
         }
-        float moveX  = Input.GetAxis("Horizontal");
+        float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
         anim.SetFloat("Vertical", moveZ);
         anim.SetFloat("Horizontal", moveX);
-        
-        move = transform.right * moveX + transform.forward * moveZ ;
 
-       // SpeedChange();
-        
-        if(isGround)
+        move = transform.right * moveX + transform.forward * moveZ;
+
+        // SpeedChange();
+
+        if (isGround)
         {
-            anim.SetFloat("Velocity.y",velocity.y);
-            
+            anim.SetFloat("Velocity.y", velocity.y);
+
         }
-        if(isGround&&Input.GetButtonDown("Jump"))
+        if (isGround && Input.GetButtonDown("Jump"))
         {
-             Jump();   
+            Jump();
         }
-        else if(!isGround)
-         {
-             anim.SetBool("Jump",false);
-             anim.SetFloat("Velocity.y",velocity.y);
-         }
+        else if (!isGround)
+        {
+            anim.SetBool("Jump", false);
+            anim.SetFloat("Velocity.y", velocity.y);
+        }
         controller.Move(move * speed * Time.deltaTime);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
     private void Jump()
     {
-        anim.SetBool("Jump",true);
+        anim.SetBool("Jump", true);
         velocity.y = Mathf.Sqrt(JumpHeight * -2 * gravity);
     }
 
