@@ -41,9 +41,9 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string worldchat;
     // text min/max width
     private int textSizeMinWidth = 100;
-    private int textSizeMaxWidth = 108;
+    private int textSizeMaxWidth = 161;
     // msgMaxNumLine
-    private int msgMaxNumLine = 10;
+    private int msgMaxNumLine = 20;
     
     // Start is called before the first frame update
     void Start()
@@ -55,11 +55,11 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        redChat = "這裡是紅隊的聊天室\n";
-        blueChat = "這裡是藍隊的聊天室\n";
+        redChat = "這裡是紅隊聊天室\n";
+        blueChat = "這裡是藍隊聊天室\n";
         worldchat = "world\n";
-        tempRedChat = "這裡是紅隊的聊天室\n";
-        tempBlueChat = "這裡是藍隊的聊天室\n";
+        tempRedChat = "這裡是紅隊聊天室\n";
+        tempBlueChat = "這裡是藍隊聊天室\n";
         tempWorldChat = "world\n";
     }
 
@@ -78,7 +78,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void GetConnected()
     {
-        Debug.Log("Connecting");
+        Debug.Log("Connecting ChatRoom XDDDDDD");
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
@@ -125,6 +125,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
+        Debug.Log("成功連接");
         chatClient.Subscribe(new string[] {worldchat});
         chatClient.SetOnlineStatus(ChatUserStatus.Online);
     }
@@ -242,6 +243,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void changeChannel()
     {
+        Debug.Log("切換頻道成功");
         // get team
         object tmp;
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
