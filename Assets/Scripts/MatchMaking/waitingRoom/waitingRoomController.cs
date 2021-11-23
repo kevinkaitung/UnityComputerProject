@@ -120,6 +120,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     //tempImage.color = Color.blue;
                     //if ready, show ready mark
                     object result;
+                    Image CharImg = tempListing.transform.GetChild(2).GetComponent<Image>();
+                    object styleNameOutput;
+                    player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
+                    string temp = (string)styleNameOutput;
+                    CharImg.sprite = Resources.Load("headShot/"+temp.Remove(0,9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
@@ -135,6 +140,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     //tempImage.color = Color.red;
                     //if ready, show ready mark
                     object result;
+                    Image CharImg = tempListing.transform.GetChild(2).GetComponent<Image>();
+                    object styleNameOutput;
+                    player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
+                    string temp = (string)styleNameOutput;
+                    CharImg.sprite = Resources.Load("headShot/"+temp.Remove(0,9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
