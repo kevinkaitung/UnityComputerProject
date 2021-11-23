@@ -53,6 +53,9 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField]
     private GameObject RoomPanel;
 
+    [SerializeField]
+    private GameObject VoiceSpeakerPrefab;
+
     bool Chatclicktime;
     bool Characterclicktime;
 
@@ -242,6 +245,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         //first time join the room
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+
+        
+        Debug.Log("on joined room call");
+        //voice speaker
+        PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
     }
 
     public void ChangeTeam()
@@ -355,6 +363,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         if (PhotonNetwork.InRoom)
         {
             LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+        }
+        if (PhotonNetwork.InRoom)
+        {
+            Debug.Log("in room call");
+            //voice speaker
+            PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
         }
     }
 

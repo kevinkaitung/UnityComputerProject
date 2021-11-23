@@ -43,7 +43,7 @@ namespace mySection
                 //count my team members to decide which spawn point to choose
                 int sameTeamMemberCount;
                 string myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
-                if(myTeam == "Blue")
+                if (myTeam == "Blue")
                 {
                     //spawn point 0~3 for blue team
                     sameTeamMemberCount = 0;
@@ -68,6 +68,9 @@ namespace mySection
                 }
                 //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
             }
+
+            //voice speaker
+            PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
         }
 
         //新玩家進入時，呼叫OnPlayerEnteredRoom
