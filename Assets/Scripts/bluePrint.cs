@@ -59,6 +59,10 @@ public class bluePrint : MonoBehaviour
     private Sprite six;
     [SerializeField]
     private Sprite six_plus;
+    [SerializeField]
+    private GameObject next_button;
+    [SerializeField]
+    private GameObject previous_button;
 
 
     // Start is called before the first frame update
@@ -70,7 +74,15 @@ public class bluePrint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(freecount == 1)
+            previous_button.SetActive(false);
+        else
+            previous_button.SetActive(true);
+        
+        if(freecount == 6)
+            next_button.SetActive(false);
+        else
+            next_button.SetActive(true);
     }
 
     public void autoSettoCurrentStageBluePrint(int stageInput)

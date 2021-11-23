@@ -16,7 +16,7 @@ public class TeachingScript : MonoBehaviour
     [SerializeField]
     public GameObject NextPagebutton;
     [SerializeField]
-    public GameObject FrontPageburron;
+    public GameObject FrontPagebutton;
     [SerializeField]
     public GameObject Billboard_one;
     [SerializeField]
@@ -42,9 +42,9 @@ public class TeachingScript : MonoBehaviour
     void Update()
     {
         if (Clicktime == 0)
-            FrontPageburron.SetActive(false);
+            FrontPagebutton.SetActive(false);
         else
-            FrontPageburron.SetActive(true);
+            FrontPagebutton.SetActive(true);
 
         if (Clicktime == 3)
             NextPagebutton.SetActive(false);
