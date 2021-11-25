@@ -1672,6 +1672,7 @@ MonoBehaviour:
   isGround: 0
   change: 1
   durationTimeForChangeSpeed: 10
+  isBlackholeEffectForMove: 0
   move: {x: 0, y: 0, z: 0}
 --- !u!114 &6072123700433881397
 MonoBehaviour:
@@ -1689,7 +1690,7 @@ MonoBehaviour:
   showHoldMaterialCube: {fileID: 8939936371036303435}
   throwMaterialCube: {fileID: 2846683972221922212, guid: 210f1e24d9c906648b9817100e18e640,
     type: 3}
-  isBlackholeEffect: 0
+  isBlackholeEffectForClick: 0
   clickableMask:
     serializedVersion: 2
     m_Bits: 51
@@ -1715,6 +1716,9 @@ MonoBehaviour:
     smoothTime: 5
     lockCursor: 1
   cam: {fileID: 5657971641453370335}
+  camShak: {fileID: 1178615288125601068}
+  shakeNow: 0
+  isBlackholeEffectForCam: 0
   m_axes: 0
   m_sensitivityX: 10
   m_sensitivityY: 10
@@ -2396,6 +2400,7 @@ GameObject:
   - component: {fileID: 8500917145009962841}
   - component: {fileID: 286257659048135012}
   - component: {fileID: 9211545950040240016}
+  - component: {fileID: 1178615288125601068}
   m_Layer: 2
   m_Name: Camera
   m_TagString: Untagged
@@ -2543,6 +2548,19 @@ MonoBehaviour:
   playerMovementController: {fileID: 5654072456171414076}
   StrideInterval: 4
   RunningStrideLengthen: 0
+--- !u!114 &1178615288125601068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5657971641453370335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b5e86ab03f6544e9b18671f9fdc2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamComp: {fileID: 4143977645308887757}
 --- !u!1 &5745754034190299461
 GameObject:
   m_ObjectHideFlags: 0

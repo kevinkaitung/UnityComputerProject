@@ -9521,7 +9521,7 @@ GameObject:
   - component: {fileID: 6596808748602456230}
   m_Layer: 2
   m_Name: flame
-  m_TagString: Untagged
+  m_TagString: flame
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

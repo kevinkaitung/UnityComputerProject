@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField]
     private float durationTimeForChangeSpeed = 10.0f;   //how long will change speed effect
     private bool startTimer = false;    //enable/disable timer
+    //black hole effect block player move action
+    public bool isBlackholeEffectForMove = false;
 
     //register for raise event
     public override void OnEnable()
@@ -127,6 +129,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             anim.SetFloat("Vertical", 0f);
             anim.SetFloat("Horizontal", 0f);
+            return;
+        }
+        //if blackhole effect is active, block player move action
+        if (isBlackholeEffectForMove)
+        {
             return;
         }
         //normal speed

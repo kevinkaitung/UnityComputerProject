@@ -25,8 +25,10 @@ public class blackholeCollisionEffect : MonoBehaviour
             if (timer > durationTime)
             {
                 startTimer = false;
-                //control player click action
-                this.gameObject.GetComponent<PlayerClickActionforTeam>().isBlackholeEffect = false;
+                //control playe action
+                this.gameObject.GetComponent<PlayerClickActionforTeam>().isBlackholeEffectForClick = false;
+                this.gameObject.GetComponent<PlayerCamera>().isBlackholeEffectForCam = false;
+                this.gameObject.GetComponent<PlayerMovement>().isBlackholeEffectForMove = false;
                 gamePropsManager.instance.disableBlackholeEffecttoPlayer();
                 //解除限制移動和點擊動作(除了UI)...
                 //PlayerClickActionforTeam.bpc = false;
@@ -42,8 +44,10 @@ public class blackholeCollisionEffect : MonoBehaviour
         if (hit.collider.gameObject.tag == "blackholeObstacle")
         {
             startTimer = true;
-            //control player click action
-            this.gameObject.GetComponent<PlayerClickActionforTeam>().isBlackholeEffect = true;
+            //control player action
+            this.gameObject.GetComponent<PlayerClickActionforTeam>().isBlackholeEffectForClick = true;
+            this.gameObject.GetComponent<PlayerCamera>().isBlackholeEffectForCam = true;
+            this.gameObject.GetComponent<PlayerMovement>().isBlackholeEffectForMove = true;
             timer = 0.0f;
             gamePropsManager.instance.enableBlackholeEffecttoPlayer();
             //restart at the spawn position

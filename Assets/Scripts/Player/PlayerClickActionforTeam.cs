@@ -14,7 +14,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     private string team;    //which team belong to
     public GameObject showHoldMaterialCube, throwMaterialCube;
     //black hole effect block player click action
-    public bool isBlackholeEffect = false;
+    public bool isBlackholeEffectForClick = false;
     private MeshRenderer throwMaterialMesh;
     [SerializeField]
     private LayerMask clickableMask;
@@ -67,7 +67,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             return;
         }
         //if blackhole effect is active, block player click action
-        if (isBlackholeEffect)
+        if (isBlackholeEffectForClick)
         {
             return;
         }
@@ -266,7 +266,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             return;
         }
         //if blackhole effect is active, block player click action
-        if (isBlackholeEffect)
+        if (isBlackholeEffectForClick)
         {
             return;
         }
