@@ -61,6 +61,7 @@ namespace mySection
                         {
                             //assign to my team's spawn points
                             PhotonNetwork.Instantiate(playerStyle, spawnPoints[sameTeamMemberCount].position, spawnPoints[sameTeamMemberCount].rotation, 0);
+                            gamePropsManager.instance.myRespawnPointIndex = sameTeamMemberCount;
                             break;
                         }
                         sameTeamMemberCount++;

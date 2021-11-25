@@ -52,6 +52,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //text for locking player count down
     public GameObject blackholeEffectText;
     private Text blackholeEffectCountText;
+    public int myRespawnPointIndex = 0;
     //respawn point for different players
     public Transform[] reSpawnPoints;
     //generate number of flame at once

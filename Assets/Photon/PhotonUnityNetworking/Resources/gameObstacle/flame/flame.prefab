@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4450397513301152}
   - component: {fileID: 198960360841379132}
   - component: {fileID: 199854643214146796}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4764,7 +4764,7 @@ GameObject:
   - component: {fileID: 4762084453047874}
   - component: {fileID: 198574290624373436}
   - component: {fileID: 199879547624092482}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FireDark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9519,7 +9519,7 @@ GameObject:
   - component: {fileID: 199292984608142242}
   - component: {fileID: -1496597882688069215}
   - component: {fileID: 6596808748602456230}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14289,8 +14289,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 2}
-  m_Center: {x: 0, y: 0, z: 0.5}
+  m_Size: {x: 0.5, y: 2, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1675093556902264
 GameObject:
   m_ObjectHideFlags: 0
@@ -14302,7 +14302,7 @@ GameObject:
   - component: {fileID: 4331181720330552}
   - component: {fileID: 198039843389955364}
   - component: {fileID: 199428270566281474}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19055,7 +19055,7 @@ GameObject:
   - component: {fileID: 4443756935737932}
   - component: {fileID: 198445861013216388}
   - component: {fileID: 199852885872088684}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

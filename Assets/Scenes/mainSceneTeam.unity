@@ -4822,11 +4822,16 @@ MonoBehaviour:
   speedupEffectEventCode: 3
   blackholeEffectPanel: {fileID: 2065707134}
   blackholeEffectText: {fileID: 763201588}
+  myRespawnPointIndex: 0
   reSpawnPoints:
   - {fileID: 563726556}
-  - {fileID: 0}
+  - {fileID: 852149131}
+  - {fileID: 667635998}
+  - {fileID: 1570969660}
   - {fileID: 1148834018}
-  - {fileID: 0}
+  - {fileID: 2081482827}
+  - {fileID: 1079958407}
+  - {fileID: 968924841}
   numberofFlame: 10
   numberofBlackhole: 10
   numberofSmoke: 10
@@ -11361,7 +11366,7 @@ MonoBehaviour:
   TeachPanel: {fileID: 1634698051}
   Exitbutton: {fileID: 1333554892}
   NextPagebutton: {fileID: 1728772928}
-  FrontPagebutton: {fileID: 0}
+  FrontPagebutton: {fileID: 682325965}
   Billboard_one: {fileID: 1555985214}
   Billboard_two: {fileID: 1334177084}
   Billboard_three: {fileID: 1321347626}

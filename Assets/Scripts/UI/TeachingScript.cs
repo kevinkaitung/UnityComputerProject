@@ -25,7 +25,7 @@ public class TeachingScript : MonoBehaviour
     public GameObject Billboard_three;
     [SerializeField]
     public GameObject Billboard_four;
-    
+
     private bool firstTime = true;
 
     public int Clicktime = 0;  //預計做三頁教學 數字可更改
@@ -36,11 +36,7 @@ public class TeachingScript : MonoBehaviour
         TeachPanel.SetActive(true);
         Billboard_two.SetActive(false);
         Billboard_three.SetActive(false);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
         if (Clicktime == 0)
             FrontPagebutton.SetActive(false);
         else
@@ -50,6 +46,12 @@ public class TeachingScript : MonoBehaviour
             NextPagebutton.SetActive(false);
         else
             NextPagebutton.SetActive(true);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     public void GoNextPage()
@@ -74,7 +76,7 @@ public class TeachingScript : MonoBehaviour
                 Billboard_two.SetActive(false);
                 Billboard_three.SetActive(true);
                 Billboard_four.SetActive(false);
-                
+
                 break;
             case 3:
                 Billboard_one.SetActive(false);
@@ -84,6 +86,15 @@ public class TeachingScript : MonoBehaviour
                 break;
         }
 
+        if (Clicktime == 0)
+            FrontPagebutton.SetActive(false);
+        else
+            FrontPagebutton.SetActive(true);
+
+        if (Clicktime == 3)
+            NextPagebutton.SetActive(false);
+        else
+            NextPagebutton.SetActive(true);
     }
     public void GoFrontPage()
     {
@@ -115,7 +126,16 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(true);
                 break;
         }
+        
+        if (Clicktime == 0)
+            FrontPagebutton.SetActive(false);
+        else
+            FrontPagebutton.SetActive(true);
 
+        if (Clicktime == 3)
+            NextPagebutton.SetActive(false);
+        else
+            NextPagebutton.SetActive(true);
     }
 
     public void ClosePanel()

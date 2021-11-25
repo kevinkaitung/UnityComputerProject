@@ -47,7 +47,7 @@ public class blackholeCollisionEffect : MonoBehaviour
             timer = 0.0f;
             gamePropsManager.instance.enableBlackholeEffecttoPlayer();
             //restart at the spawn position
-            this.gameObject.transform.position = gamePropsManager.instance.reSpawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position;
+            this.gameObject.transform.position = gamePropsManager.instance.reSpawnPoints[gamePropsManager.instance.myRespawnPointIndex].position;
             //限制移動和點擊動作(除了UI)...
             //PlayerClickActionforTeam.bpc = true;
         }
