@@ -278,6 +278,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         PlayerInputActionMode.instance.stateFour();
         //after networked-objects destroy (time's up), clear the playersInfo (which are instantiated with networked-objects)
         GodViewPlayersInfo.instance.playersInfo.Clear();
+        GodViewPlayersInfo.instance.GodViewInfoPanel.SetActive(false);
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好
