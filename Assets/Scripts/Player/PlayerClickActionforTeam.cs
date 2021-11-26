@@ -134,6 +134,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 teamGameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial, team);
                                 //call master client to change the texture of notice cube of building(using RPC with notice point's photon view)
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("buildToChangeTexture", RpcTarget.All, holdMaterial);
+                                //hit.collider.gameObject.GetComponent<ParticleSystem>().Play();
                                 //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                                 //after using the material, abandon the material
                                 holdMaterial = "empty";

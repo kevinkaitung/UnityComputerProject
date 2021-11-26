@@ -14,7 +14,7 @@ public class OptionPanelScript : MonoBehaviour
     public GameObject optionPanel;
     public GameObject TeachPanel;
     public GameObject shutDownGamePanel;
-    public GameObject backtoWaitRoomButton;
+    public GameObject backtoLobbyButton;
 
     bool clicktime;
 
@@ -44,7 +44,7 @@ public class OptionPanelScript : MonoBehaviour
     {
         //leave game, clear the list
         GodViewPlayersInfo.instance.playersInfo.Clear();
-        backtoWaitRoomButton.SetActive(false);
+        backtoLobbyButton.SetActive(false);
         teamGameLogicController.instance.startTimer = false;
         PhotonNetwork.LocalPlayer.LeaveCurrentTeam();
         PhotonNetwork.LeaveRoom();

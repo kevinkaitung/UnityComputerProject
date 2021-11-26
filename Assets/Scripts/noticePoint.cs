@@ -33,6 +33,8 @@ public class noticePoint : MonoBehaviourPun
         rend.material = Resources.Load("standardMat") as Material;
         rend.material.mainTexture = Resources.Load("texture of building/" + handyMaterial) as Texture;
         this.gameObject.tag = "clickedNoticePoint";
+        //play dust particle system effect
+        GetComponent<ParticleSystem>().Play();
     }
 
     //if player use removal tool, change its texture to transparent
