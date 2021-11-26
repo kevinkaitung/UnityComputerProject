@@ -9072,6 +9072,7 @@ MonoBehaviour:
   optionPanel: {fileID: 1483351811}
   TeachPanel: {fileID: 1634698051}
   shutDownGamePanel: {fileID: 152514057}
+  backtoWaitRoomButton: {fileID: 508945440}
 --- !u!4 &1172535138
 Transform:
   m_ObjectHideFlags: 0

@@ -20,6 +20,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     private GameObject startButton;     //game start button, available for master client
     [SerializeField]
     private GameObject readyButton;
+    [SerializeField]
+    private GameObject leaveButton;
 
     [SerializeField]
     private Transform playersContainerBlue; //container for holding all the blue player listings items
@@ -124,7 +126,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     object styleNameOutput;
                     player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
                     string temp = (string)styleNameOutput;
-                    CharImg.sprite = Resources.Load("headShot/"+temp.Remove(0,9), typeof(Sprite)) as Sprite;
+                    CharImg.sprite = Resources.Load("headShot/" + temp.Remove(0, 9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
@@ -144,7 +146,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     object styleNameOutput;
                     player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
                     string temp = (string)styleNameOutput;
-                    CharImg.sprite = Resources.Load("headShot/"+temp.Remove(0,9), typeof(Sprite)) as Sprite;
+                    CharImg.sprite = Resources.Load("headShot/" + temp.Remove(0, 9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
@@ -256,7 +258,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         //first time join the room
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
 
-        
+
         Debug.Log("on joined room call");
         //voice speaker
         PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
@@ -284,6 +286,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                 (playersContainerBlue.childCount - playersContainerRed.childCount) <= 1)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
+                startButton.SetActive(false);
                 //raise event
                 //call other players show the scene change anim (start main game)
                 object content = null;
@@ -308,6 +311,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void BackOnClick()
     {
+        leaveButton.SetActive(false);
+        LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         //local player leave team
         Debug.Log("leave?" + PhotonNetwork.LocalPlayer.LeaveCurrentTeam());
         //callback function be called by other clients to update playerListings in container

@@ -5600,6 +5600,7 @@ MonoBehaviour:
   multiPlayerSceneIndex: 0
   startButton: {fileID: 16837291}
   readyButton: {fileID: 1685022432}
+  leaveButton: {fileID: 850598937}
   playersContainerBlue: {fileID: 76554963}
   playersContainerRed: {fileID: 935362579}
   playerListingPrefabBlue: {fileID: 3942110151742174998, guid: bba50908a7dbdb34cabbe6d7745a7356,
