@@ -66,6 +66,10 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     ExitGames.Client.Photon.Hashtable playerReady;
     [SerializeField]
     private Text playerReadyDisplay;   //display player if ready
+    [SerializeField]
+    private Sprite beenReadySprite;
+    [SerializeField]
+    private Sprite notReadySprite;
     private string playerReadyKeyName = "playerReady";  //const string, store hashtable player ready's key 
 
     //raise event code for calling others to start main game
@@ -330,14 +334,16 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (ifReadyforGame == false)
         {
-            readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            //readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            readyButton.GetComponent<Button>().image.sprite = beenReadySprite;
             ifReadyforGame = true;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
         }
         else
         {
-            readyButton.GetComponentInChildren<Text>().text = "準備";
+            //readyButton.GetComponentInChildren<Text>().text = "準備";
+            readyButton.GetComponent<Button>().image.sprite = notReadySprite;
             ifReadyforGame = false;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);

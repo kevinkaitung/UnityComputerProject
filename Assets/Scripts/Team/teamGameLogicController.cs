@@ -321,7 +321,6 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         //5/12待修改
         backtowaitingroomclick = true;
         BackToWaitRoomButton.SetActive(false);
-        Debug.Log(tempTimer);
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)

@@ -24,6 +24,8 @@ public class PlayerInfoUI : MonoBehaviourPun, IPointerEnterHandler
 
     void setUpInfo()
     {
+        //set self different color
+        infoBackGround.GetComponent<Image>().color = new Color(1.0f, 0.8f, 0.52f, 1.0f);
         //prefab initialization after instantiate
         PlayerNameText.text = PhotonNetwork.LocalPlayer.NickName;
         myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
