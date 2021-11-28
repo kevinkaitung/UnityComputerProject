@@ -60,6 +60,7 @@ MonoBehaviour:
   - OtherThrowMaterialCubeInstantiate
   - otherSetUpInfo
   - otherSetUpTeamInfo
+  - showSynthesisMaterial
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
