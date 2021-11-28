@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7919366605144579496}
   - component: {fileID: 7919366605144579503}
   - component: {fileID: 7919366605144579502}
+  - component: {fileID: 3610313122433986369}
   m_Layer: 0
   m_Name: VoiceSpeakerPrefab
   m_TagString: Untagged
@@ -191,3 +192,15 @@ MonoBehaviour:
   AutoCreateRecorderIfNotFound: 0
   UsePrimaryRecorder: 1
   SetupDebugSpeaker: 0
+--- !u!114 &3610313122433986369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7919366605144579501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 448d4a3560b2733449abb9522a7a7187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

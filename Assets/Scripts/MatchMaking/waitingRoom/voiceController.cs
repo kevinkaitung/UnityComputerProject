@@ -14,7 +14,26 @@ using Photon.Voice.Unity;
 
 public class voiceController : MonoBehaviourPunCallbacks
 {
-    public GameObject voice;
+    //voiceController Singleton
+    //Only create voiceController once
+    private static voiceController s_Instance = null;
+    public static voiceController instance
+    {
+        get
+        {
+            if (s_Instance == null)
+            {
+                s_Instance = FindObjectOfType(typeof(voiceController)) as voiceController;
+
+                if (s_Instance == null)
+                    Debug.Log("Could not locate a voiceController " +
+                              "object. \n You have to have exactly " +
+                              "one voiceController in the scene.");
+            }
+            return s_Instance;
+        }
+    }
+
     public GameObject muteBtn;
     public Recorder recorder;
     public PhotonVoiceNetwork punVoiceNetwork;
@@ -29,39 +48,19 @@ public class voiceController : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        punVoiceNetwork = PhotonVoiceNetwork.Instance;
+        //punVoiceNetwork = PhotonVoiceNetwork.Instance;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        //recorder = GameObject.Find("voiceRecorder").GetComponent<Recorder>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-    public override void OnEnable()
-    {
-        this.punVoiceNetwork.Client.StateChanged += this.VoiceClientStateChanged;
-    }
-
-    public override void OnDisable()
-    {
-        this.punVoiceNetwork.Client.StateChanged -= this.VoiceClientStateChanged;
-    }
-
-    private void VoiceClientStateChanged(Photon.Realtime.ClientState fromState, Photon.Realtime.ClientState toState)
-    {
-        if (toState == Photon.Realtime.ClientState.Joined)
-        {
-            PhotonVoiceNetwork.Instance.Client.OpChangeGroups(new byte[0], null);
-            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)currentChannel;
-            Debug.Log("event !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
     }
 
     // mute or not
@@ -146,5 +145,12 @@ public class voiceController : MonoBehaviourPunCallbacks
                 Debug.Log("切換到世界語音頻道");
             }
         }
+    }
+
+    public void changeBackToWorldChannel()
+    {
+        //if change scene, set to world channel
+        PhotonVoiceNetwork.Instance.Client.OpChangeGroups(new byte[0], null);
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)1;
     }
 }

@@ -71,7 +71,7 @@ namespace mySection
             }
 
             //voice speaker
-            PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+            //PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
         }
 
         //新玩家進入時，呼叫OnPlayerEnteredRoom

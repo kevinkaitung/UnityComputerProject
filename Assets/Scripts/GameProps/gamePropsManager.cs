@@ -410,4 +410,12 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         Debug.Log(attackEffect);
         ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
     }
+
+    public void gameFinishPropsDoing()
+    {
+        //when the game is end, disable the blackhole effect
+        disableBlackholeEffecttoPlayer();
+        timer1 = -80.0f;
+        timer2 = -80.0f;
+    }
 }

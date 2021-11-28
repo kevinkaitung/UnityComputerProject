@@ -45,7 +45,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     {
         //get player's camera(for raycast)
         playerCam = GetComponentInChildren<Camera>();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

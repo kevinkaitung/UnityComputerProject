@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using Photon.Pun.UtilityScripts;
 using ExitGames.Client.Photon;
+using Photon.Voice.Unity;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -258,9 +259,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         //first time join the room
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
 
-
-        Debug.Log("on joined room call");
-        //voice speaker
+        //voice recorder (one for one local player)
+        GameObject recorderPrefab = Instantiate(Resources.Load<GameObject>("VoiceRecorderPrefab"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        //set voice controller's recorder to this
+        voiceController.instance.recorder = recorderPrefab.GetComponent<Recorder>();
+        //voice speaker (many for one local player)
         PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
     }
 
@@ -379,12 +382,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         }
-        if (PhotonNetwork.InRoom)
+        /*if (PhotonNetwork.InRoom)
         {
             Debug.Log("in room call");
             //voice speaker
             PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
-        }
+        }*/
     }
 
     // Update is called once per frame

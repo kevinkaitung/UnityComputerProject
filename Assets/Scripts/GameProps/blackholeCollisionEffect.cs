@@ -63,7 +63,7 @@ public class blackholeCollisionEffect : MonoBehaviour
     private void OnDestroy()
     {
         //如果gamePropsManager比玩家早destroy,會讀不到gamePropsManager(?)
-        gamePropsManager.instance.disableBlackholeEffecttoPlayer();
+        //gamePropsManager.instance.disableBlackholeEffecttoPlayer();
         //解除限制移動和點擊動作(除了UI)...
     }
 }
