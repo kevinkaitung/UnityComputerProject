@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
     Vector3 velocity;
     private Animator anim;
 
-    string myTeam;  //which team belong
+    string myTeam;  //which team belong (every prefab belongs to different teams)
     public int change = 1;  //change speed if required
     private float timerForChangeSpeedDuration = 0.0f;   //timer for change speed countdown
     [SerializeField]
@@ -66,6 +66,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 changedSpeedHeadBob = 2.0f;
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
+                //change particle system's color (red for slow down)
+                var main = GetComponent<ParticleSystem>().main;
+                main.startColor = Color.red;
+                GetComponent<ParticleSystem>().Play();
             }
         }
         //receive if some one in the other team uses speedup prop
@@ -76,6 +80,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             string effect = (string)data[1];
             if (myTeam == raiseTeam)
             {
+                Debug.Log("myteam:" + myTeam + "  " + raiseTeam);
                 //speedup effect
                 change = 2;
                 speed = 18.0f;
@@ -83,11 +88,26 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 //restart the timer
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
+                //change particle system's color (blue for speed up)
+                var main = GetComponent<ParticleSystem>().main;
+                main.startColor = Color.white;
+                GetComponent<ParticleSystem>().Play();
             }
         }
     }
 
     void Start()
+    {
+        if (photonView.IsMine)
+        {
+            //set up team name of this player
+            setUpTeamInfo();
+        }
+        controller = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
+    }
+
+    void setUpTeamInfo()
     {
         //get team
         object tmp;
@@ -100,9 +120,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             myTeam = "red";
         }
-        controller = GetComponent<CharacterController>();
-        anim = GetComponentInChildren<Animator>();
+        //call others to set up team name
+        photonView.RPC("otherSetUpTeamInfo", RpcTarget.OthersBuffered, myTeam);
     }
+
+    [PunRPC]
+    void otherSetUpTeamInfo(string myteam)
+    {
+        myTeam = myteam;
+    }
+
     public Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);
     // Update is called once per frame
     void Update()
@@ -118,6 +145,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 speed = 12.0f;
                 changedSpeedHeadBob = 4.0f;
                 startTimer = false;
+                GetComponent<ParticleSystem>().Stop();
             }
         }
         //if not me, just return
