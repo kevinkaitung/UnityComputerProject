@@ -14,7 +14,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     private string team;    //which team belong to
     public GameObject showHoldMaterialCube, throwMaterialCube;
     //black hole effect block player click action
-    public bool isBlackholeEffect = false;
+    public bool isBlackholeEffectForClick = false;
     private MeshRenderer throwMaterialMesh;
     [SerializeField]
     private LayerMask clickableMask;
@@ -45,7 +45,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
     {
         //get player's camera(for raycast)
         playerCam = GetComponentInChildren<Camera>();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
@@ -67,7 +67,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             return;
         }
         //if blackhole effect is active, block player click action
-        if (isBlackholeEffect)
+        if (isBlackholeEffectForClick)
         {
             return;
         }
@@ -134,6 +134,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 teamGameLogicController.instance.playerPutThingsOnPoint(clickedPointInfo, holdMaterial, team);
                                 //call master client to change the texture of notice cube of building(using RPC with notice point's photon view)
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("buildToChangeTexture", RpcTarget.All, holdMaterial);
+                                //hit.collider.gameObject.GetComponent<ParticleSystem>().Play();
                                 //photonView.RPC("playerPutThingsOnPoint", RpcTarget.All, clickedPointInfo, holdMaterial);
                                 //after using the material, abandon the material
                                 holdMaterial = "empty";
@@ -266,7 +267,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             return;
         }
         //if blackhole effect is active, block player click action
-        if (isBlackholeEffect)
+        if (isBlackholeEffectForClick)
         {
             return;
         }

@@ -132,6 +132,13 @@ public class GodViewPlayersInfo : MonoBehaviourPunCallbacks
         }
     }
 
+    //if game finish, clear the playersInfo list and close the info panel
+    public void gameFinishGodviewDoing()
+    {
+        playersInfo.Clear();
+        GodViewInfoPanel.SetActive(false);
+    }
+
     void LateUpdate()
     {
 

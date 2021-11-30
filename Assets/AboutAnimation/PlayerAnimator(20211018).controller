@@ -1052,7 +1052,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
 --- !u!206 &20600000
 BlendTree:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1075,7 +1075,7 @@ BlendTree:
   m_BlendType: 0
 --- !u!206 &20689716
 BlendTree:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1098,7 +1098,7 @@ BlendTree:
   m_BlendType: 0
 --- !u!206 &20692894
 BlendTree:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

@@ -52,6 +52,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //text for locking player count down
     public GameObject blackholeEffectText;
     private Text blackholeEffectCountText;
+    public int myRespawnPointIndex = 0;
     //respawn point for different players
     public Transform[] reSpawnPoints;
     //generate number of flame at once
@@ -408,5 +409,13 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
         ImageCountdownEffect.GetComponent<gamePropEffectImageCD>().init(Time.timeSinceLevelLoad, attackEffect);
         Debug.Log(attackEffect);
         ImageCountdownEffect.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>("GamePropImg/" + attackEffect);
+    }
+
+    public void gameFinishPropsDoing()
+    {
+        //when the game is end, disable the blackhole effect
+        disableBlackholeEffecttoPlayer();
+        timer1 = -80.0f;
+        timer2 = -80.0f;
     }
 }

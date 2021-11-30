@@ -10,6 +10,11 @@ public class PlayerCamera : MonoBehaviourPun
     public MouseLook mouselook = new MouseLook();
     public GameObject cam;
     private Camera playerCam;
+    [SerializeField]
+    private CameraShake camShak;
+    public bool shakeNow = false;
+    //black hole effect block player camera action
+    public bool isBlackholeEffectForCam = false;
     public enum RotationAxes
     {
         MouseXAndY = 0,
@@ -94,6 +99,19 @@ public class PlayerCamera : MonoBehaviourPun
         {
             return;
         }
+        //if blackhole effect is active, block player camera action
+        if (isBlackholeEffectForCam)
+        {
+            //stop shake camera when affected by blackhole
+            camShak.stopShake();
+            shakeNow = false;
+            return;
+        }
+        // if camera now is shaking, lock the camera from player's input
+        if (shakeNow)
+        {
+            return;
+        }
         //rotate about x-axis: rotate camera
         //rotate about y-axis: rotate character
         {
@@ -104,33 +122,20 @@ public class PlayerCamera : MonoBehaviourPun
 
             // Rotate the rigidbody velocity to match the new direction that the character is looking
             Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
-            //m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
-            // if (m_axes == RotationAxes.MouseXAndY)
-            // {
-            //     float m_rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * m_sensitivityX;
-            //     m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-            //     m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
+        }
+    }
 
-            //     transform.localEulerAngles = new Vector3(0, m_rotationX, 0);
-            //     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, m_rotationX, 0/*transform.rotation.z*/), Time.deltaTime);
-            //     //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y, playerCam.transform.rotation.z*/,0), Time.deltaTime);
-            // }
-            // else if (m_axes == RotationAxes.MouseX)
-            // {
-            //     transform.Rotate(0, Input.GetAxis("Mouse X") * m_sensitivityX, 0);
-            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, Input.GetAxis("Mouse X") * m_sensitivityX, 0/*transform.rotation.z*/), Time.deltaTime);
-            // }
-            // else
-            // {
-            //     m_rotationY += Input.GetAxis("Mouse Y") * m_sensitivityY;
-            //     m_rotationY = Mathf.Clamp(m_rotationY, m_minimumY, m_maximumY);
-
-            //     transform.localEulerAngles = new Vector3(0, playerCam.transform.localEulerAngles.y, 0);
-            //     playerCam.transform.localEulerAngles = new Vector3(-m_rotationY, 0, 0);
-            //     //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0/*transform.rotation.x*/, playerCam.transform.localEulerAngles.y, 0/*transform.rotation.z*/), Time.deltaTime);
-            //     //playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, Quaternion.Euler(-m_rotationY, 0/*playerCam.transform.rotation.y*/, 0/*playerCam.transform.rotation.z*/), Time.deltaTime);
-            // }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        //if collide flame obstacle, shake camera
+        if (hit.collider.tag == "flame")
+        {
+            if (!shakeNow)
+            {
+                shakeNow = true;
+                //shake camera
+                camShak.cameraShake();
+            }
         }
     }
 }

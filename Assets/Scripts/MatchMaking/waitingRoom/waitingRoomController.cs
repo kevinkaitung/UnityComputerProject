@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using Photon.Pun.UtilityScripts;
 using ExitGames.Client.Photon;
+using Photon.Voice.Unity;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
@@ -20,6 +21,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     private GameObject startButton;     //game start button, available for master client
     [SerializeField]
     private GameObject readyButton;
+    [SerializeField]
+    private GameObject leaveButton;
 
     [SerializeField]
     private Transform playersContainerBlue; //container for holding all the blue player listings items
@@ -53,6 +56,9 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField]
     private GameObject RoomPanel;
 
+    [SerializeField]
+    private GameObject VoiceSpeakerPrefab;
+
     bool Chatclicktime;
     bool Characterclicktime;
 
@@ -60,6 +66,10 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     ExitGames.Client.Photon.Hashtable playerReady;
     [SerializeField]
     private Text playerReadyDisplay;   //display player if ready
+    [SerializeField]
+    private Sprite beenReadySprite;
+    [SerializeField]
+    private Sprite notReadySprite;
     private string playerReadyKeyName = "playerReady";  //const string, store hashtable player ready's key 
 
     //raise event code for calling others to start main game
@@ -117,6 +127,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     //tempImage.color = Color.blue;
                     //if ready, show ready mark
                     object result;
+                    Image CharImg = tempListing.transform.GetChild(2).GetComponent<Image>();
+                    object styleNameOutput;
+                    player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
+                    string temp = (string)styleNameOutput;
+                    CharImg.sprite = Resources.Load("headShot/" + temp.Remove(0, 9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
@@ -132,6 +147,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     //tempImage.color = Color.red;
                     //if ready, show ready mark
                     object result;
+                    Image CharImg = tempListing.transform.GetChild(2).GetComponent<Image>();
+                    object styleNameOutput;
+                    player.CustomProperties.TryGetValue("playerStyle", out styleNameOutput);
+                    string temp = (string)styleNameOutput;
+                    CharImg.sprite = Resources.Load("headShot/" + temp.Remove(0, 9), typeof(Sprite)) as Sprite;
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
@@ -242,6 +262,13 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         //first time join the room
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+
+        //voice recorder (one for one local player)
+        GameObject recorderPrefab = Instantiate(Resources.Load<GameObject>("VoiceRecorderPrefab"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        //set voice controller's recorder to this
+        voiceController.instance.recorder = recorderPrefab.GetComponent<Recorder>();
+        //voice speaker (many for one local player)
+        PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
     }
 
     public void ChangeTeam()
@@ -266,6 +293,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                 (playersContainerBlue.childCount - playersContainerRed.childCount) <= 1)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
+                startButton.SetActive(false);
                 //raise event
                 //call other players show the scene change anim (start main game)
                 object content = null;
@@ -290,6 +318,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void BackOnClick()
     {
+        leaveButton.SetActive(false);
+        LeanTween.scale(BlackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         //local player leave team
         Debug.Log("leave?" + PhotonNetwork.LocalPlayer.LeaveCurrentTeam());
         //callback function be called by other clients to update playerListings in container
@@ -304,14 +334,16 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (ifReadyforGame == false)
         {
-            readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            //readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            readyButton.GetComponent<Button>().image.sprite = beenReadySprite;
             ifReadyforGame = true;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
         }
         else
         {
-            readyButton.GetComponentInChildren<Text>().text = "準備";
+            //readyButton.GetComponentInChildren<Text>().text = "準備";
+            readyButton.GetComponent<Button>().image.sprite = notReadySprite;
             ifReadyforGame = false;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
@@ -356,6 +388,12 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         }
+        /*if (PhotonNetwork.InRoom)
+        {
+            Debug.Log("in room call");
+            //voice speaker
+            PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+        }*/
     }
 
     // Update is called once per frame

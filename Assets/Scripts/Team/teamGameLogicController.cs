@@ -277,13 +277,15 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         mainGamePanel.SetActive(false);
         PlayerInputActionMode.instance.stateFour();
         //after networked-objects destroy (time's up), clear the playersInfo (which are instantiated with networked-objects)
-        GodViewPlayersInfo.instance.playersInfo.Clear();
+        GodViewPlayersInfo.instance.gameFinishGodviewDoing();
+        gamePropsManager.instance.gameFinishPropsDoing();
+        voiceController.instance.changeBackToWorldChannel();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.DestroyAll();
+            //PhotonNetwork.DestroyAll();
             //await Task.Delay(10000);
             //game fight result
             StartCoroutine(showBackToWaitRoomButton());
@@ -318,7 +320,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         //5/9 test, redundant?
         //5/12待修改
         backtowaitingroomclick = true;
-        Debug.Log(tempTimer);
+        BackToWaitRoomButton.SetActive(false);
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)
