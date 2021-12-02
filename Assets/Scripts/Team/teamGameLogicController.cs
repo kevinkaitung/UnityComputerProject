@@ -254,16 +254,16 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     }
 
     //if player use removal tool
-    public void playerRemoveThing(string team)
+    public void playerRemoveThing(noticePoint pointInfo, string team)
     {
         //affected team
         if (team == "blue")
         {
-            blueTeam.playerRemoveBuildingTexture();
+            blueTeam.playerRemoveBuildingTexture(pointInfo);
         }
         else
         {
-            redTeam.playerRemoveBuildingTexture();
+            redTeam.playerRemoveBuildingTexture(pointInfo);
         }
     }
 

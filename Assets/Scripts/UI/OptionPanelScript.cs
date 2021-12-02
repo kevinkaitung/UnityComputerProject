@@ -9,8 +9,8 @@ using Photon.Pun.UtilityScripts;
 public class OptionPanelScript : MonoBehaviour
 {
     public GameObject exit;
-    public GameObject quesion;
-    public GameObject setting;
+    //public GameObject quesion;
+    //public GameObject setting;
     public GameObject optionPanel;
     public GameObject TeachPanel;
     public GameObject shutDownGamePanel;
@@ -22,8 +22,8 @@ public class OptionPanelScript : MonoBehaviour
     void Start()
     {
         exit.SetActive(false);
-        quesion.SetActive(false);
-        setting.SetActive(false);
+        //quesion.SetActive(false);
+        //setting.SetActive(false);
         shutDownGamePanel.SetActive(false);
         clicktime = false;
     }
@@ -58,8 +58,8 @@ public class OptionPanelScript : MonoBehaviour
         if(clicktime == true)
         {
             exit.SetActive(false);
-            setting.SetActive(false);
-            quesion.SetActive(false);
+            //setting.SetActive(false);
+            //quesion.SetActive(false);
             shutDownGamePanel.SetActive(false);
             clicktime = false;
         }
@@ -68,7 +68,7 @@ public class OptionPanelScript : MonoBehaviour
     public void settingwindow()
     {
         optionPanel.SetActive(false);
-        setting.SetActive(true);
+        //setting.SetActive(true);
         clicktime = true;
     }
 

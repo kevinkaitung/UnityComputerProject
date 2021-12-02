@@ -164,8 +164,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             {
                                 //change texture to transparent
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //Get player clicked point's component to know clicked point's detail
+                                noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
                                 //pass affected team to game logic controller
-                                teamGameLogicController.instance.playerRemoveThing(team);
+                                teamGameLogicController.instance.playerRemoveThing(clickedPointInfo, team);
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
@@ -183,8 +185,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             {
                                 //change texture to transparent
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //Get player clicked point's component to know clicked point's detail
+                                noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
                                 //pass affected team to game logic controller
-                                teamGameLogicController.instance.playerRemoveThing(hit.collider.GetComponent<teamTag>().belongingTeam);
+                                teamGameLogicController.instance.playerRemoveThing(clickedPointInfo, hit.collider.GetComponent<teamTag>().belongingTeam);
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);

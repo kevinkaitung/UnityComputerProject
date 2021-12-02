@@ -12,8 +12,9 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private int thisStageCount;
     //how many points have been clicked by player (already build that point)
     private int thisStagePutCount;
+    private int totalPutCount;
     //current stage
-    public int currentStageNumber;   //如果不能這樣改的話再跟我說
+    public int currentStageNumber;
     //game data nodes' length
     private int dataNodeLen;
     //index for access game data nodes
@@ -27,12 +28,18 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //check if finish building
     private bool isFinish;
     private string playerTeam;
-
+    //store every stage not finished objShape (type: string)
+    List<List<string>> everyStageBuildProgress;
     // Start is called before the first frame update
     void Start()
     {
         currentStageNumber = 1;
+        totalPutCount = 0;
         dataNodeLen = nodeManager.instance.dataRoot.gameDataNodes.Length;
+        //initiate with capacity length(add 1 because stage number start with 1 not 0)
+        everyStageBuildProgress = new List<List<string>>(nodeManager.instance.dataRoot.gameDataNodes[dataNodeLen - 1].stage + 1);
+        //add a empty list as index 0
+        everyStageBuildProgress.Add(new List<string>());
         index = 0;
         accuracy = 0.0f;
         correctCount = 0;
@@ -62,6 +69,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
 
     void settingStage(int stageNumber)
     {
+        //temp list for this stage's obj shapes
+        List<string> tempList = new List<string>();
         //notice points' photon view ID list
         List<int> viewIDs = new List<int>();
         thisStageCount = 0;
@@ -71,34 +80,13 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             //change blue print if my team set new stage
             if (playerTeam == team)
             {
-                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
                 //show notice points info on blueprint
-                /*switch (stageNumber)
-                {
-                    case 1:
-                        Blueprint.sprite = one_front;
-                        break;
-                    case 2:
-                        Blueprint.sprite = one_front;
-                        break;
-                    case 3:
-                        Blueprint.sprite = three_front;
-                        break;
-                    case 4:
-                        Blueprint.sprite = three_front;
-                        break;
-                    case 5:
-                        Blueprint.sprite = five_front;
-                        break;
-                    case 6:
-                        Blueprint.sprite = six;
-                        break;
-                }*/  
-//                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
+                tempList.Add(nodeManager.instance.dataRoot.gameDataNodes[index].objShape);
                 //use part of building cube as notice cube
                 GameObject clone = Instantiate(Resources.Load("house/" + nodeManager.instance.dataRoot.gameDataNodes[index].objShape, typeof(GameObject))) as GameObject;
                 //set the material transparent
@@ -123,7 +111,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-//                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                    //                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 //assing photon view ID to sync
                 PhotonView PV = clone.GetComponent<PhotonView>();
@@ -138,6 +126,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                     break;
                 }
             }
+            //add this stage's list
+            everyStageBuildProgress.Add(tempList);
         }
         else
         {
@@ -151,6 +141,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     [PunRPC]
     void otherSettingStage(int stageNumber, int[] viewIDs)
     {
+        //temp list for this stage's obj shapes
+        List<string> tempList = new List<string>();
         viewidIndex = 0;
         thisStageCount = 0;
         thisStagePutCount = 0;
@@ -159,34 +151,13 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             //change blue print if my team set new stage
             if (playerTeam == team)
             {
-                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
-                /*switch (stageNumber)
-                {
-                    case 1:
-                        Blueprint.sprite = one_front;
-                        break;
-                    case 2:
-                        Blueprint.sprite = one_front;
-                        break;
-                    case 3:
-                        Blueprint.sprite = three_front;
-                        break;
-                    case 4:
-                        Blueprint.sprite = three_front;
-                        break;
-                    case 5:
-                        Blueprint.sprite = five_front;
-                        break;
-                    case 6:
-                        Blueprint.sprite = six;
-                        break;
-                }*/               
                 //show notice points info on blueprint
-//                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
+                tempList.Add(nodeManager.instance.dataRoot.gameDataNodes[index].objShape);
                 //use part of building cube as notice cube
                 GameObject clone = Instantiate(Resources.Load("house/" + nodeManager.instance.dataRoot.gameDataNodes[index].objShape, typeof(GameObject))) as GameObject;
                 //set the material transparent
@@ -211,7 +182,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-//                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                    //                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 PV.ViewID = viewIDs[viewidIndex];
@@ -223,6 +194,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                     break;
                 }
             }
+            //add this stage's list
+            everyStageBuildProgress.Add(tempList);
         }
         else
         {
@@ -232,7 +205,17 @@ public class teamProcessing : MonoBehaviourPunCallbacks
 
     public void playerPutThing(noticePoint pointInfo, string handyMaterial)
     {
+        //the player build the shape, remove it from this stage's list
+        everyStageBuildProgress[pointInfo.stag].Remove(pointInfo.objShap);
         thisStagePutCount++;
+        //total put count add 1, play the building progress bar anim
+        totalPutCount++;
+        buildingProgressBarAnim(totalPutCount);
+        //if player finish the stage (the stage list is empty), play stage complete animation (maybe not in the current stage)
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCompleteAnim(pointInfo.stag);
+        }
         //Put right game object on the player clicked point
         Debug.Log("obj shape: " + pointInfo.objShap + " obj pos: " + pointInfo.pos);
         //check player put is correct or not (calculate accuracy)
@@ -242,12 +225,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         }
         //call others to deal with the game logic
         photonView.RPC("otherPlayerPut", RpcTarget.Others, pointInfo, handyMaterial);
-        //if all notice points have been clicked (put), go next stage
-        if (PhotonNetwork.IsMasterClient)
+        //if all notice points have been clicked (put), go next stage (load new shapes)
+        if (thisStagePutCount == thisStageCount)
         {
-            if (thisStagePutCount == thisStageCount)
+            currentStageNumber++;
+            if (PhotonNetwork.IsMasterClient)
             {
-                currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
                 //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
@@ -259,18 +242,28 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     [PunRPC]
     public void otherPlayerPut(noticePoint pointInfo, string handyMaterial)
     {
+        //the player build the shape, remove it from this stage's list
+        everyStageBuildProgress[pointInfo.stag].Remove(pointInfo.objShap);
         thisStagePutCount++;
+        //total put count add 1, play the building progress bar anim
+        totalPutCount++;
+        buildingProgressBarAnim(totalPutCount);
+        //if player finish the stage (the stage list is empty), play stage complete animation (maybe not in the current stage)
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCompleteAnim(pointInfo.stag);
+        }
         //check player put is correct or not (calculate accuracy)
         if (handyMaterial == pointInfo.materialNam)
         {
             correctCount++;
         }
         //the thing that player put on point was created by that player, don't need to put it again!
-        if (PhotonNetwork.IsMasterClient)
+        if (thisStagePutCount == thisStageCount)
         {
-            if (thisStagePutCount == thisStageCount)
+            currentStageNumber++;
+            if (PhotonNetwork.IsMasterClient)
             {
-                currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
                 //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
@@ -279,17 +272,53 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         Debug.Log("Put Count: " + thisStagePutCount + " stage total count: " + thisStageCount);
     }
 
-    //if player use removal tool, revise the put counts
-    public void playerRemoveBuildingTexture()
+    //stage complete animation (parameter: finish stage number)
+    void stageCompleteAnim(int finishStage)
     {
+        Debug.Log("stage complete");
+    }
+
+    //stage cancel complete animation (parameter: cancel stage number)
+    void stageCancelAnim(int cancelStage)
+    {
+        Debug.Log("stage cancel complete");
+    }
+
+    //building progress bar animation (parameter: total count of shapes)
+    void buildingProgressBarAnim(int nowTotalPutCount)
+    {
+
+    }
+
+    //if player use removal tool, revise the put counts
+    public void playerRemoveBuildingTexture(noticePoint pointInfo)
+    {
+        //if this stage is previous complete (this stage's list is empty), cancel this stage completion status
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCancelAnim(pointInfo.stag);
+        }
+        //add the removal shape to this stage's list
+        everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
         thisStagePutCount--;
-        photonView.RPC("otherPlayerRemoveBuildingTexture", RpcTarget.Others);
+        totalPutCount--;
+        buildingProgressBarAnim(totalPutCount);
+        photonView.RPC("otherPlayerRemoveBuildingTexture", RpcTarget.Others, pointInfo);
     }
 
     [PunRPC]
-    public void otherPlayerRemoveBuildingTexture()
+    public void otherPlayerRemoveBuildingTexture(noticePoint pointInfo)
     {
+        //if this stage is previous complete (this stage's list is empty), cancel this stage completion status
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCancelAnim(pointInfo.stag);
+        }
+        //add the removal shape to this stage's list
+        everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
         thisStagePutCount--;
+        totalPutCount--;
+        buildingProgressBarAnim(totalPutCount);
     }
 
     public bool isThisTeamFinish()
