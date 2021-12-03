@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
+using Photon.Pun.UtilityScripts;
 
 public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
 {
@@ -64,8 +65,12 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     double millisec;    //for display timer millisec
     double tempTimer;   //for tmp store timer value
 
-    [SerializeField] Text scoreText;    //score text, show accuracy of the this round
-
+    [SerializeField] 
+    Text scoreText;    //score text, show accuracy of the this round
+    [SerializeField]
+    Text winTeamText;   //win team text, show win team name
+    [SerializeField]
+    Text winOrLoseText;    //win or lose text, show you are win or lose
     [SerializeField]
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
@@ -282,6 +287,35 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         voiceController.instance.changeBackToWorldChannel();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
+        if(blueTeam.accuracyCount() > redTeam.accuracyCount())
+        {
+            winTeamText.text = "藍隊獲勝！";
+            if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+            {
+                winOrLoseText.text = "YOU WIN!";
+            }
+            else
+            {
+                winOrLoseText.text = "YOU LOSE!";
+            }
+        }
+        else if (blueTeam.accuracyCount() < redTeam.accuracyCount())
+        {
+            winTeamText.text = "紅隊獲勝！";
+            if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Red")
+            {
+                winOrLoseText.text = "YOU WIN!";
+            }
+            else
+            {
+                winOrLoseText.text = "YOU LOSE!";
+            }
+        }
+        else
+        {
+            winTeamText.text = "雙方平手！";
+            winOrLoseText.text = "平手！";
+        }
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
         {
