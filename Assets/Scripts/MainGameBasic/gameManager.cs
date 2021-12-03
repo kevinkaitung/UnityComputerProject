@@ -15,12 +15,6 @@ namespace mySection
         private string playerStyle;
         //spawn point for different players
         public Transform[] spawnPoints;
-        //spawnPoints[0] and spawnPoints[1] is blueTeam
-        //controll blueTeam spawnPoints
-        private int i = 0;
-        //spawnPoints[2] and spawnPoints[3] is blueTeam
-        //controll redTeam spawnPoints
-        private int j = 2;
 
         // Start is called before the first frame update
         void Start()
@@ -83,7 +77,7 @@ namespace mySection
         // Update is called once per frame
         void Update()
         {
-
+            
         }
     }
 }

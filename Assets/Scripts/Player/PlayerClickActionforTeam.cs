@@ -71,6 +71,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            this.gameObject.GetComponent<Transform>().position = gamePropsManager.instance.reSpawnPoints[gamePropsManager.instance.myRespawnPointIndex].position;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")

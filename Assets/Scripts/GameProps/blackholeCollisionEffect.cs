@@ -10,6 +10,7 @@ public class blackholeCollisionEffect : MonoBehaviour
     float durationTime = 10.0f;
     bool startTimer = false;
     Vector3 afterBlackholePos;
+    bool isSmokeEffect = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,6 @@ public class blackholeCollisionEffect : MonoBehaviour
                 this.gameObject.GetComponent<PlayerMovement>().isBlackholeEffectForMove = false;
                 gamePropsManager.instance.disableBlackholeEffecttoPlayer();
                 //解除限制移動和點擊動作(除了UI)...
-                //PlayerClickActionforTeam.bpc = false;
             }
             //display countdown seconds for the player
             gamePropsManager.instance.blackholeEffectCountdown(durationTime - timer);
@@ -55,7 +55,25 @@ public class blackholeCollisionEffect : MonoBehaviour
             //restart at the spawn position
             afterBlackholePos = gamePropsManager.instance.reSpawnPoints[gamePropsManager.instance.myRespawnPointIndex].position;
             //限制移動和點擊動作(除了UI)...
-            //PlayerClickActionforTeam.bpc = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if player collide the smoke obstacle
+        if (other.gameObject.tag == "smoke" && !isSmokeEffect)
+        {
+            isSmokeEffect = true;
+            gamePropsManager.instance.smokeEffectPanel.SetActive(true);
+            //alpha change not succeed, and not change the picture's alpha one by one
+            gamePropsManager.instance.smokeEffectPanel.LeanAlpha(1.0f, 1.0f).setDelay(1.0f).setOnComplete(() =>
+            {
+                gamePropsManager.instance.smokeEffectPanel.LeanAlpha(0.0f, 1.0f).setOnComplete(() =>
+                {
+                    gamePropsManager.instance.smokeEffectPanel.SetActive(false);
+                    isSmokeEffect = false;
+                });
+            });
         }
     }
 
