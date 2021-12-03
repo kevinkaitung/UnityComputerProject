@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8842170041585376529}
   - component: {fileID: 1890505843558448071}
   m_Layer: 0
-  m_Name: Cube_2.066
+  m_Name: fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4305135455203023960}
-  m_LocalRotation: {x: 0.00000004371139, y: 1, z: 0.00000004371138, w: 0.0000000754979}
-  m_LocalPosition: {x: -0.011425781, y: 0.00056901854, z: -0.0032299804}
-  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 4, z: 4.47}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
