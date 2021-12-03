@@ -31,8 +31,40 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //store every stage not finished objShape (type: string)
     List<List<string>> everyStageBuildProgress;
     // Start is called before the first frame update
+    [SerializeField]
+    private Image stage_one;
+    [SerializeField]
+    private Image stage_two;
+    [SerializeField]
+    private Image stage_three;
+    [SerializeField]
+    private Image stage_four;
+    [SerializeField]
+    private Image stage_five;
+    [SerializeField]
+    private Image stage_six;
+    [SerializeField]
+    private GameObject checkmark_one;
+    [SerializeField]
+    private GameObject checkmark_two;
+    [SerializeField]
+    private GameObject checkmark_three;
+    [SerializeField]
+    private GameObject checkmark_four;
+    [SerializeField]
+    private GameObject checkmark_five;
+    [SerializeField]
+    private GameObject checkmark_six;
+    [SerializeField]
+    private Sprite stage_clear;
+    [SerializeField]
+    private Sprite stage_ring;
+    [SerializeField]
+    private Text buildingProgressRate;
+
     void Start()
     {
+        buildingProgressRate.text = "0";
         currentStageNumber = 1;
         totalPutCount = 0;
         dataNodeLen = nodeManager.instance.dataRoot.gameDataNodes.Length;
@@ -275,19 +307,98 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //stage complete animation (parameter: finish stage number)
     void stageCompleteAnim(int finishStage)
     {
+        switch (finishStage)
+        {
+            case 1:
+                LeanTween.scale(checkmark_one, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_one, Vector2.zero, 0.1f).setDelay(1f);
+                stage_one.sprite = stage_clear;
+                break;
+            case 2:
+                LeanTween.scale(checkmark_two, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_two, Vector2.zero, 0.1f).setDelay(1f);
+                stage_two.sprite = stage_clear;
+                break;
+            case 3:
+                LeanTween.scale(checkmark_three, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_three, Vector2.zero, 0.1f).setDelay(1f);
+                stage_three.sprite = stage_clear;
+                break;
+            case 4:
+                LeanTween.scale(checkmark_four, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_four, Vector2.zero, 0.1f).setDelay(1f);
+                stage_four.sprite = stage_clear;
+                break;
+            case 5:
+                LeanTween.scale(checkmark_five, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_five, Vector2.zero, 0.1f).setDelay(1f);
+                stage_five.sprite = stage_clear;
+                break;
+            case 6:
+                LeanTween.scale(checkmark_six, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_six, Vector2.zero, 0.1f).setDelay(1f);
+                stage_six.sprite = stage_clear;
+                break;
+        }
         Debug.Log("stage complete");
     }
 
     //stage cancel complete animation (parameter: cancel stage number)
     void stageCancelAnim(int cancelStage)
     {
+        switch (cancelStage)
+        {
+            case 1:
+                stage_one.sprite = stage_ring;
+                LeanTween.scale(checkmark_one, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_one, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_one, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_one, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 2:
+                stage_two.sprite = stage_ring;
+                LeanTween.scale(checkmark_two, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_two, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_two, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_two, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 3:
+                stage_three.sprite = stage_ring;
+                LeanTween.scale(checkmark_three, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_three, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_three, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_three, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 4:
+                stage_four.sprite = stage_ring;
+                LeanTween.scale(checkmark_four, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_four, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_four, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_four, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 5:
+                stage_five.sprite = stage_ring;
+                LeanTween.scale(checkmark_five, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_five, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_five, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_five, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 6:
+                stage_six.sprite = stage_ring;
+                LeanTween.scale(checkmark_six, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_six, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_six, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_six, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+        }
         Debug.Log("stage cancel complete");
     }
 
     //building progress bar animation (parameter: total count of shapes)
     void buildingProgressBarAnim(int nowTotalPutCount)
     {
-
+        float Rate = nowTotalPutCount % dataNodeLen;
+        buildingProgressRate.text = Rate.ToString("0.0");
     }
 
     //if player use removal tool, revise the put counts
@@ -331,4 +442,5 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         accuracy = (float)correctCount / (float)dataNodeLen;
         return accuracy;
     }
+
 }
