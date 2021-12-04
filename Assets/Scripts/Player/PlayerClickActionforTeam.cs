@@ -80,7 +80,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             if (holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")
             {
                 Debug.Log("You can't drop removal tool");
-                teamGameLogicController.instance.actionWarnings("不可丟除拆除工具");
+                teamGameLogicController.instance.actionWarnings("不可扔拆除工具");
             }
             else if (holdMaterial != "empty")
             {

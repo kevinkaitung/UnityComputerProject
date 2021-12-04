@@ -310,7 +310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: 0}
+  m_AnchoredPosition: {x: -142, y: -75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2359473
@@ -9681,7 +9681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: 0}
+  m_AnchoredPosition: {x: 61, y: -75}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &763201590
@@ -9704,8 +9704,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_Font: {fileID: 12800000, guid: 5cd5cbe5c2eb1d34d89fd3a144124bcc, type: 3}
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -13162,7 +13162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962559152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40, y: 0.25, z: 0}
+  m_LocalPosition: {x: 35, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13180,8 +13180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a214e344621741b499d44328335c960e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 
-  currentStageNumber: 0
+  team: red
+  teamStageInfoUI: {fileID: 580987929}
   stage_one: {fileID: 272683177}
   stage_two: {fileID: 1384491473}
   stage_three: {fileID: 1655618631}
@@ -14689,7 +14689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051243745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40, y: 0.25, z: 0}
+  m_LocalPosition: {x: -35, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -14707,8 +14707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a214e344621741b499d44328335c960e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 
-  currentStageNumber: 0
+  team: blue
+  teamStageInfoUI: {fileID: 1784601058}
   stage_one: {fileID: 1118030447}
   stage_two: {fileID: 492340420}
   stage_three: {fileID: 615249956}
@@ -50964,7 +50964,7 @@ Transform:
   m_GameObject: {fileID: 5971536384351648167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 35, y: 0.15, z: 0}
-  m_LocalScale: {x: 45, y: 0.28, z: 45}
+  m_LocalScale: {x: 40, y: 0.28, z: 45}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -50978,7 +50978,7 @@ Transform:
   m_GameObject: {fileID: 5971536383810532716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -35, y: 0.15, z: 0}
-  m_LocalScale: {x: 45, y: 0.28, z: 45}
+  m_LocalScale: {x: 40, y: 0.28, z: 45}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13

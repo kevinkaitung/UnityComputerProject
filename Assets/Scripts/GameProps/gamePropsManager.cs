@@ -165,7 +165,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofFlame];
             for (int i = 0; i < numberofFlame; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -179,7 +179,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofBlackhole];
             for (int i = 0; i < numberofBlackhole; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -193,7 +193,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofSmoke];
             for (int i = 0; i < numberofSmoke; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -341,7 +341,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //display countdown seconds for the player
     public void blackholeEffectCountdown(float remainingSecs)
     {
-        blackholeEffectCountText.text = "You are locked by Blackhole.\n Please Wait for " + ((int)remainingSecs).ToString() + " seconds.";
+        blackholeEffectCountText.text = "受黑洞所困！請稍等 " + ((int)remainingSecs).ToString() + " 秒。";
     }
 
     //game prop effect publisher show text

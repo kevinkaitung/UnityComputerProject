@@ -14,7 +14,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private int thisStagePutCount;
     private int totalPutCount;
     //current stage
-    public int currentStageNumber;
+    private int currentStageNumber;
     //game data nodes' length
     private int dataNodeLen;
     //index for access game data nodes
@@ -30,7 +30,9 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private string playerTeam;
     //store every stage not finished objShape (type: string)
     List<List<string>> everyStageBuildProgress;
-    // Start is called before the first frame update
+
+    [SerializeField]
+    private GameObject teamStageInfoUI;
     [SerializeField]
     private Image stage_one;
     [SerializeField]
@@ -90,6 +92,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             settingStage(currentStageNumber);
+        }
+        //if this team is my team, highlight this team's stageInfoUI
+        if(team == playerTeam)
+        {
+            //如果是我這隊的進度Panel，我要...
+            teamStageInfoUI.GetComponent<RectTransform>();
         }
     }
 

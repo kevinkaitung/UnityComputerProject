@@ -153,8 +153,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         LeanTween.scale(blackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         blueTeam = blueTeamBuildingField.GetComponent<teamProcessing>();
         redTeam = redTeamBuildingField.GetComponent<teamProcessing>();
-        blueTeam.team = "blue";
-        redTeam.team = "red";
+        //blueTeam.team = "blue";
+        //redTeam.team = "red";
         //regist for the custom data type serialization
         customTypes.register();
         if (PhotonNetwork.IsMasterClient)
