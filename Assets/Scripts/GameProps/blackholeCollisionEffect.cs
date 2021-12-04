@@ -66,15 +66,15 @@ public class blackholeCollisionEffect : MonoBehaviour
             isSmokeEffect = true;
             gamePropsManager.instance.smokeEffectPanel.SetActive(true);
             //alpha change not succeed, and not change the picture's alpha one by one
-            gamePropsManager.instance.smokeEffectPanel.LeanAlpha(1.0f, 1.0f).setDelay(1.0f).setOnComplete(() =>
-            {
-                gamePropsManager.instance.smokeEffectPanel.LeanAlpha(0.0f, 1.0f).setOnComplete(() =>
-                {
-                    gamePropsManager.instance.smokeEffectPanel.SetActive(false);
-                    isSmokeEffect = false;
-                });
-            });
+            StartCoroutine(smokeEffectDelay());
         }
+    }
+
+    IEnumerator smokeEffectDelay()
+    {
+        yield return new WaitForSeconds(3.1f);
+        gamePropsManager.instance.smokeEffectPanel.SetActive(false);
+        isSmokeEffect = false;
     }
 
     //when the game is end, disable the blackhole effect

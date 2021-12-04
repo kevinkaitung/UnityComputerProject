@@ -340,7 +340,6 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 stage_six.sprite = stage_clear;
                 break;
         }
-        Debug.Log("stage complete");
     }
 
     //stage cancel complete animation (parameter: cancel stage number)
@@ -391,14 +390,13 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 LeanTween.rotate(checkmark_six, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
                 break;
         }
-        Debug.Log("stage cancel complete");
     }
 
     //building progress bar animation (parameter: total count of shapes)
     void buildingProgressBarAnim(int nowTotalPutCount)
     {
-        float Rate = nowTotalPutCount % dataNodeLen;
-        buildingProgressRate.text = Rate.ToString("0.0");
+        float Rate = (float)nowTotalPutCount / (float)dataNodeLen;
+        buildingProgressRate.text = Rate.ToString("p");
     }
 
     //if player use removal tool, revise the put counts
