@@ -94,6 +94,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 holdMaterial = "empty";
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                //play sound effect
+                AudioController.instance.actionPlaySound("throwMaterial");
             }
         }
         //player act with scene
@@ -145,6 +147,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                                 //change hold material cube texture (networked)
                                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("buildShape");
                             }
                             else
                             {
@@ -175,6 +179,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("removeShape");
                             }
                             else
                             {
@@ -196,6 +202,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("removeShape");
                             }
                             else
                             {
@@ -215,6 +223,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                         //change hold material cube texture (networked)
                         showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                        if (holdMaterial != "empty" && holdMaterial != "removalToolMyself" && holdMaterial != "removalToolOther")
+                        {
+                            //play sound effect
+                            AudioController.instance.actionPlaySound("getItem");
+                        }
                     }
                     //click other material
                     else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
@@ -230,6 +243,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                             //change hold material cube texture (networked)
                             showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                            //play sound effect
+                            AudioController.instance.actionPlaySound("getItem");
                         }
                     }
                 }
@@ -313,6 +328,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("itemBoxGet");
         }
         else if (other.tag == "removalToolMyself")
         {
@@ -326,6 +343,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("getItem");
         }
         else if (other.tag == "removalToolOther")
         {
@@ -339,6 +358,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("getItem");
         }
         else if (other.gameObject.layer == 2) //layer ignore raycast
         {
@@ -354,6 +375,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 {
                     tempPV.enabled = false;
                 }
+                //play sound effect
+                AudioController.instance.actionPlaySound("getItem");
             }
         }
     }

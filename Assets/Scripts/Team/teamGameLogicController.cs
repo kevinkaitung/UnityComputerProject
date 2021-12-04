@@ -65,7 +65,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     double millisec;    //for display timer millisec
     double tempTimer;   //for tmp store timer value
 
-    [SerializeField] 
+    [SerializeField]
     Text scoreText;    //score text, show accuracy of the this round
     [SerializeField]
     Text winTeamText;   //win team text, show win team name
@@ -287,34 +287,40 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         voiceController.instance.changeBackToWorldChannel();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
-        if(blueTeam.accuracyCount() > redTeam.accuracyCount())
+        if (blueTeam.accuracyCount() > redTeam.accuracyCount())
         {
             winTeamText.text = "藍隊獲勝！";
-            if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+            if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
             {
                 winOrLoseText.text = "YOU WIN!";
+                //play sound
+                AudioController.instance.actionPlaySound("win");
             }
             else
             {
                 winOrLoseText.text = "YOU LOSE!";
+                AudioController.instance.actionPlaySound("lose");
             }
         }
         else if (blueTeam.accuracyCount() < redTeam.accuracyCount())
         {
             winTeamText.text = "紅隊獲勝！";
-            if(PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Red")
+            if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Red")
             {
                 winOrLoseText.text = "YOU WIN!";
+                AudioController.instance.actionPlaySound("win");
             }
             else
             {
                 winOrLoseText.text = "YOU LOSE!";
+                AudioController.instance.actionPlaySound("lose");
             }
         }
         else
         {
             winTeamText.text = "雙方平手！";
             winOrLoseText.text = "平手！";
+            AudioController.instance.actionPlaySound("win");
         }
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
@@ -397,9 +403,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         gettingMaterial = getMaterial;
         isGetMat = false;
         getMatClickCount++;
+        //when click more than threshold, set the click count to 1 again
         if (getMatClickCount > getMatClickTimes)
         {
-            getMatClickCount = getMatClickTimes;
+            getMatClickCount = 1;
         }
         //show getting material count down
         takeMatActionTextComponent.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
