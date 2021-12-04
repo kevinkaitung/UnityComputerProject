@@ -179,6 +179,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //change hold material cube texture (networked)
+                                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
                                 //play sound effect
                                 AudioController.instance.actionPlaySound("removeShape");
                             }
@@ -202,6 +204,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //change hold material cube texture (networked)
+                                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
                                 //play sound effect
                                 AudioController.instance.actionPlaySound("removeShape");
                             }

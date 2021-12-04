@@ -347,6 +347,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //game prop effect publisher show text
     private void clickShowGamePropTypeTextEffect(string attackedTeam, string attackEffect)
     {
+
         //instantiate new UI prefab to show text and image
         GameObject UIPrefabClone = Instantiate(Resources.Load("UIPrefab/GamePropEffectText", typeof(GameObject)), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
         UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
@@ -366,6 +367,11 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                     currentEffect.timer = 0.0f;
                     currentEffect.startTime = Time.timeSinceLevelLoad;
                     return;
+                }
+                //if the player now is affected by slowdown and get speedup effect, cancel the slowdown effect
+                else if (currentEffect.propEffect == "Slowdown" && attackEffect == "Speedup")
+                {
+                    currentEffect.timer = currentEffect.duration - 0.1f;
                 }
             }
             //game prop effect countdown image
@@ -403,6 +409,11 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                 currentEffect.timer = 0.0f;
                 currentEffect.startTime = Time.timeSinceLevelLoad;
                 return;
+            }
+            //if the player now is affected by slowdown and get speedup effect, cancel the slowdown effect (vice versa)
+            else if ((currentEffect.propEffect == "Speedup" && attackEffect == "Slowdown") || (currentEffect.propEffect == "Slowdown" && attackEffect == "Speedup"))
+            {
+                currentEffect.timer = currentEffect.duration - 0.1f;
             }
         }
         //game prop effect countdown image

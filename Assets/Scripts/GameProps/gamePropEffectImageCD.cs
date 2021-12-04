@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class gamePropEffectImageCD : MonoBehaviour
 {
     public float timer = 0.0f;
-    [SerializeField]
-    private float duration = 10.0f;
+    public float duration = 10.0f;
     //record the start time (time since level load)
     public float startTime = 0.0f;
     public string propEffect = "";
@@ -17,7 +16,7 @@ public class gamePropEffectImageCD : MonoBehaviour
     void Awake()
     {
         //if init after awake, set start time first
-        if(startTime <= 0.0f)
+        if (startTime <= 0.0f)
         {
             startTime = Time.timeSinceLevelLoad;
         }
