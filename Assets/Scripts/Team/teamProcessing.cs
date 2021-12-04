@@ -97,7 +97,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         if(team == playerTeam)
         {
             //如果是我這隊的進度Panel，我要...
-            teamStageInfoUI.GetComponent<RectTransform>();
+            teamStageInfoUI.GetComponent<RectTransform>().GetChild(3).gameObject.SetActive(true);
         }
     }
 
@@ -403,8 +403,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //building progress bar animation (parameter: total count of shapes)
     void buildingProgressBarAnim(int nowTotalPutCount)
     {
-        float Rate = (float)nowTotalPutCount / (float)dataNodeLen;
-        buildingProgressRate.text = Rate.ToString("p");
+        float Rate = ((float)nowTotalPutCount / (float)dataNodeLen)*100;
+        buildingProgressRate.text = Rate.ToString("F1");
     }
 
     //if player use removal tool, revise the put counts

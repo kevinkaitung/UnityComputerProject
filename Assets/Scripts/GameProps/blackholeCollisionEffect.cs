@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class blackholeCollisionEffect : MonoBehaviour
+public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
 {
     float timer = 0.0f;
     [SerializeField]
@@ -60,6 +60,10 @@ public class blackholeCollisionEffect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         //if player collide the smoke obstacle
         if (other.gameObject.tag == "smoke" && !isSmokeEffect)
         {
