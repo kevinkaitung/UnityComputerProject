@@ -117,6 +117,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public List<string> playerlist;
     public List<string> layerlist;
 
+    public Text FinishPanelMasterGiudeText;
+    public Text FinishPanelClientGiudeText;
+
     //register for raise event
     public override void OnEnable()
     {
@@ -278,6 +281,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         //disable timer
         startTimer = false;
+        flashword();
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
         PlayerInputActionMode.instance.stateFour();
@@ -329,7 +333,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             //await Task.Delay(10000);
             //game fight result
             StartCoroutine(showBackToWaitRoomButton());
+            gameFinishPanel.GetComponent<RectTransform>().GetChild(5).gameObject.SetActive(false);
+            gameFinishPanel.GetComponent<RectTransform>().GetChild(6).gameObject.SetActive(true);
         }
+
         //while (backtowaitingroomclick == false)
         {
             //await Task.Delay(1000);
@@ -487,6 +494,14 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningTextComponent.text = warnings;
         yield return new WaitForSeconds(1);
         actionWarningPanel.SetActive(false);
+    }
+
+    public void flashword()
+    {
+        LeanTween.colorText(FinishPanelMasterGiudeText.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.colorText(FinishPanelClientGiudeText.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.colorText(FinishPanelMasterGiudeText.GetComponent<RectTransform>(), Color.white, 1f).setDelay(1f);
+        LeanTween.colorText(FinishPanelClientGiudeText.GetComponent<RectTransform>(), Color.white, 1f).setDelay(1f).setOnComplete(flashword);
     }
 
 }
