@@ -41,7 +41,7 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string worldchat;
     // text min/max width
     private int textSizeMinWidth = 100;
-    private int textSizeMaxWidth = 161;
+    private int textSizeMaxWidth = 294;
     // msgMaxNumLine
     private int msgMaxNumLine = 20;
     
