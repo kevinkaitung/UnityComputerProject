@@ -289,6 +289,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
             return;

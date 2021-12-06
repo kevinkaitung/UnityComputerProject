@@ -7,7 +7,7 @@ public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
 {
     float timer = 0.0f;
     [SerializeField]
-    float durationTime = 10.0f;
+    float durationTime = 5.0f;
     bool startTimer = false;
     Vector3 afterBlackholePos;
     bool isSmokeEffect = false;
@@ -21,6 +21,10 @@ public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         if (startTimer)
         {
             timer += Time.deltaTime;
@@ -42,6 +46,10 @@ public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         //if the player collide to blackhole, enable blackhole effect
         if (hit.collider.gameObject.tag == "blackholeObstacle" && startTimer == false)
         {
@@ -60,7 +68,7 @@ public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
         {
             return;
         }
