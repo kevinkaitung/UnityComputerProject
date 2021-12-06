@@ -14,6 +14,7 @@ public class gamePropsDestroy : MonoBehaviour
     Color objcolor;
     [SerializeField]
     Vector3 settingRoatation;
+    private bool alreadyDestroy = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,13 @@ public class gamePropsDestroy : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > durationTime)
         {
-            Destroy(this.gameObject);
+            LeanTween.cancel(this.gameObject);
+            this.gameObject.SetActive(false);
+            if (PhotonNetwork.IsMasterClient && alreadyDestroy == false)
+            {
+                //stop this gameObject's tweening
+                PhotonNetwork.Destroy(this.gameObject);
+            }
             flash = false;
         }
         if (!flash)
@@ -42,10 +49,10 @@ public class gamePropsDestroy : MonoBehaviour
                 flash = true;
             }
         }
-        if(rotatectl)
+        if (rotatectl)
         {
             //if (this.gameObject.tag != "removalToolMyself" && this.gameObject.tag != "removalToolOther")
-                rotate();
+            rotate();
             rotatectl = false;
             //transform.Rotate(-0.75f, -0.75f, 0.75f);
         }//transform.RotateAround(transform.position, Vector3.up, 1.0f);
@@ -55,6 +62,7 @@ public class gamePropsDestroy : MonoBehaviour
     [PunRPC]
     public void destroyObject()
     {
+        alreadyDestroy = true;
         PhotonNetwork.Destroy(this.gameObject);
     }
     void hide()
