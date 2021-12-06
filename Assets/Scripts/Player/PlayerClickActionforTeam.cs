@@ -394,7 +394,7 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         //clear the server buffer of this character (avoid later joined player load this)
         if (photonView.IsMine)
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 

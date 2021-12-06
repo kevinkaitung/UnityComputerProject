@@ -5898,7 +5898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb6821481f10724586ecc9c1fc27ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durationTime: 10
+  durationTime: 5
 --- !u!114 &2787303996028045564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6000,7 +6000,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5814492521779794594}
-  - {fileID: 0}
+  - {fileID: 5037610941131332042}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
