@@ -244,20 +244,20 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         if (team == "blue")
         {
             blueTeam.playerPutThing(pointInfo, handyMaterial);
-            if (blueTeam.isThisTeamFinish())
+            /*if (blueTeam.isThisTeamFinish())
             {
                 //call all players to finish the game
                 photonView.RPC("gameFinishDoing", RpcTarget.All);
-            }
+            }*/
         }
         else
         {
             redTeam.playerPutThing(pointInfo, handyMaterial);
-            if (redTeam.isThisTeamFinish())
+            /*if (redTeam.isThisTeamFinish())
             {
                 //call all players to finish the game
                 photonView.RPC("gameFinishDoing", RpcTarget.All);
-            }
+            }*/
         }
     }
 
@@ -277,7 +277,7 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
 
     [PunRPC]
     /*async*/
-    void gameFinishDoing()
+    public void gameFinishDoing()
     {
         //disable timer
         startTimer = false;

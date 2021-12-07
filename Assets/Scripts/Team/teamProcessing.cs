@@ -94,7 +94,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             settingStage(currentStageNumber);
         }
         //if this team is my team, highlight this team's stageInfoUI
-        if(team == playerTeam)
+        if (team == playerTeam)
         {
             //如果是我這隊的進度Panel，我要...
             teamStageInfoUI.GetComponent<RectTransform>().GetChild(3).gameObject.SetActive(true);
@@ -172,6 +172,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         else
         {
             isFinish = true;
+            //complete all stages, finish game
+            teamGameLogicController.instance.gameFinishDoing();
         }
         //when passing parameter via network, need to change list to array
         photonView.RPC("otherSettingStage", RpcTarget.OthersBuffered, currentStageNumber, viewIDs.ToArray());
@@ -240,6 +242,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         else
         {
             isFinish = true;
+            //complete all stages, finish game
+            teamGameLogicController.instance.gameFinishDoing();
         }
     }
 
@@ -403,7 +407,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //building progress bar animation (parameter: total count of shapes)
     void buildingProgressBarAnim(int nowTotalPutCount)
     {
-        float Rate = ((float)nowTotalPutCount / (float)dataNodeLen)*100;
+        float Rate = ((float)nowTotalPutCount / (float)dataNodeLen) * 100;
         buildingProgressRate.text = Rate.ToString("F1");
     }
 
@@ -419,6 +423,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
         thisStagePutCount--;
         totalPutCount--;
+        correctCount--;
         buildingProgressBarAnim(totalPutCount);
         photonView.RPC("otherPlayerRemoveBuildingTexture", RpcTarget.Others, pointInfo);
     }
@@ -435,6 +440,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
         thisStagePutCount--;
         totalPutCount--;
+        correctCount--;
         buildingProgressBarAnim(totalPutCount);
     }
 
@@ -448,5 +454,4 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         accuracy = (float)correctCount / (float)dataNodeLen;
         return accuracy;
     }
-
 }
