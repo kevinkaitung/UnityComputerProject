@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
+using Photon.Pun.UtilityScripts;
 
 public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
 {
@@ -64,8 +65,12 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     double millisec;    //for display timer millisec
     double tempTimer;   //for tmp store timer value
 
-    [SerializeField] Text scoreText;    //score text, show accuracy of the this round
-
+    [SerializeField]
+    Text scoreText;    //score text, show accuracy of the this round
+    [SerializeField]
+    Text winTeamText;   //win team text, show win team name
+    [SerializeField]
+    Text winOrLoseText;    //win or lose text, show you are win or lose
     [SerializeField]
     private GameObject gameFinishPanel;  //game finish panel, showing when game finish
     [SerializeField]
@@ -112,6 +117,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     public List<string> playerlist;
     public List<string> layerlist;
 
+    public Text FinishPanelMasterGiudeText;
+    public Text FinishPanelClientGiudeText;
+
     //register for raise event
     public override void OnEnable()
     {
@@ -148,8 +156,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         LeanTween.scale(blackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         blueTeam = blueTeamBuildingField.GetComponent<teamProcessing>();
         redTeam = redTeamBuildingField.GetComponent<teamProcessing>();
-        blueTeam.team = "blue";
-        redTeam.team = "red";
+        //blueTeam.team = "blue";
+        //redTeam.team = "red";
         //regist for the custom data type serialization
         customTypes.register();
         if (PhotonNetwork.IsMasterClient)
@@ -236,43 +244,44 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         if (team == "blue")
         {
             blueTeam.playerPutThing(pointInfo, handyMaterial);
-            if (blueTeam.isThisTeamFinish())
+            /*if (blueTeam.isThisTeamFinish())
             {
                 //call all players to finish the game
                 photonView.RPC("gameFinishDoing", RpcTarget.All);
-            }
+            }*/
         }
         else
         {
             redTeam.playerPutThing(pointInfo, handyMaterial);
-            if (redTeam.isThisTeamFinish())
+            /*if (redTeam.isThisTeamFinish())
             {
                 //call all players to finish the game
                 photonView.RPC("gameFinishDoing", RpcTarget.All);
-            }
+            }*/
         }
     }
 
     //if player use removal tool
-    public void playerRemoveThing(string team)
+    public void playerRemoveThing(noticePoint pointInfo, string team)
     {
         //affected team
         if (team == "blue")
         {
-            blueTeam.playerRemoveBuildingTexture();
+            blueTeam.playerRemoveBuildingTexture(pointInfo);
         }
         else
         {
-            redTeam.playerRemoveBuildingTexture();
+            redTeam.playerRemoveBuildingTexture(pointInfo);
         }
     }
 
     [PunRPC]
     /*async*/
-    void gameFinishDoing()
+    public void gameFinishDoing()
     {
         //disable timer
         startTimer = false;
+        flashword();
         gameFinishPanel.SetActive(true);
         mainGamePanel.SetActive(false);
         PlayerInputActionMode.instance.stateFour();
@@ -282,6 +291,41 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         voiceController.instance.changeBackToWorldChannel();
         //顯示兩隊正確率
         scoreText.text = "正確率：\n藍隊：" + blueTeam.accuracyCount().ToString("p") + "\n紅隊：" + redTeam.accuracyCount().ToString("p");
+        if (blueTeam.accuracyCount() > redTeam.accuracyCount())
+        {
+            winTeamText.text = "藍隊獲勝！";
+            if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Blue")
+            {
+                winOrLoseText.text = "YOU WIN!";
+                //play sound
+                AudioController.instance.actionPlaySound("win");
+            }
+            else
+            {
+                winOrLoseText.text = "YOU LOSE!";
+                AudioController.instance.actionPlaySound("lose");
+            }
+        }
+        else if (blueTeam.accuracyCount() < redTeam.accuracyCount())
+        {
+            winTeamText.text = "紅隊獲勝！";
+            if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Name == "Red")
+            {
+                winOrLoseText.text = "YOU WIN!";
+                AudioController.instance.actionPlaySound("win");
+            }
+            else
+            {
+                winOrLoseText.text = "YOU LOSE!";
+                AudioController.instance.actionPlaySound("lose");
+            }
+        }
+        else
+        {
+            winTeamText.text = "雙方平手！";
+            winOrLoseText.text = "平手！";
+            AudioController.instance.actionPlaySound("win");
+        }
         //Destroy Player, 5/12 查看看這樣寫是否最好
         if (PhotonNetwork.IsMasterClient)
         {
@@ -289,7 +333,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             //await Task.Delay(10000);
             //game fight result
             StartCoroutine(showBackToWaitRoomButton());
+            gameFinishPanel.GetComponent<RectTransform>().GetChild(5).gameObject.SetActive(false);
+            gameFinishPanel.GetComponent<RectTransform>().GetChild(6).gameObject.SetActive(true);
         }
+
         //while (backtowaitingroomclick == false)
         {
             //await Task.Delay(1000);
@@ -363,9 +410,10 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         gettingMaterial = getMaterial;
         isGetMat = false;
         getMatClickCount++;
+        //when click more than threshold, set the click count to 1 again
         if (getMatClickCount > getMatClickTimes)
         {
-            getMatClickCount = getMatClickTimes;
+            getMatClickCount = 1;
         }
         //show getting material count down
         takeMatActionTextComponent.text = getMatClickCount.ToString() + " / " + getMatClickTimes;
@@ -446,6 +494,14 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         actionWarningTextComponent.text = warnings;
         yield return new WaitForSeconds(1);
         actionWarningPanel.SetActive(false);
+    }
+
+    public void flashword()
+    {
+        LeanTween.colorText(FinishPanelMasterGiudeText.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.colorText(FinishPanelClientGiudeText.GetComponent<RectTransform>(), Color.yellow, 1f);
+        LeanTween.colorText(FinishPanelMasterGiudeText.GetComponent<RectTransform>(), Color.white, 1f).setDelay(1f);
+        LeanTween.colorText(FinishPanelClientGiudeText.GetComponent<RectTransform>(), Color.white, 1f).setDelay(1f).setOnComplete(flashword);
     }
 
 }

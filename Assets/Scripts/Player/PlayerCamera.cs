@@ -127,6 +127,10 @@ public class PlayerCamera : MonoBehaviourPun
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
         //if collide flame obstacle, shake camera
         if (hit.collider.tag == "flame")
         {

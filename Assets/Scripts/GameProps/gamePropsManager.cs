@@ -52,6 +52,8 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //text for locking player count down
     public GameObject blackholeEffectText;
     private Text blackholeEffectCountText;
+    //panel for player's smoke effect
+    public GameObject smokeEffectPanel;
     public int myRespawnPointIndex = 0;
     //respawn point for different players
     public Transform[] reSpawnPoints;
@@ -163,7 +165,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofFlame];
             for (int i = 0; i < numberofFlame; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -177,7 +179,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofBlackhole];
             for (int i = 0; i < numberofBlackhole; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -191,7 +193,7 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
             object[] obstacleRandPos = new object[2 * numberofSmoke];
             for (int i = 0; i < numberofSmoke; i++)
             {
-                obstacleRandPos[2 * i] = (object)Random.Range(-22.0f, 22.0f);
+                obstacleRandPos[2 * i] = (object)Random.Range(-19.0f, 19.0f);
                 obstacleRandPos[2 * i + 1] = (object)Random.Range(-22.0f, 22.0f);
             }
             //RPC to generate obstacles at all players
@@ -339,12 +341,13 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
     //display countdown seconds for the player
     public void blackholeEffectCountdown(float remainingSecs)
     {
-        blackholeEffectCountText.text = "You are locked by Blackhole.\n Please Wait for " + ((int)remainingSecs).ToString() + " seconds.";
+        blackholeEffectCountText.text = "受黑洞所困！請稍等 " + ((int)remainingSecs).ToString() + " 秒。";
     }
 
     //game prop effect publisher show text
     private void clickShowGamePropTypeTextEffect(string attackedTeam, string attackEffect)
     {
+
         //instantiate new UI prefab to show text and image
         GameObject UIPrefabClone = Instantiate(Resources.Load("UIPrefab/GamePropEffectText", typeof(GameObject)), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
         UIPrefabClone.transform.SetParent(CanvasGameObject.transform);
@@ -364,6 +367,11 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                     currentEffect.timer = 0.0f;
                     currentEffect.startTime = Time.timeSinceLevelLoad;
                     return;
+                }
+                //if the player now is affected by slowdown and get speedup effect, cancel the slowdown effect
+                else if (currentEffect.propEffect == "Slowdown" && attackEffect == "Speedup")
+                {
+                    currentEffect.timer = currentEffect.duration - 0.1f;
                 }
             }
             //game prop effect countdown image
@@ -401,6 +409,11 @@ public class gamePropsManager : MonoBehaviourPunCallbacks
                 currentEffect.timer = 0.0f;
                 currentEffect.startTime = Time.timeSinceLevelLoad;
                 return;
+            }
+            //if the player now is affected by slowdown and get speedup effect, cancel the slowdown effect (vice versa)
+            else if ((currentEffect.propEffect == "Speedup" && attackEffect == "Slowdown") || (currentEffect.propEffect == "Slowdown" && attackEffect == "Speedup"))
+            {
+                currentEffect.timer = currentEffect.duration - 0.1f;
             }
         }
         //game prop effect countdown image

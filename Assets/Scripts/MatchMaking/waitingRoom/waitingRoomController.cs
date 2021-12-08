@@ -136,6 +136,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
                     }
+                    if(player.IsMasterClient)
+                    {
+                        Image PlayerIcon = tempListing.transform.GetChild(3).GetComponent<Image>();
+                        PlayerIcon.sprite = Resources.Load("Icon/" + "crown", typeof(Sprite)) as Sprite;
+                    }
                 }
                 else
                 {
@@ -155,6 +160,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     if (player.CustomProperties.TryGetValue(playerReadyKeyName, out result))
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
+                    }
+                    if(player.IsMasterClient)
+                    {
+                        Image PlayerIcon = tempListing.transform.GetChild(3).GetComponent<Image>();
+                        PlayerIcon.sprite = Resources.Load("Icon/" + "crown", typeof(Sprite)) as Sprite;
                     }
                 }
             }

@@ -71,12 +71,16 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         {
             return;
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            this.gameObject.GetComponent<Transform>().position = gamePropsManager.instance.reSpawnPoints[gamePropsManager.instance.myRespawnPointIndex].position;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (holdMaterial == "removalToolMyself" || holdMaterial == "removalToolOther")
             {
                 Debug.Log("You can't drop removal tool");
-                teamGameLogicController.instance.actionWarnings("不可丟除拆除工具");
+                teamGameLogicController.instance.actionWarnings("不可扔拆除工具");
             }
             else if (holdMaterial != "empty")
             {
@@ -90,6 +94,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 holdMaterial = "empty";
                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                //play sound effect
+                AudioController.instance.actionPlaySound("throwMaterial");
             }
         }
         //player act with scene
@@ -141,6 +147,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                                 //change hold material cube texture (networked)
                                 showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("buildShape");
                             }
                             else
                             {
@@ -164,11 +172,17 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             {
                                 //change texture to transparent
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //Get player clicked point's component to know clicked point's detail
+                                noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
                                 //pass affected team to game logic controller
-                                teamGameLogicController.instance.playerRemoveThing(team);
+                                teamGameLogicController.instance.playerRemoveThing(clickedPointInfo, team);
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //change hold material cube texture (networked)
+                                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("removeShape");
                             }
                             else
                             {
@@ -183,11 +197,17 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             {
                                 //change texture to transparent
                                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("removeBuildTexture", RpcTarget.All);
+                                //Get player clicked point's component to know clicked point's detail
+                                noticePoint clickedPointInfo = hit.collider.gameObject.GetComponent<noticePoint>();
                                 //pass affected team to game logic controller
-                                teamGameLogicController.instance.playerRemoveThing(hit.collider.GetComponent<teamTag>().belongingTeam);
+                                teamGameLogicController.instance.playerRemoveThing(clickedPointInfo, hit.collider.GetComponent<teamTag>().belongingTeam);
                                 //drop tool
                                 holdMaterial = "empty";
                                 teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
+                                //change hold material cube texture (networked)
+                                showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                                //play sound effect
+                                AudioController.instance.actionPlaySound("removeShape");
                             }
                             else
                             {
@@ -207,6 +227,11 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                         teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                         //change hold material cube texture (networked)
                         showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                        if (holdMaterial != "empty" && holdMaterial != "removalToolMyself" && holdMaterial != "removalToolOther")
+                        {
+                            //play sound effect
+                            AudioController.instance.actionPlaySound("getItem");
+                        }
                     }
                     //click other material
                     else if (hit.collider.tag == "wood" || hit.collider.tag == "gravel" || hit.collider.tag == "iron" || hit.collider.tag == "water" || hit.collider.tag == "fire")
@@ -222,6 +247,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                             teamGameLogicController.instance.showPlayerHandyMaterial(holdMaterial);
                             //change hold material cube texture (networked)
                             showHoldMaterialCube.GetComponent<PhotonView>().RPC("showPlayerHoldMaterialCube", RpcTarget.All, holdMaterial);
+                            //play sound effect
+                            AudioController.instance.actionPlaySound("getItem");
                         }
                     }
                 }
@@ -262,6 +289,10 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         if (!PlayerInputActionMode.instance.enablePlayerClickAction)
         {
             return;
@@ -305,6 +336,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("itemBoxGet");
         }
         else if (other.tag == "removalToolMyself")
         {
@@ -318,6 +351,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("getItem");
         }
         else if (other.tag == "removalToolOther")
         {
@@ -331,6 +366,8 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
             {
                 tempPV.enabled = false;
             }
+            //play sound effect
+            AudioController.instance.actionPlaySound("getItem");
         }
         else if (other.gameObject.layer == 2) //layer ignore raycast
         {
@@ -346,7 +383,18 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
                 {
                     tempPV.enabled = false;
                 }
+                //play sound effect
+                AudioController.instance.actionPlaySound("getItem");
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        //clear the server buffer of this character (avoid later joined player load this)
+        if (photonView.IsMine)
+        {
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 

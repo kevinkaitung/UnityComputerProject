@@ -26,22 +26,22 @@ public class CameraShake : MonoBehaviour
         * Camera Shake
         **************/
         float height = 125.0f;
-        float shakeAmt = height * 0.2f; // the degrees to shake the camera
-        float shakePeriodTime = 0.42f; // The period of each shake
-        float dropOffTime = 1.6f; // How long it takes the shaking to settle down to nothing
+        float shakeAmt = 7.5f;//height * 0.2f; // the degrees to shake the camera
+        float shakePeriodTime = 0.2f; // The period of each shake
+        float dropOffTime = 0.82f; // How long it takes the shaking to settle down to nothing
         LTDescr shakeTween = LeanTween.rotateAroundLocal(gameObject, Vector3.right, shakeAmt, shakePeriodTime)
         .setEase(LeanTweenType.easeShake) // this is a special ease that is good for shaking
         .setLoopClamp()
-        .setRepeat(4)
+        .setRepeat(5)
         .setOnComplete(finishShake);
 
         // Slow the camera shake down to zero
-        LeanTween.value(gameObject, shakeAmt, 0f, dropOffTime).setOnUpdate(
+        /*LeanTween.value(gameObject, shakeAmt, 0f, dropOffTime).setOnUpdate(
             (float val) =>
             {
                 shakeTween.setTo(this.transform.right * val);
             }
-        ).setEase(LeanTweenType.easeOutQuad);
+        ).setEase(LeanTweenType.easeOutQuad);*/
     }
 
     void finishShake()

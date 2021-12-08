@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public float speedup = 1.5f;
 
-    public float speed = 12.0f;
-    public float changedSpeedHeadBob = 4.0f;
+    public float speed = 15.0f;
+    public float changedSpeedHeadBob = 5.0f;
     public float gravity = -9.81f;
 
     public Transform groundCheck;
@@ -62,8 +62,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 //slow down speed effect
                 change = 0;
-                speed = 6.0f;
-                changedSpeedHeadBob = 2.0f;
+                speed = 9.0f;
+                changedSpeedHeadBob = 2.5f;
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
                 //change particle system's color (red for slow down)
@@ -83,8 +83,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
                 Debug.Log("myteam:" + myTeam + "  " + raiseTeam);
                 //speedup effect
                 change = 2;
-                speed = 18.0f;
-                changedSpeedHeadBob = 6.0f;
+                speed = 20.0f;
+                changedSpeedHeadBob = 7.5f;
                 //restart the timer
                 startTimer = true;
                 timerForChangeSpeedDuration = 0.0f;
@@ -142,8 +142,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 timerForChangeSpeedDuration = 0.0f;
                 change = 1;
-                speed = 12.0f;
-                changedSpeedHeadBob = 4.0f;
+                speed = 15.0f;
+                changedSpeedHeadBob = 5.0f;
                 startTimer = false;
                 GetComponent<ParticleSystem>().Stop();
             }

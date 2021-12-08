@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class blackholeCollisionEffect : MonoBehaviour
+public class blackholeCollisionEffect : MonoBehaviourPunCallbacks
 {
     float timer = 0.0f;
     [SerializeField]
-    float durationTime = 10.0f;
+    float durationTime = 5.0f;
     bool startTimer = false;
     Vector3 afterBlackholePos;
+    bool isSmokeEffect = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,10 @@ public class blackholeCollisionEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         if (startTimer)
         {
             timer += Time.deltaTime;
@@ -32,7 +37,6 @@ public class blackholeCollisionEffect : MonoBehaviour
                 this.gameObject.GetComponent<PlayerMovement>().isBlackholeEffectForMove = false;
                 gamePropsManager.instance.disableBlackholeEffecttoPlayer();
                 //解除限制移動和點擊動作(除了UI)...
-                //PlayerClickActionforTeam.bpc = false;
             }
             //display countdown seconds for the player
             gamePropsManager.instance.blackholeEffectCountdown(durationTime - timer);
@@ -42,6 +46,10 @@ public class blackholeCollisionEffect : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         //if the player collide to blackhole, enable blackhole effect
         if (hit.collider.gameObject.tag == "blackholeObstacle" && startTimer == false)
         {
@@ -55,8 +63,30 @@ public class blackholeCollisionEffect : MonoBehaviour
             //restart at the spawn position
             afterBlackholePos = gamePropsManager.instance.reSpawnPoints[gamePropsManager.instance.myRespawnPointIndex].position;
             //限制移動和點擊動作(除了UI)...
-            //PlayerClickActionforTeam.bpc = true;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        //if player collide the smoke obstacle
+        if (other.gameObject.tag == "smoke" && !isSmokeEffect)
+        {
+            isSmokeEffect = true;
+            gamePropsManager.instance.smokeEffectPanel.SetActive(true);
+            //alpha change not succeed, and not change the picture's alpha one by one
+            StartCoroutine(smokeEffectDelay());
+        }
+    }
+
+    IEnumerator smokeEffectDelay()
+    {
+        yield return new WaitForSeconds(3.1f);
+        gamePropsManager.instance.smokeEffectPanel.SetActive(false);
+        isSmokeEffect = false;
     }
 
     //when the game is end, disable the blackhole effect
