@@ -75,6 +75,8 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     //raise event code for calling others to start main game
     public byte callOthersStartEventCode = 4;
 
+    private bool isVoiceObjsInstantiate = false;
+
     //register for raise event
     public override void OnEnable()
     {
@@ -136,7 +138,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
                     }
-                    if(player.IsMasterClient)
+                    if (player.IsMasterClient)
                     {
                         Image PlayerIcon = tempListing.transform.GetChild(3).GetComponent<Image>();
                         PlayerIcon.sprite = Resources.Load("Icon/" + "crown", typeof(Sprite)) as Sprite;
@@ -161,7 +163,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
                     {
                         tempListing.transform.GetChild(1).gameObject.SetActive((bool)result);
                     }
-                    if(player.IsMasterClient)
+                    if (player.IsMasterClient)
                     {
                         Image PlayerIcon = tempListing.transform.GetChild(3).GetComponent<Image>();
                         PlayerIcon.sprite = Resources.Load("Icon/" + "crown", typeof(Sprite)) as Sprite;
@@ -272,13 +274,11 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         //first time join the room
         LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
-
-        //voice recorder (one for one local player)
-        GameObject recorderPrefab = Instantiate(Resources.Load<GameObject>("VoiceRecorderPrefab"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-        //set voice controller's recorder to this
-        voiceController.instance.recorder = recorderPrefab.GetComponent<Recorder>();
-        //voice speaker (many for one local player)
-        PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+        //if not instantiate voice object yet, create it
+        if (!isVoiceObjsInstantiate)
+        {
+            voiceObjInstantiate();
+        }
     }
 
     public void ChangeTeam()
@@ -398,12 +398,23 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
         }
-        /*if (PhotonNetwork.InRoom)
+        //if not instantiate voice object yet, create it
+        if (PhotonNetwork.InRoom && !isVoiceObjsInstantiate)
         {
-            Debug.Log("in room call");
-            //voice speaker
-            PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
-        }*/
+            voiceObjInstantiate();
+        }
+    }
+
+    //create voice recorder and speaker
+    void voiceObjInstantiate()
+    {
+        //voice recorder (one for one local player)
+        GameObject recorderPrefab = Instantiate(Resources.Load<GameObject>("VoiceRecorderPrefab"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        //set voice controller's recorder to this
+        voiceController.instance.recorder = recorderPrefab.GetComponent<Recorder>();
+        //voice speaker (many for one local player)
+        PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+        isVoiceObjsInstantiate = true;
     }
 
     // Update is called once per frame

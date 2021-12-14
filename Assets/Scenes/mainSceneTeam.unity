@@ -8631,7 +8631,7 @@ MonoBehaviour:
   blueTeamBuildingField: {fileID: 1051243745}
   redTeamBuildingField: {fileID: 962559152}
   startTimer: 0
-  timer: 600
+  timer: 300
   timerText_left: {fileID: 1196289043}
   timerText_mid: {fileID: 1436367061}
   timerText_right: {fileID: 1984979766}

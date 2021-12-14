@@ -389,15 +389,6 @@ public class PlayerClickActionforTeam : MonoBehaviourPun
         }
     }
 
-    private void OnDestroy()
-    {
-        //clear the server buffer of this character (avoid later joined player load this)
-        if (photonView.IsMine)
-        {
-            //PhotonNetwork.Destroy(this.gameObject);
-        }
-    }
-
     //collision to itembox, activate effect
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
