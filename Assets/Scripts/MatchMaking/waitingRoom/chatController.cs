@@ -41,9 +41,9 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string worldchat;
     // text min/max width
     private int textSizeMinWidth = 100;
-    private int textSizeMaxWidth = 294;
+    private int textSizeMaxWidth = 170;
     // msgMaxNumLine
-    private int msgMaxNumLine = 20;
+    private int msgMaxNumLine = 10;
     
     // Start is called before the first frame update
     void Start()
@@ -55,11 +55,11 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        redChat = "這裡是紅隊聊天室\n";
-        blueChat = "這裡是藍隊聊天室\n";
+        redChat = "red";
+        blueChat = "blue";
         worldchat = "world\n";
-        tempRedChat = "這裡是紅隊聊天室\n";
-        tempBlueChat = "這裡是藍隊聊天室\n";
+        tempRedChat = "";
+        tempBlueChat = "";
         tempWorldChat = "world\n";
     }
 
@@ -178,7 +178,14 @@ public class chatController : MonoBehaviour, IChatClientListener
             msgContent = "";
             for(int i = 0; i < msgMaxNumLine; i++)
             {
-                msgContent = msgContent + strArray[i] + "\n";
+                if(i != msgMaxNumLine-1) 
+                {
+                    msgContent = msgContent + strArray[i] + "\n";
+                }
+                else
+                {
+                    msgContent = msgContent + strArray[i];
+                }
             }
         }
         // 限制寬度
@@ -218,7 +225,7 @@ public class chatController : MonoBehaviour, IChatClientListener
             Debug.Log("channels = " + channel);
             chatClient.PublishMessage(channel, "( joined )");
         }
-        connectionState.text = "聊天室連接成功";
+        //connectionState.text = "聊天室連接成功";
     }
 
     public void OnUnsubscribed(string[] channels)
@@ -266,6 +273,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {redChat});
                 msgArea.text = tempRedChat;
+                connectionState.text = "現在位於紅隊聊天室";
             }
             else
             {
@@ -273,6 +281,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {redChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
+                connectionState.text = "現在位於公開聊天室";
             }
         }
         else
@@ -284,6 +293,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {blueChat});
                 msgArea.text = tempBlueChat;
+                connectionState.text = "現在位於藍隊聊天室";
             }
             else
             {
@@ -291,6 +301,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {blueChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
+                connectionState.text = "現在位於公開聊天室";
             }
         }
     }
