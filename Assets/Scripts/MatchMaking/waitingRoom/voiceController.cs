@@ -153,4 +153,11 @@ public class voiceController : MonoBehaviourPunCallbacks
         PhotonVoiceNetwork.Instance.Client.OpChangeGroups(new byte[0], null);
         PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)1;
     }
+
+
+    /**無法銷毀dontdestroyonload物件?**/
+    public void destroyRecorder()
+    {
+        Destroy(recorder.gameObject);
+    }
 }

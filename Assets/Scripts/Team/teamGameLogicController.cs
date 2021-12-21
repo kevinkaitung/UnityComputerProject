@@ -366,12 +366,16 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
     {
         //5/9 test, redundant?
         //5/12待修改
+        voiceController.instance.destroyRecorder();
         backtowaitingroomclick = true;
         BackToWaitRoomButton.SetActive(false);
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         if (PhotonNetwork.IsMasterClient)
         {
+            //destroy all networked-instantiate objects (clear server buffer)
+            //avoid later joined player load server buffer
+            PhotonNetwork.DestroyAll();
             //raise event
             //call other players show the scene change anim (back to waiting room)
             object content = null;

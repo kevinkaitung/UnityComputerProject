@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class voiceSpeakerLifetime : MonoBehaviourPunCallbacks
 {   
     //once enter waiting room, set dontDestroyOnLoad (use this one until the player leave room)
+    //will be destroy by PhotonNetwork.DestroyAll()
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);

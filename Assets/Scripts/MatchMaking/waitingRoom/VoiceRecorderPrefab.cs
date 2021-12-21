@@ -34,6 +34,8 @@ public class VoiceRecorderPrefab : MonoBehaviourPunCallbacks
         voiceController.instance.recorder = this.gameObject.GetComponent<Recorder>();
         Debug.Log("On Scene Loaded call back function");
     }
+ 
+
 
     private void VoiceClientStateChanged(Photon.Realtime.ClientState fromState, Photon.Realtime.ClientState toState)
     {
@@ -65,7 +67,7 @@ public class VoiceRecorderPrefab : MonoBehaviourPunCallbacks
     }
 
 
-    //離開房間時，並不會呼叫此函式?(目前須由OnSceneLoaded去銷毀?)
+    //離開房間時，並不會呼叫此函式?(因此物件沒有PhotonView?)(目前須由OnSceneLoaded去銷毀?)
     public override void OnLeftRoom()
     {
         Debug.Log("I'm left room");
