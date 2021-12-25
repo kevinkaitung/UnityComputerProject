@@ -146,6 +146,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         //receive master client's call to change scene anim 
         else if (eventCode == callOthersBackEventCode)
         {
+            //call other to destroy recorder
+            voiceController.instance.destroyRecorder();
             LeanTween.scale(blackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         }
     }

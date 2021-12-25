@@ -397,6 +397,7 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
         if (PhotonNetwork.InRoom)
         {
             LeanTween.scale(BlackPanel, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutCubic);
+            roomNameDisplay.text = "房間名稱: " + PhotonNetwork.CurrentRoom.Name;
         }
         //if not instantiate voice object yet, create it
         if (PhotonNetwork.InRoom && !isVoiceObjsInstantiate)

@@ -32,6 +32,7 @@ public class VoiceRecorderPrefab : MonoBehaviourPunCallbacks
         }
         //if change scenes (waiting room or main game), reassign this recorder to voice controller
         voiceController.instance.recorder = this.gameObject.GetComponent<Recorder>();
+        this.gameObject.GetComponent<Recorder>().TransmitEnabled = true;
         Debug.Log("On Scene Loaded call back function");
     }
  
