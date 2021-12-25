@@ -29,6 +29,12 @@ public class TeachingScript : MonoBehaviour
     public GameObject Billboard_five;
     [SerializeField]
     public GameObject Billboard_six;
+    [SerializeField]
+    public GameObject Billboard_seven;
+    [SerializeField]
+    public GameObject Billboard_eight;
+    [SerializeField]
+    public GameObject Billboard_nine;
 
     private bool firstTime = true;
 
@@ -46,7 +52,7 @@ public class TeachingScript : MonoBehaviour
         else
             FrontPagebutton.SetActive(true);
 
-        if (Clicktime == 5)
+        if (Clicktime == 8)
             NextPagebutton.SetActive(false);
         else
             NextPagebutton.SetActive(true);
@@ -60,7 +66,7 @@ public class TeachingScript : MonoBehaviour
         else
             FrontPagebutton.SetActive(true);
 
-        if (Clicktime == 5)
+        if (Clicktime == 8)
             NextPagebutton.SetActive(false);
         else
             NextPagebutton.SetActive(true);
@@ -78,6 +84,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 1:
                 Billboard_one.SetActive(false);
@@ -86,6 +95,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 2:
                 Billboard_one.SetActive(false);
@@ -94,6 +106,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 3:
                 Billboard_one.SetActive(false);
@@ -102,6 +117,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(true);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 4:
                 Billboard_one.SetActive(false);
@@ -110,6 +128,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(true);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 5:
                 Billboard_one.SetActive(false);
@@ -118,6 +139,42 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(true);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
+                break;
+            case 6:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(true);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
+                break;
+            case 7:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(true);
+                Billboard_nine.SetActive(false);
+                break;
+            case 8:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(true);
                 break;
         }
 
@@ -134,6 +191,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 1:
                 Billboard_one.SetActive(false);
@@ -142,6 +202,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 2:
                 Billboard_one.SetActive(false);
@@ -150,6 +213,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 3:
                 Billboard_one.SetActive(false);
@@ -158,6 +224,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(true);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 4:
                 Billboard_one.SetActive(false);
@@ -166,6 +235,9 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(true);
                 Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
                 break;
             case 5:
                 Billboard_one.SetActive(false);
@@ -174,6 +246,42 @@ public class TeachingScript : MonoBehaviour
                 Billboard_four.SetActive(false);
                 Billboard_five.SetActive(false);
                 Billboard_six.SetActive(true);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
+                break;
+            case 6:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(true);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(false);
+                break;
+            case 7:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(true);
+                Billboard_nine.SetActive(false);
+                break;
+            case 8:
+                Billboard_one.SetActive(false);
+                Billboard_two.SetActive(false);
+                Billboard_three.SetActive(false);
+                Billboard_four.SetActive(false);
+                Billboard_five.SetActive(false);
+                Billboard_six.SetActive(false);
+                Billboard_seven.SetActive(false);
+                Billboard_eight.SetActive(false);
+                Billboard_nine.SetActive(true);
                 break;
         }
     }
@@ -186,7 +294,9 @@ public class TeachingScript : MonoBehaviour
         Billboard_four.SetActive(false);
         Billboard_five.SetActive(false);
         Billboard_six.SetActive(false);
-        TeachPanel.SetActive(false);
+        Billboard_seven.SetActive(false);
+        Billboard_eight.SetActive(false);
+        Billboard_nine.SetActive(false);
         Clicktime = 0;
         if (firstTime)
         {
