@@ -173,7 +173,7 @@ public class bluePrint : MonoBehaviour
 
     public void ChangeSightNorth()//目前有bug 下面數字不會動
     {
-        switch (myTeamStageNumber)
+        switch (freecount)
         {
             case 1:
                 Blueprint.sprite = one_front;
@@ -195,7 +195,7 @@ public class bluePrint : MonoBehaviour
 
     public void ChangeSightEast()
     {
-        switch (myTeamStageNumber)
+        switch (freecount)
         {
             case 1:
                 Blueprint.sprite = one_left;
@@ -217,7 +217,7 @@ public class bluePrint : MonoBehaviour
 
     public void ChangeSightWest()
     {
-        switch (myTeamStageNumber)
+        switch (freecount)
         {
             case 1:
                 Blueprint.sprite = one_right;
@@ -242,7 +242,7 @@ public class bluePrint : MonoBehaviour
 
     public void ChangeSightSouth()
     {
-        switch (myTeamStageNumber)
+        switch (freecount)
         {
             case 1:
                 Blueprint.sprite = one_back;

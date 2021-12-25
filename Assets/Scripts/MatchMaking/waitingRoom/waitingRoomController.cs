@@ -344,16 +344,16 @@ public class waitingRoomController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (ifReadyforGame == false)
         {
-            //readyButton.GetComponentInChildren<Text>().text = "取消準備";
-            readyButton.GetComponent<Button>().image.sprite = beenReadySprite;
+            readyButton.GetComponentInChildren<Text>().text = "取消準備";
+            //readyButton.GetComponent<Button>().image.sprite = beenReadySprite;
             ifReadyforGame = true;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
         }
         else
         {
-            //readyButton.GetComponentInChildren<Text>().text = "準備";
-            readyButton.GetComponent<Button>().image.sprite = notReadySprite;
+            readyButton.GetComponentInChildren<Text>().text = "準備";
+            //readyButton.GetComponent<Button>().image.sprite = notReadySprite;
             ifReadyforGame = false;
             playerReady[playerReadyKeyName] = ifReadyforGame;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerReady);
