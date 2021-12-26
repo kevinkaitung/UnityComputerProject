@@ -41,7 +41,7 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string worldchat;
     // text min/max width
     private int textSizeMinWidth = 100;
-    private int textSizeMaxWidth = 170;
+    private int textSizeMaxWidth = 230;
     // msgMaxNumLine
     private int msgMaxNumLine = 10;
     
@@ -55,8 +55,8 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        redChat = "red";
-        blueChat = "blue";
+        redChat = "紅隊";
+        blueChat = "藍隊";
         worldchat = "world\n";
         tempRedChat = "";
         tempBlueChat = "";
@@ -273,7 +273,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {redChat});
                 msgArea.text = tempRedChat;
-                connectionState.text = "現在位於紅隊聊天室";
+                connectionState.text = "紅隊";
             }
             else
             {
@@ -281,7 +281,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {redChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
-                connectionState.text = "現在位於公開聊天室";
+                connectionState.text = "公開";
             }
         }
         else
@@ -293,7 +293,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {blueChat});
                 msgArea.text = tempBlueChat;
-                connectionState.text = "現在位於藍隊聊天室";
+                connectionState.text = "藍隊";
             }
             else
             {
@@ -301,7 +301,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {blueChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
-                connectionState.text = "現在位於公開聊天室";
+                connectionState.text = "公開";
             }
         }
     }
