@@ -97,7 +97,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         if (team == playerTeam)
         {
             //如果是我這隊的進度Panel，我要...
-            teamStageInfoUI.GetComponent<RectTransform>().GetChild(3).gameObject.SetActive(true);
+            teamStageInfoUI.GetComponent<RectTransform>().GetChild(2).gameObject.SetActive(true);
         }
     }
 

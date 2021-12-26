@@ -146,6 +146,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         //receive master client's call to change scene anim 
         else if (eventCode == callOthersBackEventCode)
         {
+            //call other to destroy recorder
+            voiceController.instance.destroyRecorder();
             LeanTween.scale(blackPanel, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutCubic);
         }
     }
@@ -213,9 +215,9 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
             ringspeed = (float)tempTimer % 1 * 180;
             if (tempTimer > 30)
             {
-                timerText_left.color = Color.white;
-                timerText_mid.color = Color.white;
-                timerText_right.color = Color.white;
+                timerText_left.color = Color.black;
+                timerText_mid.color = Color.black;
+                timerText_right.color = Color.black;
                 timerText_left.text = TPtimerText_left.text = min.ToString("00");
                 timerText_right.text = TPtimerText_right.text = sec.ToString("00");
             }

@@ -58,12 +58,37 @@ public class SelectCharacterScript : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(playerStyleKeyName, out styleNameOutput))
         {
             playerStyle = (string)styleNameOutput;
-            CharacterName.text = playerStyle;
+            switch (playerStyle)
+            {
+                case "character1":
+                    CharacterName.text = "Mily";
+                    break;
+                case "character2":
+                    CharacterName.text = "Mary";
+                    break;
+                case "character3":
+                    CharacterName.text = "Angel";
+                    break;
+                case "character4":
+                    CharacterName.text = "Hapi";
+                    break;
+                case "character5":
+                    CharacterName.text = "Peter";
+                    break;
+                case "character6":
+                    CharacterName.text = "Alita";
+                    break;
+                case "character7":
+                    CharacterName.text = "Alan";
+                    break;
+            }
+            Sprite img = Resources.Load(playerStyle.Remove(0, 9), typeof(Sprite)) as Sprite;
+            CharacterFace.GetComponent<Image>().sprite = img;
         }
         //if never set style
         else
         {
-            CharacterName.text = "character1";
+            CharacterName.text = "Mily";
             playerStyle = "character1";
             playerInfo[playerStyleKeyName] = playerStyle;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerInfo);
