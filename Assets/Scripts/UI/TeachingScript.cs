@@ -288,6 +288,7 @@ public class TeachingScript : MonoBehaviour
 
     public void ClosePanel()
     {
+        TeachPanel.SetActive(false);
         Billboard_one.SetActive(true);
         Billboard_two.SetActive(false);
         Billboard_three.SetActive(false);
