@@ -285,6 +285,8 @@ public class teamGameLogicController : MonoBehaviourPunCallbacks, IOnEventCallba
         startTimer = false;
         flashword();
         gameFinishPanel.SetActive(true);
+        gameFinishPanel.LeanScale(new Vector3(0.0f, 0.0f, 0.0f), 0.0f);
+        gameFinishPanel.LeanScale(new Vector3(1.0f, 1.0f, 1.0f), 0.3f).setEaseInCirc();
         mainGamePanel.SetActive(false);
         PlayerInputActionMode.instance.stateFour();
         //after networked-objects destroy (time's up), clear the playersInfo (which are instantiated with networked-objects)
