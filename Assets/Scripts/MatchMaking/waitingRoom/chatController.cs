@@ -21,19 +21,15 @@ public class chatController : MonoBehaviour, IChatClientListener
         // init
         public MESSAGE() { }
     }
-    
-    public TextMeshProUGUI connectionState;
+    public Text connectionState;
     public InputField msgInput;
     public Text msgArea;
-
     private ChatClient chatClient;
     [SerializeField] 
     private string userID;
-
     // when flag == 0, it's red team
     // when flag == 1, it's blue team
     int flag = 0;
-
     // when index == 1, it's teamMsg
     // when index == 0, it's worldMsg
     int index = 0;
@@ -43,10 +39,11 @@ public class chatController : MonoBehaviour, IChatClientListener
     private string redChat;
     private string blueChat;
     private string worldchat;
-
-    //text min/max width
-    private int textSizeMinWidth = 50;
-    private int textSizeMaxWidth = 100;
+    // text min/max width
+    private int textSizeMinWidth = 100;
+    private int textSizeMaxWidth = 230;
+    // msgMaxNumLine
+    private int msgMaxNumLine = 10;
     
     // Start is called before the first frame update
     void Start()
@@ -58,11 +55,11 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         GetConnected();
-        redChat = "red\n";
-        blueChat = "blue\n";
+        redChat = "紅隊";
+        blueChat = "藍隊";
         worldchat = "world\n";
-        tempRedChat = "red\n";
-        tempBlueChat = "blue\n";
+        tempRedChat = "";
+        tempBlueChat = "";
         tempWorldChat = "world\n";
     }
 
@@ -73,11 +70,15 @@ public class chatController : MonoBehaviour, IChatClientListener
         {
             chatClient.Service();
         }
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            SendMsg();
+        }
     }
 
     public void GetConnected()
     {
-        Debug.Log("Connecting");
+        Debug.Log("Connecting ChatRoom XDDDDDD");
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
@@ -124,6 +125,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
+        Debug.Log("成功連接");
         chatClient.Subscribe(new string[] {worldchat});
         chatClient.SetOnlineStatus(ChatUserStatus.Online);
     }
@@ -164,6 +166,29 @@ public class chatController : MonoBehaviour, IChatClientListener
                 }
             }
         }
+        // 若行數超過msgMaxNumLine, 則砍字串
+        Debug.Log("msgContent的行數 = " + msgContent.Split('\n').Length);
+        if(msgContent.Split('\n').Length > msgMaxNumLine)
+        {
+            String[] strArray = msgContent.Split('\n');
+            for(int i = 1; i < msgContent.Split('\n').Length; i++)
+            {
+                strArray[i-1] = strArray[i];
+            }
+            msgContent = "";
+            for(int i = 0; i < msgMaxNumLine; i++)
+            {
+                if(i != msgMaxNumLine-1) 
+                {
+                    msgContent = msgContent + strArray[i] + "\n";
+                }
+                else
+                {
+                    msgContent = msgContent + strArray[i];
+                }
+            }
+        }
+        // 限制寬度
         SetTextSize(msgArea, msgContent);
     }
 
@@ -174,7 +199,6 @@ public class chatController : MonoBehaviour, IChatClientListener
             return;
         }
         targetText.text = contentStr;
- 
         if(targetText.preferredWidth <= textSizeMinWidth)
         {
             return;
@@ -198,9 +222,10 @@ public class chatController : MonoBehaviour, IChatClientListener
     {
         foreach (var channel in channels)
         {
-            chatClient.PublishMessage(channel, "joined");
+            Debug.Log("channels = " + channel);
+            chatClient.PublishMessage(channel, "( joined )");
         }
-        connectionState.text = "ChatRoom is connected";
+        //connectionState.text = "聊天室連接成功";
     }
 
     public void OnUnsubscribed(string[] channels)
@@ -225,6 +250,7 @@ public class chatController : MonoBehaviour, IChatClientListener
 
     public void changeChannel()
     {
+        Debug.Log("切換頻道成功");
         // get team
         object tmp;
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("_pt", out tmp);
@@ -247,6 +273,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {redChat});
                 msgArea.text = tempRedChat;
+                connectionState.text = "紅隊";
             }
             else
             {
@@ -254,6 +281,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {redChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
+                connectionState.text = "公開";
             }
         }
         else
@@ -265,6 +293,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {worldchat});
                 chatClient.Subscribe(new string[] {blueChat});
                 msgArea.text = tempBlueChat;
+                connectionState.text = "藍隊";
             }
             else
             {
@@ -272,6 +301,7 @@ public class chatController : MonoBehaviour, IChatClientListener
                 chatClient.Unsubscribe(new string[] {blueChat});
                 chatClient.Subscribe(new string[] {worldchat});
                 msgArea.text = tempWorldChat;
+                connectionState.text = "公開";
             }
         }
     }

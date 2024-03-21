@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.UtilityScripts;
 
 namespace mySection
 {
@@ -18,10 +19,14 @@ namespace mySection
         // Start is called before the first frame update
         void Start()
         {
-            playerStyle = (string)PhotonNetwork.LocalPlayer.CustomProperties["playerStyle"];
-            if (playerStyle == null)
+            object playerStyleOutput;
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("playerStyle", out playerStyleOutput))
             {
-                playerStyle = "player";
+                playerStyle = (string)playerStyleOutput;
+            }
+            else
+            {
+                playerStyle = "character1";
             }
             if (playerPrefab == null)
             {
@@ -29,9 +34,38 @@ namespace mySection
             }
             else
             {
+                //count my team members to decide which spawn point to choose
+                int sameTeamMemberCount;
+                string myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Name;
+                if (myTeam == "Blue")
+                {
+                    //spawn point 0~3 for blue team
+                    sameTeamMemberCount = 0;
+                }
+                else
+                {
+                    //spawn point 4~7 for red team
+                    sameTeamMemberCount = 4;
+                }
+                foreach (Player aPlayer in PhotonNetwork.PlayerList)
+                {
+                    if (aPlayer.GetPhotonTeam().Name == myTeam)
+                    {
+                        if (aPlayer.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                        {
+                            //assign to my team's spawn points
+                            PhotonNetwork.Instantiate(playerStyle, spawnPoints[sameTeamMemberCount].position, spawnPoints[sameTeamMemberCount].rotation, 0);
+                            gamePropsManager.instance.myRespawnPointIndex = sameTeamMemberCount;
+                            break;
+                        }
+                        sameTeamMemberCount++;
+                    }
+                }
                 //Debug.LogFormat("動態生成玩家角色 {0}", Application.loadedLevelName);
-                PhotonNetwork.Instantiate(playerStyle, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].rotation, 0);
             }
+
+            //voice speaker
+            //PhotonNetwork.Instantiate("VoiceSpeakerPrefab", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
         }
 
         //新玩家進入時，呼叫OnPlayerEnteredRoom
@@ -43,7 +77,7 @@ namespace mySection
         // Update is called once per frame
         void Update()
         {
-
+            
         }
     }
 }

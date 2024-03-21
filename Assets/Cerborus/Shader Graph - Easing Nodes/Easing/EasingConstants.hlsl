@@ -1,0 +1,7 @@
+#ifndef EASING_CONSTANTS
+#define EASING_CONSTANTS
+
+static const float E_PI = 3.14159265358979323846f;
+static const float E_PI2 = 1.57079632679489661923f;
+  
+#endif //EASING_CONSTANTS 

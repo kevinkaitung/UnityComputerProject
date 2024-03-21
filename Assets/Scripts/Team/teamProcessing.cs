@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class teamProcessing : MonoBehaviourPunCallbacks
@@ -11,6 +12,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     private int thisStageCount;
     //how many points have been clicked by player (already build that point)
     private int thisStagePutCount;
+    private int totalPutCount;
     //current stage
     private int currentStageNumber;
     //game data nodes' length
@@ -26,13 +28,52 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     //check if finish building
     private bool isFinish;
     private string playerTeam;
+    //store every stage not finished objShape (type: string)
+    List<List<string>> everyStageBuildProgress;
 
+    [SerializeField]
+    private GameObject teamStageInfoUI;
+    [SerializeField]
+    private Image stage_one;
+    [SerializeField]
+    private Image stage_two;
+    [SerializeField]
+    private Image stage_three;
+    [SerializeField]
+    private Image stage_four;
+    [SerializeField]
+    private Image stage_five;
+    [SerializeField]
+    private Image stage_six;
+    [SerializeField]
+    private GameObject checkmark_one;
+    [SerializeField]
+    private GameObject checkmark_two;
+    [SerializeField]
+    private GameObject checkmark_three;
+    [SerializeField]
+    private GameObject checkmark_four;
+    [SerializeField]
+    private GameObject checkmark_five;
+    [SerializeField]
+    private GameObject checkmark_six;
+    [SerializeField]
+    private Sprite stage_clear;
+    [SerializeField]
+    private Sprite stage_ring;
+    [SerializeField]
+    private Text buildingProgressRate;
 
-    // Start is called before the first frame update
     void Start()
     {
+        buildingProgressRate.text = "0";
         currentStageNumber = 1;
+        totalPutCount = 0;
         dataNodeLen = nodeManager.instance.dataRoot.gameDataNodes.Length;
+        //initiate with capacity length(add 1 because stage number start with 1 not 0)
+        everyStageBuildProgress = new List<List<string>>(nodeManager.instance.dataRoot.gameDataNodes[dataNodeLen - 1].stage + 1);
+        //add a empty list as index 0
+        everyStageBuildProgress.Add(new List<string>());
         index = 0;
         accuracy = 0.0f;
         correctCount = 0;
@@ -52,6 +93,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         {
             settingStage(currentStageNumber);
         }
+        //if this team is my team, highlight this team's stageInfoUI
+        if (team == playerTeam)
+        {
+            //如果是我這隊的進度Panel，我要...
+            teamStageInfoUI.GetComponent<RectTransform>().GetChild(2).gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +109,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
 
     void settingStage(int stageNumber)
     {
+        //temp list for this stage's obj shapes
+        List<string> tempList = new List<string>();
         //notice points' photon view ID list
         List<int> viewIDs = new List<int>();
         thisStageCount = 0;
@@ -72,11 +121,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             if (playerTeam == team)
             {
                 //show notice points info on blueprint
-                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
+                tempList.Add(nodeManager.instance.dataRoot.gameDataNodes[index].objShape);
                 //use part of building cube as notice cube
                 GameObject clone = Instantiate(Resources.Load("house/" + nodeManager.instance.dataRoot.gameDataNodes[index].objShape, typeof(GameObject))) as GameObject;
                 //set the material transparent
@@ -101,7 +151,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                    //                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 //assing photon view ID to sync
                 PhotonView PV = clone.GetComponent<PhotonView>();
@@ -116,10 +166,14 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                     break;
                 }
             }
+            //add this stage's list
+            everyStageBuildProgress.Add(tempList);
         }
         else
         {
             isFinish = true;
+            //complete all stages, finish game
+            teamGameLogicController.instance.gameFinishDoing();
         }
         //when passing parameter via network, need to change list to array
         photonView.RPC("otherSettingStage", RpcTarget.OthersBuffered, currentStageNumber, viewIDs.ToArray());
@@ -129,6 +183,8 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     [PunRPC]
     void otherSettingStage(int stageNumber, int[] viewIDs)
     {
+        //temp list for this stage's obj shapes
+        List<string> tempList = new List<string>();
         viewidIndex = 0;
         thisStageCount = 0;
         thisStagePutCount = 0;
@@ -138,11 +194,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
             if (playerTeam == team)
             {
                 //show notice points info on blueprint
-                bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+                bluePrint.instance.autoSettoCurrentStageBluePrint(stageNumber);
             }
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
+                tempList.Add(nodeManager.instance.dataRoot.gameDataNodes[index].objShape);
                 //use part of building cube as notice cube
                 GameObject clone = Instantiate(Resources.Load("house/" + nodeManager.instance.dataRoot.gameDataNodes[index].objShape, typeof(GameObject))) as GameObject;
                 //set the material transparent
@@ -167,7 +224,7 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                 if (playerTeam == team)
                 {
                     //show each notice point info
-                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                    //                    bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 }
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 PV.ViewID = viewIDs[viewidIndex];
@@ -179,16 +236,30 @@ public class teamProcessing : MonoBehaviourPunCallbacks
                     break;
                 }
             }
+            //add this stage's list
+            everyStageBuildProgress.Add(tempList);
         }
         else
         {
             isFinish = true;
+            //complete all stages, finish game
+            teamGameLogicController.instance.gameFinishDoing();
         }
     }
 
     public void playerPutThing(noticePoint pointInfo, string handyMaterial)
     {
+        //the player build the shape, remove it from this stage's list
+        everyStageBuildProgress[pointInfo.stag].Remove(pointInfo.objShap);
         thisStagePutCount++;
+        //total put count add 1, play the building progress bar anim
+        totalPutCount++;
+        buildingProgressBarAnim(totalPutCount);
+        //if player finish the stage (the stage list is empty), play stage complete animation (maybe not in the current stage)
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCompleteAnim(pointInfo.stag);
+        }
         //Put right game object on the player clicked point
         Debug.Log("obj shape: " + pointInfo.objShap + " obj pos: " + pointInfo.pos);
         //check player put is correct or not (calculate accuracy)
@@ -198,12 +269,12 @@ public class teamProcessing : MonoBehaviourPunCallbacks
         }
         //call others to deal with the game logic
         photonView.RPC("otherPlayerPut", RpcTarget.Others, pointInfo, handyMaterial);
-        //if all notice points have been clicked (put), go next stage
-        if (PhotonNetwork.IsMasterClient)
+        //if all notice points have been clicked (put), go next stage (load new shapes)
+        if (thisStagePutCount == thisStageCount)
         {
-            if (thisStagePutCount == thisStageCount)
+            currentStageNumber++;
+            if (PhotonNetwork.IsMasterClient)
             {
-                currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
                 //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
@@ -215,24 +286,162 @@ public class teamProcessing : MonoBehaviourPunCallbacks
     [PunRPC]
     public void otherPlayerPut(noticePoint pointInfo, string handyMaterial)
     {
+        //the player build the shape, remove it from this stage's list
+        everyStageBuildProgress[pointInfo.stag].Remove(pointInfo.objShap);
         thisStagePutCount++;
+        //total put count add 1, play the building progress bar anim
+        totalPutCount++;
+        buildingProgressBarAnim(totalPutCount);
+        //if player finish the stage (the stage list is empty), play stage complete animation (maybe not in the current stage)
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCompleteAnim(pointInfo.stag);
+        }
         //check player put is correct or not (calculate accuracy)
         if (handyMaterial == pointInfo.materialNam)
         {
             correctCount++;
         }
         //the thing that player put on point was created by that player, don't need to put it again!
-        if (PhotonNetwork.IsMasterClient)
+        if (thisStagePutCount == thisStageCount)
         {
-            if (thisStagePutCount == thisStageCount)
+            currentStageNumber++;
+            if (PhotonNetwork.IsMasterClient)
             {
-                currentStageNumber++;
                 Debug.Log("go next stage: " + currentStageNumber);
                 settingStage(currentStageNumber);
                 //photonView.RPC("otherSettingStage", RpcTarget.Others, currentStageNumber);
             }
         }
         Debug.Log("Put Count: " + thisStagePutCount + " stage total count: " + thisStageCount);
+    }
+
+    //stage complete animation (parameter: finish stage number)
+    void stageCompleteAnim(int finishStage)
+    {
+        switch (finishStage)
+        {
+            case 1:
+                LeanTween.scale(checkmark_one, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_one, Vector2.zero, 0.1f).setDelay(1f);
+                stage_one.sprite = stage_clear;
+                break;
+            case 2:
+                LeanTween.scale(checkmark_two, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_two, Vector2.zero, 0.1f).setDelay(1f);
+                stage_two.sprite = stage_clear;
+                break;
+            case 3:
+                LeanTween.scale(checkmark_three, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_three, Vector2.zero, 0.1f).setDelay(1f);
+                stage_three.sprite = stage_clear;
+                break;
+            case 4:
+                LeanTween.scale(checkmark_four, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_four, Vector2.zero, 0.1f).setDelay(1f);
+                stage_four.sprite = stage_clear;
+                break;
+            case 5:
+                LeanTween.scale(checkmark_five, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_five, Vector2.zero, 0.1f).setDelay(1f);
+                stage_five.sprite = stage_clear;
+                break;
+            case 6:
+                LeanTween.scale(checkmark_six, new Vector2(2f, 2f), 1f).setEase(LeanTweenType.easeOutBack);
+                LeanTween.scale(checkmark_six, Vector2.zero, 0.1f).setDelay(1f);
+                stage_six.sprite = stage_clear;
+                break;
+        }
+    }
+
+    //stage cancel complete animation (parameter: cancel stage number)
+    void stageCancelAnim(int cancelStage)
+    {
+        switch (cancelStage)
+        {
+            case 1:
+                stage_one.sprite = stage_ring;
+                LeanTween.scale(checkmark_one, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_one, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_one, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_one, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 2:
+                stage_two.sprite = stage_ring;
+                LeanTween.scale(checkmark_two, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_two, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_two, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_two, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 3:
+                stage_three.sprite = stage_ring;
+                LeanTween.scale(checkmark_three, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_three, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_three, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_three, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 4:
+                stage_four.sprite = stage_ring;
+                LeanTween.scale(checkmark_four, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_four, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_four, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_four, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 5:
+                stage_five.sprite = stage_ring;
+                LeanTween.scale(checkmark_five, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_five, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_five, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_five, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+            case 6:
+                stage_six.sprite = stage_ring;
+                LeanTween.scale(checkmark_six, Vector2.one, 0.01f);
+                LeanTween.rotate(checkmark_six, new Vector3(0f, 0f, 180f), 1f).setDelay(0.01f);
+                LeanTween.scale(checkmark_six, Vector2.zero, 1f).setDelay(0.01f);
+                LeanTween.rotate(checkmark_six, new Vector3(0f, 0f, 0f), 1f).setDelay(1.01f);
+                break;
+        }
+    }
+
+    //building progress bar animation (parameter: total count of shapes)
+    void buildingProgressBarAnim(int nowTotalPutCount)
+    {
+        float Rate = ((float)nowTotalPutCount / (float)dataNodeLen) * 100;
+        buildingProgressRate.text = Rate.ToString("F1");
+    }
+
+    //if player use removal tool, revise the put counts
+    public void playerRemoveBuildingTexture(noticePoint pointInfo)
+    {
+        //if this stage is previous complete (this stage's list is empty), cancel this stage completion status
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCancelAnim(pointInfo.stag);
+        }
+        //add the removal shape to this stage's list
+        everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
+        thisStagePutCount--;
+        totalPutCount--;
+        correctCount--;
+        buildingProgressBarAnim(totalPutCount);
+        photonView.RPC("otherPlayerRemoveBuildingTexture", RpcTarget.Others, pointInfo);
+    }
+
+    [PunRPC]
+    public void otherPlayerRemoveBuildingTexture(noticePoint pointInfo)
+    {
+        //if this stage is previous complete (this stage's list is empty), cancel this stage completion status
+        if (everyStageBuildProgress[pointInfo.stag].Count == 0)
+        {
+            stageCancelAnim(pointInfo.stag);
+        }
+        //add the removal shape to this stage's list
+        everyStageBuildProgress[pointInfo.stag].Add(pointInfo.objShap);
+        thisStagePutCount--;
+        totalPutCount--;
+        correctCount--;
+        buildingProgressBarAnim(totalPutCount);
     }
 
     public bool isThisTeamFinish()

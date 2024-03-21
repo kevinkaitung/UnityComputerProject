@@ -124,7 +124,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         tempTimer = timer - timerIncrementValue;
         min = (int)tempTimer / 60;
         sec = (int)tempTimer % 60;
-        timerText.text = "Timer  " + min.ToString() + ":" + sec.ToString("00");
+        timerText.text = "text " + min.ToString() + ":" + sec.ToString("00");
         if (timerIncrementValue >= timer)
         {
             //time's up, game finish
@@ -144,7 +144,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         if (index < dataNodeLen)
         {
             //show notice points info on blueprint
-            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            playerInteractiveUI.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -157,7 +157,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
                 //show each notice point info
-                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                playerInteractiveUI.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 if (PhotonNetwork.AllocateViewID(PV))
                 {
@@ -193,7 +193,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
         if (index < dataNodeLen)
         {
             //show notice points info on blueprint
-            bluePrint.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
+            playerInteractiveUI.instance.bluePrintText.text = "stage : " + stageNumber.ToString() + "\n";
             //put notice points of this stage
             while (nodeManager.instance.dataRoot.gameDataNodes[index].stage == stageNumber)
             {
@@ -206,7 +206,7 @@ public class gameLogicController : MonoBehaviourPunCallbacks, IOnEventCallback
                 tmp.materialNam = nodeManager.instance.dataRoot.gameDataNodes[index].materialName;
                 tmp.stag = nodeManager.instance.dataRoot.gameDataNodes[index].stage;
                 //show each notice point info
-                bluePrint.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
+                playerInteractiveUI.instance.bluePrintText.text += "The material of " + tmp.objShap + " is " + tmp.materialNam + "\n";
                 PhotonView PV = clone.GetComponent<PhotonView>();
                 PV.ViewID = viewIDs[viewidIndex];
                 viewidIndex++;

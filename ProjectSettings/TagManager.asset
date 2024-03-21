@@ -23,6 +23,13 @@ TagManager:
   - smoke
   - speedup
   - slowdown
+  - ground
+  - itembox
+  - removalToolMyself
+  - removalToolOther
+  - cement
+  - glass
+  - steel
   layers:
   - Default
   - TransparentFX
@@ -32,16 +39,16 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - itembox
+  - ground
+  - '#01'
+  - '#02'
+  - '#03'
+  - '#04'
+  - '#05'
+  - '#06'
+  - '#07'
+  - '#08'
   - 
   - 
   - 
